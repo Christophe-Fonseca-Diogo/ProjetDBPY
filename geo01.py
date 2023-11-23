@@ -8,7 +8,7 @@ from math import sqrt
 import time
 import database
 import datetime
-
+from tkinter import messagebox
 
 # Main window
 # graphical variables
@@ -21,8 +21,8 @@ mycircle= None #objet utilisé pour le cercle rouge
 
 
 #important data (to save)
-pseudo="Gaston" #provisory pseudo for user
-exercise="GEO01"
+pseudo = '' #pseudo for the user
+exercise = "GEO01"
 nbtrials=0 #number of total trials
 nbsuccess=0 #number of successfull trials
 
@@ -88,11 +88,18 @@ def next_point(event):
 
 
 def save_game(event):
-    # TODO
-    print("dans save")
-
+    global pseudo
+    database.open_dbconnection()
+    pseudo = entry_pseudo.get()
+    if pseudo == "":
+        messagebox.showerror(parent=window_geo01, title="Pseudo Invalide", message="Veuillez ajouter un pseudo")
+    else:
+        database.playername(pseudo, exercise)
+        database.close_dbconnection()
+    database.add_results(start_date,duration_s,nbtrials,nbsuccess,player_name=pseudo,exercise_name=exercise)
 
 def display_timer():
+    global duration_s
     duration=datetime.datetime.now()-start_date #elapsed time since beginning, in time with decimals
     duration_s=int(duration.total_seconds()) #idem but in seconds (integer)
     #display min:sec (00:13)
@@ -102,7 +109,7 @@ def display_timer():
 
 def open_window_geo_01(window):
     # window = tk.Tk()
-    global window_geo01, hex_color, lbl_title, lbl_duration, lbl_result, lbl_target, canvas, start_date
+    global window_geo01, hex_color, lbl_title, lbl_duration, lbl_result, lbl_target, canvas, start_date, pseudo_get, entry_pseudo
     window_geo01 = tk.Toplevel(window)
 
     window_geo01.title("Exercice de géométrie")
