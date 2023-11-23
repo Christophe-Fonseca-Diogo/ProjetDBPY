@@ -82,3 +82,57 @@ def get_exercise_id(exercise_name):
     # Return the player_id if found, otherwise return None
     return exercise_id[0] if exercise_id else None
 
+def add_results(start_date, duration_s, nbtrials, nbsuccess, exercise_name, player_name):
+    open_dbconnection()
+
+    # Fetch exercise_id or insert the exercise if it doesn't exist
+    exercise_result = get_exercise_id(exercise_name)
+    print(exercise_result)
+
+    if exercise_result is None:
+        # Exercise not found, insert it
+        cursor = db_connection.cursor()
+        insert_exercise_query = "INSERT INTO exercises (name) VALUES (%s)"
+        cursor.execute(insert_exercise_query, (exercise_name,))
+
+        # Now, fetch the exercise_id again
+        exercise_result = get_exercise_id(exercise_name)
+
+        if exercise_result is None:
+            # If still not found, handle the error
+            print("Error: Exercise not found even after insertion.")
+            close_dbconnection()
+            return
+
+    exercise_id = exercise_result
+
+    # Fetch player_id
+    player_id = get_player_id(player_name)
+    if player_id is None:
+        print("Player not found.")
+        close_dbconnection()
+        return
+
+    # Convert duration_s to 'HH:MM:SS' format
+    duration_formatted = f"{duration_s // 3600:02}:{(duration_s % 3600) // 60:02}:{duration_s % 60:02}"
+
+    # Insert into the results table
+    open_dbconnection()
+    cursor = db_connection.cursor()
+    query = 'INSERT INTO results (start_date, time, number_done, max_number, exercise_id, player_id) VALUES (%s, %s, %s, %s, %s, %s)'
+    cursor.execute(query, (start_date, duration_formatted,nbsuccess, nbtrials, exercise_id, player_id))
+
+    cursor.close()
+    close_dbconnection()
+
+def show_results():
+    open_dbconnection()
+    query = ('''SELECT alias, start_date, time, name, number_done, max_number FROM results
+                INNER JOIN players ON results.player_id = players.id 
+                INNER JOIN exercises ON results.exercise_id = exercises.id''')
+    cursor = db_connection.cursor()
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    cursor.close()
+    close_dbconnection()
+    return rows
