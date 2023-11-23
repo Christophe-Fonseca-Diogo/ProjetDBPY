@@ -8,10 +8,11 @@ from math import pow
 import time
 import database
 import datetime
-from tkinter.messagebox import *
+from tkinter import messagebox
+from database import *
 
 #important data (to save)
-pseudo="Gaston" #provisory pseudo for user
+pseudo='' #pseudo for the user
 exercise="INFO02"
 nbtrials=0 #number of total trials
 nbsuccess=0 #number of successfull trials
@@ -47,8 +48,15 @@ def next(event):
 
 
 def save_game(event):
-    print("dans save")
-    # TODO
+    global pseudo
+    database.open_dbconnection()
+    pseudo = entry_pseudo.get()
+    if pseudo == "":
+        messagebox.showerror(parent=window_info02, title="Pseudo Invalide", message="Veuillez ajouter un pseudo")
+    else:
+        database.playername(pseudo, exercise)
+        database.close_dbconnection()
+    database.add_results(start_date,duration_s,nbtrials,nbsuccess,player_name=pseudo,exercise_name=exercise)
 
 
 def test(event):
@@ -69,6 +77,7 @@ def test(event):
 
 
 def display_timer():
+    global duration_s
     duration = datetime.datetime.now() - start_date  # elapsed time since beginning, in time with decimals
     duration_s = int(duration.total_seconds())  # idem but in seconds (integer)
     # display min:sec (00:13)
@@ -77,7 +86,7 @@ def display_timer():
 
 
 def open_window_info_02(window):
-    global window_info02, lbl_duration, lbl_result, entry_n2, label_u2, label_n1, hex_color, start_date
+    global window_info02, lbl_duration, lbl_result, entry_n2, label_u2, label_n1, hex_color, start_date, entry_pseudo
     window_info02 = tk.Toplevel(window)
 
     #window_info02 = tk.Tk()
