@@ -52,3 +52,33 @@ def add_games(title):
     cursor.execute(query_insert, (title, ))
     cursor.close()
 
+def get_player_id(player_name):
+    open_dbconnection()
+    cursor = db_connection.cursor()
+    query = "SELECT id FROM players WHERE alias = %s"
+
+    cursor.execute(query, (player_name,))
+    player_id = cursor.fetchone()
+
+    # Close the cursor and database connection
+    cursor.close()
+    close_dbconnection()
+
+    # Return the player_id if found, otherwise return None
+    return player_id[0] if player_id else None
+
+def get_exercise_id(exercise_name):
+    open_dbconnection()
+    cursor = db_connection.cursor()
+    query = "SELECT id FROM exercises WHERE name = %s"
+
+    cursor.execute(query, (exercise_name,))
+    exercise_id = cursor.fetchone()
+
+    # Close the cursor and database connection
+    cursor.close()
+    close_dbconnection()
+
+    # Return the player_id if found, otherwise return None
+    return exercise_id[0] if exercise_id else None
+
