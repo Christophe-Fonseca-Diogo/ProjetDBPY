@@ -29,7 +29,7 @@ def display_result(event):
     window_results = Tk()
 
     # Window parameters
-    window_results.title("Brainstorming Results")
+    window_results.title("Résultats")
     window_results.geometry("1920x1080")
     window_results.configure(bg=hex_color)
     window_results.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
@@ -41,14 +41,14 @@ def display_result(event):
     total_frame = Frame(window_results, bg="white", padx=10, bd=2, relief="solid")
 
     # Title for the results window
-    label_title_results = tk.Label(window_results, text="TRAINING: DISPLAY", font=("Arial", 25), borderwidth=2, relief="solid")
+    label_title_results = tk.Label(window_results, text="TRAINING : AFFICHAGE", font=("Arial", 25), borderwidth=2, relief="solid")
     label_title_results.grid(row=0, column=1, ipady=5, padx=40, pady=40)
 
     # Option labels
-    label_player = Label(option_frame, text="Username: ", bg="white", padx=40, font=("Arial,15"))
-    label_exercises = Label(option_frame, text="Exercise: ", bg="white", padx=40, font=("Arial,15"))
-    label_start_date = Label(option_frame, text="Start Date: ", bg="white", padx=40, font=("Arial,15"))
-    label_end_date = Label(option_frame, text="End Date: ", bg="white", padx=40, font=("Arial,15"))
+    label_player = Label(option_frame, text="Pseudo : ", bg="white", padx=40, font=("Arial,15"))
+    label_exercises = Label(option_frame, text="Exercice : ", bg="white", padx=40, font=("Arial,15"))
+    label_start_date = Label(option_frame, text="Date de début : ", bg="white", padx=40, font=("Arial,15"))
+    label_end_date = Label(option_frame, text="Date de fin : ", bg="white", padx=40, font=("Arial,15"))
 
     # Label placement
     label_player.grid(row=0, column=0, padx=(0, 10))
@@ -69,28 +69,31 @@ def display_result(event):
     entry_enddate.grid(row=0, column=7)
 
     # Results labels
-    label_player = Label(results_frame, text="Student", bg="white", padx=40, font=("Arial,15"))
-    label_date_hour = Label(results_frame, text="Date and Time", bg="white", padx=40, font=("Arial,10"))
-    label_time = Label(results_frame, text="Time", bg="white", padx=40, font=("Arial,15"))
-    label_ex = Label(results_frame, text="Exercise", bg="white", padx=40, font=("Arial,15"))
-    label_nbok = Label(results_frame, text="OK Count", bg="white", padx=40, font=("Arial,15"))
-    label_nbtot = Label(results_frame, text="Total Count", bg="white", padx=40, font=("Arial,15"))
-    label_reussi = Label(results_frame, text="% Success", bg="white", padx=40, font=("Arial,15"))
+    label_player = Label(results_frame, text="Élève", bg="white", padx=40, font=("Arial,15"))
+    label_date_hour = Label(results_frame, text="Date et Heure", bg="white", padx=40, font=("Arial,10"))
+    label_time = Label(results_frame, text="Temps", bg="white", padx=40, font=("Arial,15"))
+    # Im forced to put the grid here or it dosn't appear
+    label_time.grid(row=0, column=2, padx=(0, 10))
+    label_ex = Label(results_frame, text="Exercice", bg="white", padx=40, font=("Arial,15"))
+    label_nbok = Label(results_frame, text="Nombre OK", bg="white", padx=40, font=("Arial,15"))
+    # Im forced to put the grid here or it dosn't appear
+    label_nbok.grid(row=0, column=4, padx=(0, 10))
+    label_nbtot = Label(results_frame, text="Nombre Total", bg="white", padx=40, font=("Arial,15"))
+    label_reussi = Label(results_frame, text="% Réussi", bg="white", padx=40, font=("Arial,15"))
 
     # Totals labels
     title_total = Label(title_total_frame, text="Total", bg="white", font=("Arial, 15"), width=10, borderwidth=2)
-    label_tot = Label(total_frame, text="Line Count", bg="white", padx=40, font=("Arial, 15"))
-    label_time = Label(total_frame, text="Total Time", bg="white", padx=40, font=("Arial, 15"))
-    label_nbok = Label(total_frame, text="OK Count", bg="white", padx=40, font=("Arial, 15"))
-    label_nbtotal = Label(total_frame, text="Total Count", bg="white", padx=40, font=("Arial, 15"))
+    label_tot = Label(total_frame, text="Nombre Lignes", bg="white", padx=40, font=("Arial, 15"))
+    label_time = Label(total_frame, text="Temps Total", bg="white", padx=40, font=("Arial, 15"))
+    label_nbok = Label(total_frame, text="Nombre OK", bg="white", padx=40, font=("Arial, 15"))
+    label_nbtotal = Label(total_frame, text="Nombre Total", bg="white", padx=40, font=("Arial, 15"))
     label_purcenttot = Label(total_frame, text="% Total", bg="white", padx=40, font=("Arial, 15"))
 
     # Labels second frame
     label_player.grid(row=0, column=0, padx=(0, 10))
     label_date_hour.grid(row=0, column=1, padx=(0, 10))
-    label_time.grid(row=0, column=2, padx=(0, 10))
+
     label_ex.grid(row=0, column=3, padx=(0, 10))
-    label_nbok.grid(row=0, column=4, padx=(0, 10))
     label_nbtot.grid(row=0, column=5, padx=(0, 10))
     label_reussi.grid(row=0, column=6, padx=(0, 10))
 
@@ -109,7 +112,7 @@ def display_result(event):
     total_frame.grid(row=4, pady=10, columnspan=3)
 
     # Buttons
-    button_result = Button(option_frame, text="See Results", font=("Arial,15"))
+    button_result = Button(option_frame, text="Voir résultats", font=("Arial,15"))
     button_result.grid(row=1, column=0, pady=5)
 
     database.open_dbconnection()
