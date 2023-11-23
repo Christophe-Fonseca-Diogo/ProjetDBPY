@@ -155,7 +155,7 @@ def display_result(event):
         canvas.create_rectangle(0, 0, fill_width, 20, fill=progress_color)
 
         for data in range(len(name[x])):
-            results = Label(results_frame, width=10, text=name[x][data])
+            results = Label(results_frame, width=15, text=name[x][data])
             results.grid(row=x + 1, column=data)
 
     database.close_dbconnection()
