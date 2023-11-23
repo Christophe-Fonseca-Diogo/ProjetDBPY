@@ -1,6 +1,7 @@
-# Training (INFO02)
-# JCY oct 23
-# PRO DB PY
+# Info02
+# Made by Christophe
+# Version 1
+# Date 23.11.2023
 
 import tkinter as tk
 import random

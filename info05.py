@@ -1,6 +1,8 @@
-# Training (INFO05)
-# JCY oct 23
-# PRO DB PY
+# Info05
+# Made by Christophe
+# Version 1
+# Date 23.11.2023
+
 import math
 import tkinter as tk
 from tkinter.messagebox import showinfo          # Les alertes
