@@ -16,6 +16,7 @@ a_exercise = ["geo01", "info02", "info05"]
 albl_image = [None, None, None]  # array of labels (with images)
 a_image = [None, None, None]  # array of images
 a_title = [None, None, None]  # array of titles (e.g., GEO01)
+number = 0
 
 # Dictionary of games with links to corresponding functions
 dict_games = {"geo01": geo01.open_window_geo_01, "info02": info02.open_window_info_02, "info05": info05.open_window_info_05}
@@ -24,8 +25,10 @@ dict_games = {"geo01": geo01.open_window_geo_01, "info02": info02.open_window_in
 def exercise(event, exer):
     dict_games[exer](window)
 
+
 # Function to display results
 def display_result(event):
+    global up_window_results,entry_player,entry_exercise
     window_results = Tk()
 
     # Window parameters
@@ -35,10 +38,11 @@ def display_result(event):
     window_results.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
 
     # Frames for the window
-    option_frame = Frame(window_results, bg="white", padx=10, bd=2, relief="solid")
-    results_frame = Frame(window_results, bg="white", padx=10, bd=2, relief="solid")
-    title_total_frame = Frame(window_results, bg="white", padx=10, bd=2, relief="solid")
-    total_frame = Frame(window_results, bg="white", padx=10, bd=2, relief="solid")
+    up_window_results = Frame(window_results,bg="white",relief="solid")
+    down_window_results = Frame(window_results,bg="white",relief="solid")
+    option_frame = Frame(up_window_results, bg="white", padx=10, bd=2, relief="solid")
+    title_total_frame = Frame(down_window_results, bg="white", padx=10, bd=2, relief="solid")
+    total_frame = Frame(down_window_results, bg="white", padx=10, bd=2, relief="solid")
 
     # Title for the results window
     label_title_results = tk.Label(window_results, text="TRAINING : AFFICHAGE", font=("Arial", 25), borderwidth=2, relief="solid")
@@ -68,6 +72,48 @@ def display_result(event):
     entry_startdate.grid(row=0, column=5)
     entry_enddate.grid(row=0, column=7)
 
+    # Totals labels
+    title_total = Label(title_total_frame, text="Total", bg="white", font=("Arial, 15"), width=10, borderwidth=2)
+    label_tot = Label(total_frame, text="Nombre Lignes", bg="white", padx=40, font=("Arial, 15"))
+    label_time = Label(total_frame, text="Temps Total", bg="white", padx=40, font=("Arial, 15"))
+    label_nbok = Label(total_frame, text="Nombre OK", bg="white", padx=40, font=("Arial, 15"))
+    label_nbtotal = Label(total_frame, text="Nombre Total", bg="white", padx=40, font=("Arial, 15"))
+    label_purcenttot = Label(total_frame, text="% Total", bg="white", padx=40, font=("Arial, 15"))
+
+
+    # Last Frame labels placements
+    title_total_frame.grid(row=3, pady=10, columnspan=3)
+    title_total.grid(row=3, pady=10, columnspan=3)
+    label_tot.grid(row=0, column=0, padx=(0, 10))
+    label_time.grid(row=0, column=1, padx=(0, 10))
+    label_nbok.grid(row=0, column=2, padx=(0, 10))
+    label_nbtotal.grid(row=0, column=3, padx=(0, 10))
+    label_purcenttot.grid(row=0, column=4, padx=(0, 10))
+
+    # Frames placement
+    up_window_results.grid(row=1, columnspan=3)
+    down_window_results.grid(row=2, columnspan=3)
+    option_frame.grid(row=1, columnspan=3)
+    total_frame.grid(row=4, pady=10, columnspan=3)
+
+    # Buttons
+    button_result = Button(option_frame, text="Voir résultats", font=("Arial,15"), command=show_info)
+    button_result.grid(row=1, column=0, pady=5)
+
+    # main loop
+    window.mainloop()
+
+
+def show_info():
+    global results_frame,number
+    database.open_dbconnection()
+    name = database.filter_results(entry_player.get(),entry_exercise.get())
+    if number > 0:
+        results_frame.destroy()
+    number += 1
+
+    results_frame = Frame(up_window_results, bg="white", padx=10, bd=2, relief="solid")
+
     # Results labels
     label_player = Label(results_frame, text="Élève", bg="white", padx=40, font=("Arial,15"))
     label_date_hour = Label(results_frame, text="Date et Heure", bg="white", padx=40, font=("Arial,10"))
@@ -81,42 +127,15 @@ def display_result(event):
     label_nbtot = Label(results_frame, text="Nombre Total", bg="white", padx=40, font=("Arial,15"))
     label_reussi = Label(results_frame, text="% Réussi", bg="white", padx=40, font=("Arial,15"))
 
-    # Totals labels
-    title_total = Label(title_total_frame, text="Total", bg="white", font=("Arial, 15"), width=10, borderwidth=2)
-    label_tot = Label(total_frame, text="Nombre Lignes", bg="white", padx=40, font=("Arial, 15"))
-    label_time = Label(total_frame, text="Temps Total", bg="white", padx=40, font=("Arial, 15"))
-    label_nbok = Label(total_frame, text="Nombre OK", bg="white", padx=40, font=("Arial, 15"))
-    label_nbtotal = Label(total_frame, text="Nombre Total", bg="white", padx=40, font=("Arial, 15"))
-    label_purcenttot = Label(total_frame, text="% Total", bg="white", padx=40, font=("Arial, 15"))
-
+    results_frame.grid(row=2, pady=10, columnspan=3)
     # Labels second frame
     label_player.grid(row=0, column=0, padx=(0, 10))
     label_date_hour.grid(row=0, column=1, padx=(0, 10))
-
     label_ex.grid(row=0, column=3, padx=(0, 10))
     label_nbtot.grid(row=0, column=5, padx=(0, 10))
     label_reussi.grid(row=0, column=6, padx=(0, 10))
 
-    # Last Frame labels placements
-    title_total_frame.grid(row=3, pady=10, columnspan=3)
-    title_total.grid(row=3, pady=10, columnspan=3)
-    label_tot.grid(row=0, column=0, padx=(0, 10))
-    label_time.grid(row=0, column=1, padx=(0, 10))
-    label_nbok.grid(row=0, column=2, padx=(0, 10))
-    label_nbtotal.grid(row=0, column=3, padx=(0, 10))
-    label_purcenttot.grid(row=0, column=4, padx=(0, 10))
 
-    # Frames placement
-    option_frame.grid(row=1, columnspan=3)
-    results_frame.grid(row=2, pady=10, columnspan=3)
-    total_frame.grid(row=4, pady=10, columnspan=3)
-
-    # Buttons
-    button_result = Button(option_frame, text="Voir résultats", font=("Arial,15"))
-    button_result.grid(row=1, column=0, pady=5)
-
-    database.open_dbconnection()
-    name = database.show_results()
     for x in range(len(name)):
         if float(name[x][5]) != 0:
             result = round(float(name[x][4]) * 100 / float(name[x][5]), 2)
@@ -157,10 +176,6 @@ def display_result(event):
             results.grid(row=x + 1, column=data)
 
     database.close_dbconnection()
-
-    # main loop
-    window.mainloop()
-    print("display_result")
 
 
 # Main window

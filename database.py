@@ -88,7 +88,6 @@ def add_results(start_date, duration_s, nbtrials, nbsuccess, exercise_name, play
     open_dbconnection()
     # Fetch exercise_id or insert the exercise if it doesn't exist
     exercise_result = get_exercise_id(exercise_name)
-    print(exercise_result)
     if exercise_result is None:
         # Exercise not found, insert it
         cursor = db_connection.cursor()
@@ -121,17 +120,29 @@ def add_results(start_date, duration_s, nbtrials, nbsuccess, exercise_name, play
     cursor.close()
     close_dbconnection()
 
-def show_results():
+
+def filter_results(player_name, exercise_name):
+    if exercise_name != '':
+        exercise_id = get_exercise_id(exercise_name)
     open_dbconnection()
+    cursor = db_connection.cursor()
     # Retrieve results by joining "results," "players," and "exercises" tables
     query = ('''SELECT alias, start_date, time, name, number_done, max_number FROM results
                 INNER JOIN players ON results.player_id = players.id 
-                INNER JOIN exercises ON results.exercise_id = exercises.id''')
-    cursor = db_connection.cursor()
-    cursor.execute(query)
+                INNER JOIN exercises ON results.exercise_id = exercises.id
+                ''')
+    if player_name != '' and exercise_name != '':
+        query += "WHERE alias = %s AND exercise_id = %s"
+        cursor.execute(query, (player_name, exercise_id))
+    elif player_name != '':
+        query += "WHERE alias = %s"
+        cursor.execute(query, (player_name,))
+    elif exercise_name != '':
+        query += "WHERE exercise_id = %s"
+        cursor.execute(query, (exercise_id,))
+    else:
+        cursor.execute(query)
     rows = cursor.fetchall()
     cursor.close()
     close_dbconnection()
     return rows
-
-
