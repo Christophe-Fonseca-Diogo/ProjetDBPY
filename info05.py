@@ -1,6 +1,8 @@
-# Training (INFO05)
-# JCY oct 23
-# PRO DB PY
+# Info05
+# Made by Christophe
+# Version 1
+# Date 23.11.2023
+
 import math
 import tkinter as tk
 from tkinter.messagebox import showinfo          # Les alertes
@@ -11,7 +13,8 @@ from math import sqrt
 import time
 import database
 import datetime
-from tkinter.messagebox import *
+from tkinter import messagebox
+from database import *
 
 # Main window
 # graphical variables
@@ -21,7 +24,7 @@ xmed=250 #middle of 2 color rectangles
 
 
 #important data (to save)
-pseudo="Gaston" #provisory pseudo for user
+pseudo='' #pseudo for the user
 exercise="INFO05"
 nbtrials=0 #number of total trials
 nbsuccess=0 #number of successfull trials
@@ -37,7 +40,6 @@ line_vert_response=None #little vertical line for response cross on colorwheel
 lbl_distance=None #to display the distance between the 2 colors
 
 
-#next color
 def next_color(event):
     #random color to choose
     window_info05.configure(bg=hex_color)
@@ -191,11 +193,19 @@ def sl_v(event):
 
 
 def save_game(event):
-    print("dans save")
-    #TODO
+    global pseudo
+    database.open_dbconnection()
+    pseudo = entry_pseudo.get()
+    if pseudo == "":
+        messagebox.showerror(parent=window_info05, title="Pseudo Invalide", message="Veuillez ajouter un pseudo")
+    else:
+        database.playername(pseudo, exercise)
+        database.close_dbconnection()
+    database.add_results(start_date,duration_s,nbtrials,nbsuccess,player_name=pseudo,exercise_name=exercise)
 
 
 def display_timer():
+    global duration_s
     duration=datetime.datetime.now()-start_date #elapsed time since beginning, in time with decimals
     duration_s=int(duration.total_seconds()) #idem but in seconds (integer)
     #display min:sec (00:13)
@@ -204,7 +214,7 @@ def display_timer():
 
 
 def open_window_info_05(window):
-    global window_info05, lbl_duration, lbl_result, hex_color, start_date, slider_r, slider_g, slider_b, slider_v, entry_response, canvas
+    global window_info05, lbl_duration, lbl_result, hex_color, start_date, slider_r, slider_g, slider_b, slider_v, entry_response, canvas, entry_pseudo
     window_info05 = tk.Toplevel(window)
     window_info05.title("La couleur perdue")
     window_info05.geometry("1100x900")
