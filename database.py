@@ -3,6 +3,7 @@
 # Version 1
 # Date 23.11.2023
 
+
 import mysql.connector
 from tkinter import messagebox
 
