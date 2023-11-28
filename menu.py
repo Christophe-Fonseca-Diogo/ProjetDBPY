@@ -180,10 +180,6 @@ def show_info_filtered():
     database.close_dbconnection()
 
 
-def next_page():
-
-
-
 # Main window
 window = tk.Tk()
 window.title("Training, entrainement cérébral")
