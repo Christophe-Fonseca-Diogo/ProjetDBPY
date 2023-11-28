@@ -49,6 +49,8 @@ def display_result(event):
     down_window_results.grid(row=2, columnspan=3)
     option_frame = Frame(up_window_results, bg="white", padx=10, bd=2, relief="solid")
     option_frame.grid(row=1, columnspan=3)
+    pages_frame = Frame(down_window_results, bg=hex_color, padx=10, bd=2)
+    pages_frame.grid(row=41, pady=10, columnspan=4)
     title_count_frame = Frame(down_window_results, bg="white", padx=10, bd=2, relief="solid")
     title_count_frame.grid(row=3, pady=10, columnspan=3)
     count_frame = Frame(down_window_results, bg="white", padx=10, bd=2, relief="solid")
@@ -93,12 +95,20 @@ def display_result(event):
     button_show = Button(option_frame, text="Afficher les résultats", font=("Arial,15"), command=show_info_filtered)
     button_show.grid(row=1, column=0, pady=5)
 
+    # Buttons
+    button_next_page = Button(pages_frame, text="Page anterieur", font=("Arial,15"), command=show_info_filtered,relief="ridge")
+    button_next_page.grid(row=1, column=0, pady=5)
+
+    # Buttons
+    button_previous = Button(pages_frame, text="Page suivante", font=("Arial,15"), command=show_info_filtered,relief="ridge")
+    button_previous.grid(row=1, column=1, pady=5)
+
     # main loop
     window.mainloop()
 
 # Function for the display of the filtered infos
 def show_info_filtered():
-    global infos_frame,number
+    global infos_frame,number,window_results
     database.open_dbconnection()
     name = database.filter_results(entry_player.get(),entry_exercise.get())
     if number > 0:
@@ -168,6 +178,10 @@ def show_info_filtered():
             results.grid(row=x + 1, column=data)
 
     database.close_dbconnection()
+
+
+def next_page():
+
 
 
 # Main window
