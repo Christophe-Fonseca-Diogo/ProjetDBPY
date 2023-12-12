@@ -51,13 +51,11 @@ def next(event):
 
 def save_game(event):
     global pseudo
-    database.open_dbconnection()
     pseudo = entry_pseudo.get()
     if pseudo == "":
         messagebox.showerror(parent=window_info02, title="Pseudo Invalide", message="Veuillez ajouter un pseudo")
     else:
-        database.playername(pseudo, exercise)
-        database.close_dbconnection()
+        database.get_playername(pseudo, exercise)
     database.add_results(start_date,duration_s,nbtrials,nbsuccess,player_name=pseudo,exercise_name=exercise)
 
 
@@ -91,7 +89,7 @@ def open_window_info_02(window):
     global window_info02, lbl_duration, lbl_result, entry_n2, label_u2, label_n1, hex_color, start_date, entry_pseudo
     window_info02 = tk.Toplevel(window)
 
-    #window_info02 = tk.Tk()
+    # window_info02 = tk.Tk()
     window_info02.title("Conversion d'unités")
     window_info02.geometry("1100x900")
     window_info02.grid_columnconfigure((0,1,2), minsize=150, weight=1)

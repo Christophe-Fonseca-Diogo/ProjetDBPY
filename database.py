@@ -5,10 +5,7 @@
 
 
 import mysql.connector
-from tkinter import messagebox
 
-import geo01
-from geo01 import *
 
 def open_dbconnection():
     global db_connection
@@ -18,13 +15,14 @@ def open_dbconnection():
                                    buffered=True, autocommit=True)
     return db_connection
 
+
 def close_dbconnection():
     # Close the existing database connection
     db_connection.close()
 
-## Function for adding player names to the "players" table
-def playername(alias, exercise):
-    open_dbconnection()
+
+# Function for adding player names to the "players" table
+def get_playername(alias, exercise):
     cursor = db_connection.cursor()
     # Check if the player alias already exists in the "players" table
     query_select = "SELECT alias from players"
@@ -32,19 +30,17 @@ def playername(alias, exercise):
     rows = cursor.fetchall()
     for name in rows:
         if name[0] == alias:
-            close_dbconnection()
             return
     # Insert the player alias into the "players" table
     query_insert = "INSERT INTO players (alias) values (%s)"
     cursor.execute(query_insert, (alias, ))
     cursor.close()
-    close_dbconnection()
 
     # Call a function to add the exercise title to the "exercises" table
-    database.add_games(exercise)
+    add_games(exercise)
+
 
 def add_games(title):
-    open_dbconnection()
     cursor = db_connection.cursor()
     # Check if the exercise title already exists in the "exercises" table
     query_select = "SELECT name from exercises"
@@ -52,15 +48,15 @@ def add_games(title):
     results = cursor.fetchall()
     for result in results:
         if result[0] == title:
-            close_dbconnection()
+
             return
     # Insert the exercise title into the "exercises" table
     query_insert = "INSERT INTO exercises (name) values (%s)"
     cursor.execute(query_insert, (title, ))
     cursor.close()
 
+
 def get_player_id(player_name):
-    open_dbconnection()
     cursor = db_connection.cursor()
     # Retrieve the player ID based on the alias from the "players" table
     query = "SELECT id FROM players WHERE alias = %s"
@@ -68,12 +64,11 @@ def get_player_id(player_name):
     player_id = cursor.fetchone()
     # Close the cursor and database connection
     cursor.close()
-    close_dbconnection()
     # Return the player_id if found, otherwise return None
     return player_id[0] if player_id else None
 
+
 def get_exercise_id(exercise_name):
-    open_dbconnection()
     cursor = db_connection.cursor()
     # Retrieve the exercise ID based on the name from the "exercises" table
     query = "SELECT id FROM exercises WHERE name = %s"
@@ -81,12 +76,11 @@ def get_exercise_id(exercise_name):
     exercise_id = cursor.fetchone()
     # Close the cursor and database connection
     cursor.close()
-    close_dbconnection()
     # Return the exercise_id if found, otherwise return None
     return exercise_id[0] if exercise_id else None
 
+
 def add_results(start_date, duration_s, nbtrials, nbsuccess, exercise_name, player_name):
-    open_dbconnection()
     # Fetch exercise_id or insert the exercise if it doesn't exist
     exercise_result = get_exercise_id(exercise_name)
     if exercise_result is None:
@@ -99,33 +93,28 @@ def add_results(start_date, duration_s, nbtrials, nbsuccess, exercise_name, play
         if exercise_result is None:
             # If still not found, handle the error
             print("Error: Exercise not found even after insertion.")
-            close_dbconnection()
             return
     exercise_id = exercise_result
 
     # Fetch player_id
     player_id = get_player_id(player_name)
     if player_id is None:
-        print("Player not found.")
-        close_dbconnection()
         return
 
     # Convert duration_s to 'HH:MM:SS' format
     duration_formatted = f"{duration_s // 3600:02}:{(duration_s % 3600) // 60:02}:{duration_s % 60:02}"
 
     # Insert into the "results" table
-    open_dbconnection()
     cursor = db_connection.cursor()
     query = 'INSERT INTO results (start_date, time, number_done, max_number, exercise_id, player_id) VALUES (%s, %s, %s, %s, %s, %s)'
     cursor.execute(query, (start_date, duration_formatted,nbsuccess, nbtrials, exercise_id, player_id))
     cursor.close()
-    close_dbconnection()
+
 
 # Function for filter with the entrys with the name or the exercise
 def filter_results(player_name, exercise_name):
     if exercise_name != '':
         exercise_id = get_exercise_id(exercise_name)
-    open_dbconnection()
     cursor = db_connection.cursor()
     # Retrieve results by joining "results," "players," and "exercises" tables
     query = ('''SELECT alias, start_date, time, name, number_done, max_number FROM results
@@ -146,5 +135,20 @@ def filter_results(player_name, exercise_name):
         cursor.execute(query)
     rows = cursor.fetchall()
     cursor.close()
-    close_dbconnection()
     return rows
+
+
+def count_total():
+    cursor = db_connection.cursor()
+    # Retrieve the exercise ID based on the name from the "exercises" table
+    query_numberlines = "SELECT COUNT(results.id) AS 'NbLignes' FROM results"
+    cursor.execute(query_numberlines)
+    query_numberlines = "SELECT COUNT(results.id) AS 'NbLignes' FROM results"
+    cursor.execute(query_numberlines)
+    query_numberlines = "SELECT COUNT(results.id) AS 'NbLignes' FROM results"
+    cursor.execute(query_numberlines)
+    query_numberlines = "SELECT COUNT(results.id) AS 'NbLignes' FROM results"
+    cursor.execute(query_numberlines)
+    rows = cursor.fetchall()
+    # Close the cursor and database connection
+    cursor.close()

@@ -18,15 +18,15 @@ l = 1000 # canvas length
 h = 500 # canvas height
 target_x = 10 # x & y to find
 target_y = 10
-scale = 47.5 #100 pixels for x=1
-mycircle= None #objet utilisé pour le cercle rouge
+scale = 47.5 # 100 pixels for x=1
+mycircle= None # objet utilisé pour le cercle rouge
 
 
-#important data (to save)
-pseudo = '' #pseudo for the user
+# important data (to save)
+pseudo = '' # pseudo for the user
 exercise = "GEO01"
-nbtrials=0 #number of total trials
-nbsuccess=0 #number of successfull trials
+nbtrials=0 # number of total trials
+nbsuccess=0 # number of successfull trials
 
 
 # on canvas click, check if succeded or failed
@@ -58,16 +58,16 @@ def canvas_click(event):
 
 
 def circle(x,y,r,color):
-    #circle, center x & y, r radius, color
+    # circle, center x & y, r radius, color
     mycircle=canvas.create_oval((x - r) * scale + l/2, -(y-r) * scale + h/2, (x + r) * scale + l/2, -(y + r)* scale + h/2, fill=color)
     return mycircle
 
 
 def next_point(event):
     global target_x, target_y, mycircle
-    window_geo01.configure(bg=hex_color)#remettre couleur normale
+    window_geo01.configure(bg=hex_color)# remettre couleur normale
     print("next_point " + str(event))
-    #Clearing the canvas
+    # Clearing the canvas
     canvas.delete('all')
 
     # x & y axis
@@ -91,14 +91,13 @@ def next_point(event):
 
 def save_game(event):
     global pseudo
-    database.open_dbconnection()
     pseudo = entry_pseudo.get()
     if pseudo == "":
         messagebox.showerror(parent=window_geo01, title="Pseudo Invalide", message="Veuillez ajouter un pseudo")
     else:
-        database.playername(pseudo, exercise)
-        database.close_dbconnection()
+        database.get_playername(pseudo, exercise)
     database.add_results(start_date,duration_s,nbtrials,nbsuccess,player_name=pseudo,exercise_name=exercise)
+
 
 def display_timer():
     global duration_s

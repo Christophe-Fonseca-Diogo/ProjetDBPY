@@ -4,9 +4,7 @@
 # Date 23.11.2023
 
 
-import math
 import tkinter as tk
-from tkinter.messagebox import showinfo          # Les alertes
 import random
 from math import cos, sin, pi
 from colorsys import hsv_to_rgb, rgb_to_hsv
@@ -15,34 +13,33 @@ import time
 import database
 import datetime
 from tkinter import messagebox
-from database import *
 
 # Main window
 # graphical variables
 l = 850 # canvas length
 height = 350 # canvas height
-xmed=250 #middle of 2 color rectangles
+xmed=250 # middle of 2 color rectangles
 
 
-#important data (to save)
-pseudo='' #pseudo for the user
+# important data (to save)
+pseudo='' #p seudo for the user
 exercise="INFO05"
-nbtrials=0 #number of total trials
-nbsuccess=0 #number of successfull trials
+nbtrials=0 # number of total trials
+nbsuccess=0 # number of successfull trials
 
-#exercise data
-rgb=[100,150,200]  #random color as list
-rgb_response=[127,127,127] #grey at start, response color as list
-rect_rgb=None #2 rectangles (200x200)
+# exercise data
+rgb=[100,150,200]  # random color as list
+rgb_response=[127,127,127] # grey at start, response color as list
+rect_rgb=None # 2 rectangles (200x200)
 rect_response=None
-rect_mini_rgb=None #min black rectangle on colorwheel
-line_hor_response=None #little horizontal line for response cross on colorwheel
-line_vert_response=None #little vertical line for response cross on colorwheel
-lbl_distance=None #to display the distance between the 2 colors
+rect_mini_rgb=None # min black rectangle on colorwheel
+line_hor_response=None # little horizontal line for response cross on colorwheel
+line_vert_response=None # little vertical line for response cross on colorwheel
+lbl_distance=None # to display the distance between the 2 colors
 
 
 def next_color(event):
-    #random color to choose
+    # random color to choose
     window_info05.configure(bg=hex_color)
     entry_response.delete(0,tk.END)
     entry_response.insert(0,"#")
@@ -51,7 +48,7 @@ def next_color(event):
     display();
 
 
-#display the exercise and response
+# display the exercise and response
 def display():
     global rect_rgb, rect_response,rect_mini_rgb, lbl_distance
     # 2 rectangles with color
@@ -103,12 +100,13 @@ def display_wheel_color():
     line_hor_response = canvas.create_line(0, 0, 0, 0)  # little horizontal line for response cross on colorwheel
     line_vert_response = canvas.create_line(0, 0, 0, 0)  # little vertical line for response cross on colorwheel
 
-#converts rgb (ex:[128,128,128]) in hex color (ex: #808080)
+
+# converts rgb (ex:[128,128,128]) in hex color (ex: #808080)
 def h_color(rgb_color):
     return '#{:02x}{:02x}{:02x}'.format(rgb_color[0], rgb_color[1], rgb_color[2])
 
 
-#converts rgb (ex:[0.5,0.5,0.5]) in hex color (ex: #808080)
+# converts rgb (ex:[0.5,0.5,0.5]) in hex color (ex: #808080)
 def h_color_float(rgb_color_float):
     rgb_color=[0,0,0] # temp list
     for i,v in enumerate(rgb_color_float): #0-1 => 0-255
@@ -116,7 +114,7 @@ def h_color_float(rgb_color_float):
     return h_color(rgb_color)
 
 
-#converts hex color (ex: #808080) in rgb ([128,128,128])
+# converts hex color (ex: #808080) in rgb ([128,128,128])
 def hex_to_rgb(value):
     value = value.lstrip('#')
     lv = len(value)
@@ -126,12 +124,12 @@ def hex_to_rgb(value):
         return (-1,-1,-1) #if not 3 colors
 
 
-#distance between 2 colors (Pythagore on 3 dimensions)
+# distance between 2 colors (Pythagore on 3 dimensions)
 def dist_color(c1,c2):
     return int(sqrt( (c1[0]-c2[0])**2 +  (c1[1]-c2[1])**2 + (c1[2]-c2[2])**2 ) )
 
 
-#check if the color given in hex is near (max dist=5)
+# check if the color given in hex is near (max dist=5)
 def test(event):
     global nbsuccess, nbtrials
     # Fonction pour tester si la valeur est juste
@@ -178,7 +176,7 @@ def sl_b(value):
     display()
 
 
-#change the value of v (hsv) in rgb_response
+# change the value of v (hsv) in rgb_response
 def sl_v(event):
     global rgb_response
     value=slider_v.get()
@@ -195,13 +193,11 @@ def sl_v(event):
 
 def save_game(event):
     global pseudo
-    database.open_dbconnection()
     pseudo = entry_pseudo.get()
     if pseudo == "":
         messagebox.showerror(parent=window_info05, title="Pseudo Invalide", message="Veuillez ajouter un pseudo")
     else:
-        database.playername(pseudo, exercise)
-        database.close_dbconnection()
+        database.get_playername(pseudo, exercise)
     database.add_results(start_date,duration_s,nbtrials,nbsuccess,player_name=pseudo,exercise_name=exercise)
 
 
@@ -242,7 +238,7 @@ def open_window_info_05(window):
     canvas = tk.Canvas(window_info05, width=l, height=height, bg="#f9d893")
     canvas.grid( row=2, column=0, columnspan=3, ipady=5, padx=20,pady=5)
 
-    #frae
+    # frame
     frame_response = tk.Frame(window_info05)
     frame_response.grid( row=3, column=0, columnspan=3, padx=20,pady=10)
     lbl_response =tk.Label(frame_response, text="Couleur en hexa:", font=("Arial", 15))
@@ -250,7 +246,7 @@ def open_window_info_05(window):
     entry_response = tk.Entry(frame_response,font=("Arial", 15))
     entry_response.grid( row=0, column=1, ipady=5, padx=10,pady=5,sticky='W')
 
-    #sliders
+    # sliders
     slider_r = tk.Scale(window_info05, from_=0, to=255, length=600, orient=tk.HORIZONTAL, troughcolor="red", command=sl_r)
     slider_r.set(128)
     slider_r.grid(row=4, column=0, columnspan=3, padx=10, pady=0)
