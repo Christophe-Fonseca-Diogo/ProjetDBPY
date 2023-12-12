@@ -9,7 +9,7 @@ hex_color = '#%02x%02x%02x' % rgb_color # translation in hexa
 
 
 def on_closing_results():
-    print("close_results")
+    print("close_connection_results")
     database.close_dbconnection()
     window_results.destroy()
 
@@ -17,10 +17,11 @@ def on_closing_results():
 def display_result():
     print("In the results")
     database.open_dbconnection()
-    global up_window_results,entry_player,entry_exercise
-    window_results = Tk()
+    global up_window_results,entry_player,entry_exercise,window_results
+
 
     # Window parameters
+    window_results = tk.Tk()
     window_results.title("Résultats")
     window_results.geometry("1920x1080")
     window_results.configure(bg=hex_color)
@@ -93,6 +94,7 @@ def display_result():
     button_previous = Button(pages_frame, text="Page suivante", font=("Arial,15"), command=lambda: show_info_filtered(infos_frame),relief="ridge")
     button_previous.grid(row=1, column=2, pady=5)
 
+    window_results.protocol("WM_DELETE_WINDOW", on_closing_results)
     # main loop
     window_results.mainloop()
 
