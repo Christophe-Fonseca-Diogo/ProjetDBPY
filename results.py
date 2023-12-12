@@ -7,7 +7,7 @@ from tkinter import *
 rgb_color = (139, 201, 194)
 hex_color = '#%02x%02x%02x' % rgb_color # translation in hexa
 
-
+# Process for closing the connection
 def on_closing_results():
     print("close_connection_results")
     database.close_dbconnection()
@@ -32,7 +32,7 @@ def display_result():
     label_title_results.grid(row=0, column=1, ipady=5, padx=40, pady=40)
 
     # Frames for the window
-    up_window_results = Frame(window_results,bg="white",relief="solid")
+    up_window_results = Frame(window_results,bg=hex_color,relief="solid")
     up_window_results.grid(row=1, columnspan=3)
     down_window_results = Frame(window_results,bg=hex_color,relief="solid")
     down_window_results.grid(row=2, columnspan=3)

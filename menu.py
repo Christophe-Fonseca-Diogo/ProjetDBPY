@@ -28,8 +28,18 @@ def exercise(event, exer):
     dict_games[exer](window)
 
 
-def on_closing():
-    print("close connection")
+# Process for closing the connection
+def on_closing(event):
+    print("close menu connection with parameters")
+    free_ressources()
+
+
+def delete_window():
+    print("close menu connection")
+    free_ressources()
+
+
+def free_ressources():
     database.close_dbconnection()
     window.destroy()
 
@@ -74,9 +84,9 @@ btn_display.bind("<Button-1>",lambda e: display_results(e))
 
 btn_finish = tk.Button(window, text="Quitter", font=("Arial", 15))
 btn_finish.grid(row=2+ 2*len(a_exercise)//3 , column=1)
-btn_finish.bind("<Button-1>", quit)
+btn_finish.bind("<Button-1>", on_closing)
 
-window.protocol("WM_DELETE_WINDOW", on_closing)
+window.protocol("WM_DELETE_WINDOW", delete_window)
 
 # Main loop
 window.mainloop()
