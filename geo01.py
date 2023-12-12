@@ -51,7 +51,7 @@ def canvas_click(event):
     else:
         window_geo01.configure(bg="green")
         nbsuccess += 1
-    lbl_result.configure(text=f"{pseudo} Essais réussis : {nbsuccess} / {nbtrials}")
+    lbl_result.configure(text=f"Essais réussis : {nbsuccess} / {nbtrials}")
     window_geo01.update()
     time.sleep(1) # delai 1s
     next_point(event=None)
