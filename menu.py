@@ -76,7 +76,7 @@ btn_finish = tk.Button(window, text="Quitter", font=("Arial", 15))
 btn_finish.grid(row=2+ 2*len(a_exercise)//3 , column=1)
 btn_finish.bind("<Button-1>", quit)
 
-window.protocol("WM_DELETE_WINDOW", on_closing())
+window.protocol("WM_DELETE_WINDOW", on_closing)
 
 # Main loop
 window.mainloop()
