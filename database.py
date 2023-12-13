@@ -138,17 +138,28 @@ def filter_results(player_name, exercise_name):
     return rows
 
 
-def count_total():
+def count_total(player_name, exercise_name):
     cursor = db_connection.cursor()
-    # Retrieve the exercise ID based on the name from the "exercises" table
-    query_numberlines = "SELECT COUNT(results.id) AS 'NbLignes' FROM results"
-    cursor.execute(query_numberlines)
-    query_numberlines = "SELECT COUNT(results.id) AS 'NbLignes' FROM results"
-    cursor.execute(query_numberlines)
-    query_numberlines = "SELECT COUNT(results.id) AS 'NbLignes' FROM results"
-    cursor.execute(query_numberlines)
-    query_numberlines = "SELECT COUNT(results.id) AS 'NbLignes' FROM results"
-    cursor.execute(query_numberlines)
-    rows = cursor.fetchall()
-    # Close the cursor and database connection
+    if exercise_name != '':
+        exercise_id = get_exercise_id(exercise_name)
+    # Query for getting the infos for the total with time formatted as HH:MM:SS
+    query = "SELECT COUNT(id), TIME_FORMAT(SUM(results.time), '%H:%i:%s') AS formatted_time, SUM(number_done), SUM(max_number) FROM results"
+    # Options for filter
+    if player_name != '' and exercise_name != '':
+        query += " WHERE alias = %s AND exercise_id = %s"
+        cursor.execute(query, (player_name, exercise_id))
+    elif player_name != '':
+        query += " WHERE alias = %s"
+        cursor.execute(query, (player_name,))
+    elif exercise_name != '':
+        query += " WHERE exercise_id = %s"
+        cursor.execute(query, (exercise_id,))
+    else:
+        cursor.execute(query)  # No need for additional parameters in this case
+    rows_tot = cursor.fetchall()
     cursor.close()
+    return rows_tot
+
+
+
+

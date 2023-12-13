@@ -5,7 +5,8 @@ from tkinter import *
 
 # Function to create the windows results
 rgb_color = (139, 201, 194)
-hex_color = '#%02x%02x%02x' % rgb_color # translation in hexa
+hex_color = '#%02x%02x%02x' % rgb_color  # translation in hexa
+
 
 # Process for closing the connection
 def on_closing_results():
@@ -17,24 +18,23 @@ def on_closing_results():
 def display_result():
     print("In the results")
     database.open_dbconnection()
-    global up_window_results,entry_player,entry_exercise,window_results
-
-
+    global up_window_results, entry_player, entry_exercise, window_results,count_infos_frame
     # Window parameters
     window_results = tk.Tk()
     window_results.title("Résultats")
     window_results.geometry("1920x1080")
     window_results.configure(bg=hex_color)
-    window_results.grid_columnconfigure((0, 1 ,2), minsize=300, weight=1)
+    window_results.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
 
     # Title for the results window
-    label_title_results = tk.Label(window_results, text="TRAINING : AFFICHAGE", font=("Arial", 25), borderwidth=2, relief="solid")
+    label_title_results = tk.Label(window_results, text="TRAINING : AFFICHAGE", font=("Arial", 25), borderwidth=2,
+                                   relief="solid")
     label_title_results.grid(row=0, column=1, ipady=5, padx=40, pady=40)
 
     # Frames for the window
-    up_window_results = Frame(window_results,bg=hex_color,relief="solid")
+    up_window_results = Frame(window_results, bg=hex_color, relief="solid")
     up_window_results.grid(row=1, columnspan=3)
-    down_window_results = Frame(window_results,bg=hex_color,relief="solid")
+    down_window_results = Frame(window_results, bg=hex_color, relief="solid")
     down_window_results.grid(row=2, columnspan=3)
     option_frame = Frame(up_window_results, bg="white", padx=10, bd=2, relief="solid")
     option_frame.grid(row=1, columnspan=3)
@@ -46,7 +46,8 @@ def display_result():
     title_count_frame.grid(row=3, pady=10, columnspan=3)
     count_frame = Frame(down_window_results, bg="white", padx=10, bd=2, relief="solid")
     count_frame.grid(row=4, pady=10, columnspan=3)
-
+    count_infos_frame = Frame(down_window_results, bg="white", padx=10, bd=2, relief="solid")
+    count_infos_frame.grid(row=5, pady=10, columnspan=3)
 
     # Options labels
     label_player = Label(option_frame, text="Pseudo : ", bg="white", padx=40, font=("Arial,15"))
@@ -83,15 +84,18 @@ def display_result():
     label_purcent.grid(row=0, column=4, padx=(0, 10))
 
     # Buttons
-    button_show = Button(option_frame, text="Afficher les résultats", font=("Arial,15"), command=lambda: show_info_filtered(infos_frame))
+    button_show = Button(option_frame, text="Afficher les résultats", font=("Arial,15"),
+                         command=lambda: show_info_filtered(infos_frame,count_infos_frame))
     button_show.grid(row=1, column=0, pady=5)
 
     # Buttons
-    button_next_page = Button(pages_frame, text="Page anterieur", font=("Arial,15"), command=lambda: show_info_filtered(infos_frame),relief="ridge")
+    button_next_page = Button(pages_frame, text="Page anterieur", font=("Arial,15"),
+                              command=lambda: show_info_filtered(infos_frame), relief="ridge")
     button_next_page.grid(row=1, column=0, pady=5)
 
     # Buttons
-    button_previous = Button(pages_frame, text="Page suivante", font=("Arial,15"), command=lambda: show_info_filtered(infos_frame),relief="ridge")
+    button_previous = Button(pages_frame, text="Page suivante", font=("Arial,15"),
+                             command=lambda: show_info_filtered(infos_frame), relief="ridge")
     button_previous.grid(row=1, column=2, pady=5)
 
     window_results.protocol("WM_DELETE_WINDOW", on_closing_results)
@@ -100,9 +104,9 @@ def display_result():
 
 
 # Function for the display of the filtered infos
-def show_info_filtered(infos_frame):
+def show_info_filtered(infos_frame,count_infos_frame):
     global window_results
-    name = database.filter_results(entry_player.get(),entry_exercise.get())
+    name = database.filter_results(entry_player.get(), entry_exercise.get())
     for widget in infos_frame.winfo_children():
         if widget.grid_info()["row"] != 0:
             widget.destroy()
@@ -165,7 +169,20 @@ def show_info_filtered(infos_frame):
         for data in range(len(name[x])):
             results = Label(infos_frame, width=15, text=name[x][data])
             results.grid(row=x + 1, column=data)
-    database.count_total()
+    show_count_infos(count_infos_frame)
+
+
+def show_count_infos(count_infos_frame):
+    # Clear existing labels and widgets
+    for widget in count_infos_frame.winfo_children():
+        widget.destroy()
+
+    dataset = database.count_total(entry_player.get(), entry_exercise.get())
+
+    # Add data values to the frame
+    for i, value in enumerate(dataset[0]):
+        label = tk.Label(count_infos_frame, width=15, text=value)
+        label.grid(row=1, column=i)
 
 
 display_result()
