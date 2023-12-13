@@ -2,7 +2,7 @@
 # Made by Christophe
 # Version 1
 # Date 23.11.2023
-
+import time
 
 import mysql.connector
 
@@ -142,23 +142,27 @@ def count_total(player_name, exercise_name):
     cursor = db_connection.cursor()
     if exercise_name != '':
         exercise_id = get_exercise_id(exercise_name)
+    if player_name != '':
+        player_id = get_player_id(player_name)
     # Query for getting the infos for the total with time formatted as HH:MM:SS
-    query = "SELECT COUNT(id), TIME_FORMAT(SUM(results.time), '%H:%i:%s') AS formatted_time, SUM(number_done), SUM(max_number) FROM results"
+    query = "SELECT COUNT(id), SUM(time), SUM(number_done), SUM(max_number) FROM results"
     # Options for filter
     if player_name != '' and exercise_name != '':
-        query += " WHERE alias = %s AND exercise_id = %s"
-        cursor.execute(query, (player_name, exercise_id))
+        query += " WHERE player_id = %s AND exercise_id = %s"
+        cursor.execute(query, (get_player_id(player_name), exercise_id))
     elif player_name != '':
-        query += " WHERE alias = %s"
-        cursor.execute(query, (player_name,))
+        query += " WHERE player_id = %s"
+        cursor.execute(query, (player_id,))
     elif exercise_name != '':
         query += " WHERE exercise_id = %s"
         cursor.execute(query, (exercise_id,))
     else:
         cursor.execute(query)  # No need for additional parameters in this case
     rows_tot = cursor.fetchall()
+    time_in_seconds = time.gmtime(int(rows_tot[0][1]))
+    result_tot = [(rows_tot[0][0], time.strftime('%H:%M:%S', time_in_seconds), rows_tot[0][2], rows_tot[0][3])]
     cursor.close()
-    return rows_tot
+    return result_tot
 
 
 

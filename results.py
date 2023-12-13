@@ -85,7 +85,7 @@ def display_result():
 
     # Buttons
     button_show = Button(option_frame, text="Afficher les résultats", font=("Arial,15"),
-                         command=lambda: show_info_filtered(infos_frame,count_infos_frame))
+                         command=lambda: show_info_filtered(infos_frame,count_frame))
     button_show.grid(row=1, column=0, pady=5)
 
     # Buttons
@@ -104,7 +104,7 @@ def display_result():
 
 
 # Function for the display of the filtered infos
-def show_info_filtered(infos_frame,count_infos_frame):
+def show_info_filtered(infos_frame,count_frame):
     global window_results
     name = database.filter_results(entry_player.get(), entry_exercise.get())
     for widget in infos_frame.winfo_children():
@@ -169,20 +169,59 @@ def show_info_filtered(infos_frame,count_infos_frame):
         for data in range(len(name[x])):
             results = Label(infos_frame, width=15, text=name[x][data])
             results.grid(row=x + 1, column=data)
-    show_count_infos(count_infos_frame)
+    show_count_infos(count_frame)
 
 
-def show_count_infos(count_infos_frame):
+def show_count_infos(count_frame):
     # Clear existing labels and widgets
-    for widget in count_infos_frame.winfo_children():
-        widget.destroy()
+    for widget in count_frame.winfo_children():
+        if widget.grid_info()["row"] != 0:
+            widget.destroy()
 
     dataset = database.count_total(entry_player.get(), entry_exercise.get())
+    if entry_player.get() == '':
+        print("Rien")
 
     # Add data values to the frame
     for i, value in enumerate(dataset[0]):
-        label = tk.Label(count_infos_frame, width=15, text=value)
+        label = tk.Label(count_frame, width=15, text=value)
         label.grid(row=1, column=i)
+
+    if float(dataset[0][3]) != 0:
+        result = round(float(dataset[0][2]) * 100 / float(dataset[0][3]), 2)
+    else:
+        result = 0
+
+    # Progress bar creation and setup
+
+    # Determine the color based on the result value
+    max_value = float(dataset[0][3])
+    ok_value = float(dataset[0][2])
+    average_value = max_value / 2
+
+    # Determine the color of the canvas background
+    if ok_value < average_value:
+        canvas_bg_color = "red"
+    elif ok_value == 0 or max_value == 0:
+        canvas_bg_color = "red"
+
+    elif ok_value == average_value:
+        canvas_bg_color = "orange"
+    else:
+        canvas_bg_color = "green"
+
+    # Create a canvas for the progress bar
+    canvas = tk.Canvas(count_frame, width=100, height=20, bg="white")
+    canvas.grid(row=1, column=4)
+
+    # Determine the color of the progress based on the background color
+    progress_color = canvas_bg_color
+
+    # Calculate the width of the filled portion based on the result
+    fill_width = max(5, int((result / 100) * 100))  # Ensure a minimum width
+
+    # Add a rectangle to represent the progress
+    canvas.create_rectangle(0, 0, fill_width, 20, fill=progress_color)
 
 
 display_result()
