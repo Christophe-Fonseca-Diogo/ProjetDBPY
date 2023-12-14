@@ -181,4 +181,4 @@ def modifiy_result(id):
 def add_result_button():
     cursor = db_connection.cursor()
     query = 'INSERT INTO results (start_date, time, number_done, max_number, exercise_id, player_id) VALUES (%s, %s, %s, %s, %s, %s)'
-    cursor.execute(query,)
+    cursor.execute(query, ())

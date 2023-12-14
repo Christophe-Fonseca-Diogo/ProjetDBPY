@@ -162,6 +162,7 @@ def show_info_filtered(infos_frame, count_frame):
             result = round(float(name[x][4]) * 100 / float(name[x][5]), 2)
         else:
             result = 0
+        row_id = name[x][0]
 
         # Progress bar creation and setup
 
@@ -200,10 +201,10 @@ def show_info_filtered(infos_frame, count_frame):
             results.grid(row=x + 1, column=data)
 
         # Add buttons for actions
-        button_delete = Button(infos_frame, text="Supprimer", command=lambda: database.delete_result(id))
+        button_delete = Button(infos_frame, text="Supprimer", command=lambda id = row_id: database.delete_result(id))
         button_delete.grid(row=x + 1, column=7)
 
-        button_edit = Button(infos_frame, text="Modifier", command=lambda idx=x: edit_entry(idx))
+        button_edit = Button(infos_frame, text="Modifier", command=lambda : edit_entry(idx))
         button_edit.grid(row=x + 1, column=8)
 
     show_count_infos(count_frame)
@@ -297,16 +298,22 @@ def insert_result_window():
     # Options Entrys
     entry_add_player = Entry(option_add_frame, bg="grey")
     entry_add_player.grid(row=0, column=1)
+
     entry_add_exercise = Entry(option_add_frame, bg="grey")
     entry_add_exercise.grid(row=0, column=3)
+
     entry_add_start_date = Entry(option_add_frame, bg="grey")
     entry_add_start_date.grid(row=0, column=5)
+
     entry_add_end_date = Entry(option_add_frame, bg="grey")
     entry_add_end_date.grid(row=0, column=7)
-    entry_add_start_date = Entry(option_add_frame, bg="grey")
-    entry_add_start_date.grid(row=1, column=3)
-    entry_add_end_date = Entry(option_add_frame, bg="grey")
-    entry_add_end_date.grid(row=1, column=5)
+
+    entry_add_number_ok = Entry(option_add_frame, bg="grey")
+    entry_add_number_ok.grid(row=1, column=3)
+
+    entry_add_number_tot = Entry(option_add_frame, bg="grey")
+    entry_add_number_tot.grid(row=1, column=5)
+
 
     # Button to hide the insertion window
     button_return = Button(option_add_frame, text="Retour", font=("Arial,15"),
