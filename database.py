@@ -165,5 +165,18 @@ def count_total(player_name, exercise_name):
     return result_tot
 
 
+def delete_result(id):
+    cursor = db_connection.cursor()
+    query = "DELETE FROM results WHERE id=%s"
+    cursor.execute(query, (id,))
+
+def modifiy_result(id):
+    cursor = db_connection.cursor()
+    query = ""
+    cursor.execute(query, (id,))
 
 
+def add_result_button():
+    cursor = db_connection.cursor()
+    query = 'INSERT INTO results (start_date, time, number_done, max_number, exercise_id, player_id) VALUES (%s, %s, %s, %s, %s, %s)'
+    cursor.execute(query,)

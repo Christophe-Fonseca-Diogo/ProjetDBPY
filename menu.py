@@ -28,24 +28,23 @@ def exercise(event, exer):
     dict_games[exer](window)
 
 
-# Process for closing the connection
+# close menu connection with parameters
 def on_closing(event):
-    print("close menu connection with parameters")
     free_ressources()
 
 
+# close menu connection
 def delete_window():
-    print("close menu connection")
     free_ressources()
 
 
+# destroy the windows and stop the connection with the database
 def free_ressources():
     database.close_dbconnection()
     window.destroy()
 
 
 def display_results(event):
-    print("Process")
     subprocess.Popen(["python","results.py"])
 
 

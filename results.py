@@ -1,7 +1,7 @@
 import tkinter as tk
 import database
 from tkinter import *
-
+from tkinter import messagebox
 
 # Function to create the windows results
 rgb_color = (139, 201, 194)
@@ -10,15 +10,35 @@ hex_color = '#%02x%02x%02x' % rgb_color  # translation in hexa
 
 # Process for closing the connection
 def on_closing_results():
-    print("close_connection_results")
-    database.close_dbconnection()
-    window_results.destroy()
+    result_message = messagebox.askokcancel(title="Information", message="Vous allez quitter la page des résultats.")
+    if result_message:
+        database.close_dbconnection()
+        window_results.destroy()
+    else:
+        # If the user clicks "Cancel," bring the result window to the foreground
+        window_results.lift()
+
+def closing_insertion():
+    result_message = messagebox.askokcancel(title="Information", message="Vous allez quitter la page d'insertion.")
+    if result_message:
+        window_insert_results.destroy()
+        show_info_filtered(infos_frame,count_frame)
+    else:
+        # If the user clicks "Cancel," bring the insertion window to the foreground
+        window_insert_results.lift()
+
+def confirmation_insertion():
+    result_message = messagebox.askokcancel(title="Information", message="Vous allez ajouter le résultat.")
+    if result_message:
+        database.add_result_button()
+    else:
+        # If the user clicks "Cancel," bring the insertion window to the foreground
+        window_insert_results.lift()
 
 
 def display_result():
-    print("In the results")
     database.open_dbconnection()
-    global up_window_results, entry_player, entry_exercise, window_results,count_infos_frame
+    global up_window_results, entry_player, entry_exercise, window_results, infos_frame,count_frame
     # Window parameters
     window_results = tk.Tk()
     window_results.title("Résultats")
@@ -88,6 +108,12 @@ def display_result():
                          command=lambda: show_info_filtered(infos_frame,count_frame))
     button_show.grid(row=1, column=0, pady=5)
 
+
+    # Buttons
+    button_add = Button(option_frame, text="Ajouter un résultat", font=("Arial,15"),
+                         command=lambda: insert_result_window())
+    button_add.grid(row=1, column=7, pady=5)
+
     # Buttons
     button_next_page = Button(pages_frame, text="Page anterieur", font=("Arial,15"),
                               command=lambda: show_info_filtered(infos_frame), relief="ridge")
@@ -104,7 +130,7 @@ def display_result():
 
 
 # Function for the display of the filtered infos
-def show_info_filtered(infos_frame,count_frame):
+def show_info_filtered(infos_frame, count_frame):
     global window_results
     name = database.filter_results(entry_player.get(), entry_exercise.get())
     for widget in infos_frame.winfo_children():
@@ -126,6 +152,8 @@ def show_info_filtered(infos_frame,count_frame):
     label_number_tot.grid(row=0, column=5, padx=(0, 10))
     label_done = Label(infos_frame, text="% Réussi", bg="white", padx=40, font=("Arial,15"))
     label_done.grid(row=0, column=6, padx=(0, 10))
+    label_actions = Label(infos_frame, text="Actions", bg="white", padx=40, font=("Arial,15"))
+    label_actions.grid(row=0, column=7, columnspan=2, padx=(0, 10))  # Adjusted columnspan
 
     # Add all the infos of the database on the result variable
     for x in range(len(name)):
@@ -169,6 +197,14 @@ def show_info_filtered(infos_frame,count_frame):
         for data in range(len(name[x])):
             results = Label(infos_frame, width=15, text=name[x][data])
             results.grid(row=x + 1, column=data)
+
+        # Add buttons for actions
+        button_delete = Button(infos_frame, text="Supprimer", command=lambda: database.delete_result(id))
+        button_delete.grid(row=x + 1, column=7)
+
+        button_edit = Button(infos_frame, text="Modifier", command=lambda idx=x: edit_entry(idx))
+        button_edit.grid(row=x + 1, column=8)
+
     show_count_infos(count_frame)
 
 
@@ -180,7 +216,7 @@ def show_count_infos(count_frame):
 
     dataset = database.count_total(entry_player.get(), entry_exercise.get())
     if entry_player.get() == '':
-        print("Rien")
+        pass
 
     # Add data values to the frame
     for i, value in enumerate(dataset[0]):
@@ -223,5 +259,62 @@ def show_count_infos(count_frame):
     # Add a rectangle to represent the progress
     canvas.create_rectangle(0, 0, fill_width, 20, fill=progress_color)
 
+
+def insert_result_window():
+    global window_insert_results
+    window_insert_results = tk.Tk()
+    window_insert_results.title("Insertion")
+    window_insert_results.geometry("1920x1080")
+    window_insert_results.configure(bg=hex_color)
+    window_insert_results.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
+
+    # Title for the adding results window
+    label_title_add_results = tk.Label(window_insert_results, text="Ajout d'un résultat", font=("Arial", 25), borderwidth=2,
+                                   relief="solid")
+    label_title_add_results.grid(row=0, column=1, ipady=5, padx=40, pady=40)
+
+    # Frames for the window for the insertion
+    up_window_add_results = Frame(window_insert_results, bg=hex_color, relief="solid")
+    up_window_add_results.grid(row=1, columnspan=3)
+    option_add_frame = Frame(up_window_add_results, bg="white", padx=10, bd=2, relief="solid")
+    option_add_frame.grid(row=1, columnspan=3)
+
+    # Options labels
+    label_add_player = Label(option_add_frame, text="Pseudo : ", bg="white", padx=40, font=("Arial,15"))
+    label_add_player.grid(row=0, column=0)
+    label_add_exercises = Label(option_add_frame, text="Exercice : ", bg="white", padx=40, font=("Arial,15"))
+    label_add_exercises.grid(row=0, column=2)
+    label_add_start_date = Label(option_add_frame, text="Date de début : ", bg="white", padx=40, font=("Arial,15"))
+    label_add_start_date.grid(row=0, column=4)
+    label_add_end_date = Label(option_add_frame, text="Date de fin : ", bg="white", padx=40, font=("Arial,15"))
+    label_add_end_date.grid(row=0, column=6)
+    label_add_start_date = Label(option_add_frame, text="Nombre OK : ", bg="white", padx=40, font=("Arial,15"))
+    label_add_start_date.grid(row=1, column=2)
+    label_add_end_date = Label(option_add_frame, text="Nombre Total : ", bg="white", padx=40, font=("Arial,15"))
+    label_add_end_date.grid(row=1, column=4)
+
+    # Options Entrys
+    entry_add_player = Entry(option_add_frame, bg="grey")
+    entry_add_player.grid(row=0, column=1)
+    entry_add_exercise = Entry(option_add_frame, bg="grey")
+    entry_add_exercise.grid(row=0, column=3)
+    entry_add_start_date = Entry(option_add_frame, bg="grey")
+    entry_add_start_date.grid(row=0, column=5)
+    entry_add_end_date = Entry(option_add_frame, bg="grey")
+    entry_add_end_date.grid(row=0, column=7)
+    entry_add_start_date = Entry(option_add_frame, bg="grey")
+    entry_add_start_date.grid(row=1, column=3)
+    entry_add_end_date = Entry(option_add_frame, bg="grey")
+    entry_add_end_date.grid(row=1, column=5)
+
+    # Button to hide the insertion window
+    button_return = Button(option_add_frame, text="Retour", font=("Arial,15"),
+                           command=lambda: closing_insertion())
+    button_return.grid(row=1, column=0, pady=5)
+
+    # Buttons
+    confirmation_result = Button(option_add_frame, text="Confirmer", font=("Arial,15"),
+                         command=lambda: confirmation_result())
+    confirmation_result.grid(row=1, column=7, pady=5)
 
 display_result()
