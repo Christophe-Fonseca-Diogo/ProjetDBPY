@@ -9,7 +9,7 @@ hex_color = '#%02x%02x%02x' % rgb_color  # translation in hexa
 
 
 # Process for closing the connection
-def on_closing_results():
+def closing_results():
     result_message = messagebox.askokcancel(title="Information", message="Vous allez quitter la page des résultats.")
     if result_message:
         database.close_dbconnection()
@@ -103,6 +103,7 @@ def display_result():
     label_purcent = Label(count_frame, text="% Total", bg="white", padx=15, font=("Arial, 15"))
     label_purcent.grid(row=0, column=4, padx=(0, 10))
 
+    show_info_filtered(infos_frame, count_frame)
     # Buttons
     button_show = Button(option_frame, text="Afficher les résultats", font=("Arial,15"),
                          command=lambda: show_info_filtered(infos_frame,count_frame))
@@ -124,7 +125,7 @@ def display_result():
                              command=lambda: show_info_filtered(infos_frame), relief="ridge")
     button_previous.grid(row=1, column=2, pady=5)
 
-    window_results.protocol("WM_DELETE_WINDOW", on_closing_results)
+    window_results.protocol("WM_DELETE_WINDOW", closing_results)
     # main loop
     window_results.mainloop()
 
