@@ -2,7 +2,7 @@
 # Made by Christophe
 # Version 1
 # Date 23.11.2023
-import time
+import time, datetime
 
 import mysql.connector
 
@@ -22,7 +22,7 @@ def close_dbconnection():
 
 
 # Function for adding player names to the "players" table
-def get_playername(alias, exercise):
+def get_playername(alias, exercise = None):
     cursor = db_connection.cursor()
     # Check if the player alias already exists in the "players" table
     query_select = "SELECT alias from players"
@@ -36,8 +36,9 @@ def get_playername(alias, exercise):
     cursor.execute(query_insert, (alias, ))
     cursor.close()
 
-    # Call a function to add the exercise title to the "exercises" table
-    add_games(exercise)
+    if exercise != None:
+        # Call a function to add the exercise title to the "exercises" table
+        add_games(exercise)
 
 
 def add_games(title):
@@ -117,7 +118,7 @@ def filter_results(player_name, exercise_name):
         exercise_id = get_exercise_id(exercise_name)
     cursor = db_connection.cursor()
     # Retrieve results by joining "results," "players," and "exercises" tables
-    query = ('''SELECT alias, start_date, time, name, number_done, max_number FROM results
+    query = ('''SELECT alias, start_date, time, name, number_done, max_number, results.id FROM results
                 INNER JOIN players ON results.player_id = players.id 
                 INNER JOIN exercises ON results.exercise_id = exercises.id
                 ''')
@@ -172,13 +173,21 @@ def delete_result(id):
     cursor.execute(query, (id,))
 
 
-def modifiy_result(id):
+def modify_result(dataset, id):
+    open_dbconnection()
+    print(get_player_id(dataset[0]))
+    if get_player_id(dataset[0]) == None:
+        get_playername(dataset[0])
+    user_id = get_player_id(dataset[0])
+    exercise_id = get_exercise_id(dataset[3])
+    date_data = dataset[1].split(" ")
+    date_date_data = date_data[0].split("-")
+    date_time_data = date_data[1].split(":")
+    final_date = datetime.datetime(int(date_date_data[0]), int(date_date_data[1]), int(date_date_data[2]),
+                                   int(date_time_data[0]), int(date_time_data[1]), int(date_time_data[2]))
+    final_time = dataset[2]
+    okay_tries = int(dataset[4])
+    total_tries = int(dataset[5])
+    query = "UPDATE results SET player_id = %s, start_date = %s, time = %s, max_number = %s, number_done = %s, exercise_id = %s WHERE id=%s"
     cursor = db_connection.cursor()
-    query = ""
-    cursor.execute(query, (id,))
-
-
-def add_result_button():
-    cursor = db_connection.cursor()
-    query = 'INSERT INTO results (start_date, time, number_done, max_number, exercise_id, player_id) VALUES (%s, %s, %s, %s, %s, %s)'
-    cursor.execute(query, ())
+    cursor.execute(query, (user_id, final_date, final_time, total_tries, okay_tries, exercise_id, id))

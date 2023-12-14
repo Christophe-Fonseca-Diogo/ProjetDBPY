@@ -1,11 +1,122 @@
 import tkinter as tk
-import database
+import database, datetime
 from tkinter import *
 from tkinter import messagebox
 
 # Function to create the windows results
 rgb_color = (139, 201, 194)
 hex_color = '#%02x%02x%02x' % rgb_color  # translation in hexa
+
+
+class DestroyButton():
+    def __init__(self, res_frame, student_id, count_frame, rowD, columnD):
+        self.destroy_button = Button(res_frame, text="Destroy", command=lambda: modify_or_destroy(student_id,
+                                                                                                  main_data=[res_frame,
+                                                                                                             count_frame]))
+        self.destroy_button.grid(row=rowD, column=columnD)
+
+
+class ModifyButton():
+    def __init__(self, res_frame, main_window, student_id, count_frame, rowD, columnD):
+        self.modify_button = Button(res_frame, text="Modify", command=lambda: admin_window(main_window,
+                                                                                           id=student_id,
+                                                                                           main_data=[res_frame, count_frame]))
+        self.modify_button.grid(row=rowD, column=columnD)
+
+
+def admin_window(parent_frame, main_data, id=None, table_type="modify"):
+    new_result_window = tk.Toplevel(parent_frame)
+    new_result_window.title("New Result")
+    new_result_window.geometry("1000x150")
+
+    # Color definition
+    new_result_window.configure(bg="blue")
+    new_result_window.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
+
+    # Frames
+    main_frame = tk.Frame(new_result_window, bg="white", padx=10)
+    main_frame.pack()
+
+    # Widgets
+    items = ["Pseudo", "Date heure", "Temps", "Exercise", "nb OK", "nb Total"]
+    for item in range(len(items)):
+        info_item = tk.Label(main_frame, text=items[item])
+        info_item.grid(row=0, column=0 + item)
+
+    name_entry = Entry(main_frame)
+
+    date_entry = Entry(main_frame)
+
+    temps_entry = Entry(main_frame)
+
+    exercise_entry = Entry(main_frame)
+
+    ok_entry = Entry(main_frame)
+
+    total_entry = Entry(main_frame)
+
+    entries = [name_entry, date_entry, temps_entry, exercise_entry, ok_entry, total_entry]
+
+    for ins_entry in range(len(entries)):
+        entries[ins_entry].grid(row=1, column=ins_entry)
+
+    if table_type == "modify":
+        finish_button = Button(main_frame, text="Finish", command=lambda: modify_or_destroy(id, data=[name_entry.get(),
+                                                                                                      date_entry.get(),
+                                                                                                      temps_entry.get(),
+                                                                                                      exercise_entry.get(),
+                                                                                                      ok_entry.get(),
+                                                                                                      total_entry.get()],
+                                                                                            main_data=main_data))
+    else:
+        finish_button = Button(main_frame, text="Finish", command=lambda: create_result(data=[name_entry.get(),
+                                                                                              date_entry.get(),
+                                                                                              temps_entry.get(),
+                                                                                              exercise_entry.get(),
+                                                                                              ok_entry.get(),
+                                                                                              total_entry.get()],
+                                                                                        main_data=main_data))
+    finish_button.grid(row=2, column=4)
+
+
+def modify_or_destroy(id, main_data, data=None):
+    if data != None:
+        database.modify_result(data, id)
+    else:
+        database.delete_result(id)
+    show_info_filtered(main_data[0], main_data[1])
+
+
+def create_result(main_data, data=None):
+    print(data)
+    # Get the pseudo from the entry widget
+    pseudo = data[0]
+
+    # Check if the pseudo is empty
+    if not pseudo.strip():
+        # Display an error message if the pseudo is empty
+        tk.messagebox.showerror("Error", "Please enter a non-empty pseudo.")
+        return  # Return without saving the game
+
+    try:
+        player_id = database.get_player_id(data[0])[0]
+        minigame_id = database.get_exercise_id(data[3])[0]
+        date_data = data[1].split(" ")
+        date_date_data = date_data[0].split("-")
+        date_time_data = date_data[1].split(":")
+        final_date = datetime.datetime(int(date_date_data[0]), int(date_date_data[1]), int(date_date_data[2]),
+                                       int(date_time_data[0]), int(date_time_data[1]), int(date_time_data[2]))
+        final_time = data[2]
+        okay_tries = int(data[4])
+        total_tries = int(data[5])
+        if okay_tries > total_tries:
+            okay_tries = 0 / 0
+    except:
+        tk.messagebox.showerror("Error", "Something is wrong with the data")
+        return
+
+    database.add_results(player_id, final_date, final_time, total_tries, okay_tries, minigame_id)
+    show_info_filtered(main_data[0], main_data[1])
 
 
 # Process for closing the connection
@@ -18,14 +129,16 @@ def closing_results():
         # If the user clicks "Cancel," bring the result window to the foreground
         window_results.lift()
 
+
 def closing_insertion():
     result_message = messagebox.askokcancel(title="Information", message="Vous allez quitter la page d'insertion.")
     if result_message:
         window_insert_results.destroy()
-        show_info_filtered(infos_frame,count_frame)
+        show_info_filtered(infos_frame, count_frame)
     else:
         # If the user clicks "Cancel," bring the insertion window to the foreground
         window_insert_results.lift()
+
 
 def confirmation_insertion():
     result_message = messagebox.askokcancel(title="Information", message="Vous allez ajouter le résultat.")
@@ -38,7 +151,7 @@ def confirmation_insertion():
 
 def display_result():
     database.open_dbconnection()
-    global up_window_results, entry_player, entry_exercise, window_results, infos_frame,count_frame
+    global up_window_results, entry_player, entry_exercise, window_results, infos_frame, count_frame
     # Window parameters
     window_results = tk.Tk()
     window_results.title("Résultats")
@@ -106,13 +219,12 @@ def display_result():
     show_info_filtered(infos_frame, count_frame)
     # Buttons
     button_show = Button(option_frame, text="Afficher les résultats", font=("Arial,15"),
-                         command=lambda: show_info_filtered(infos_frame,count_frame))
+                         command=lambda: show_info_filtered(infos_frame, count_frame))
     button_show.grid(row=1, column=0, pady=5)
-
 
     # Buttons
     button_add = Button(option_frame, text="Ajouter un résultat", font=("Arial,15"),
-                         command=lambda: insert_result_window())
+                        command=lambda: insert_result_window())
     button_add.grid(row=1, column=7, pady=5)
 
     # Buttons
@@ -201,11 +313,14 @@ def show_info_filtered(infos_frame, count_frame):
             results.grid(row=x + 1, column=data)
 
         # Add buttons for actions
-        button_delete = Button(infos_frame, text="Supprimer", command=lambda id = row_id: database.delete_result(id))
-        button_delete.grid(row=x + 1, column=7)
-
-        button_edit = Button(infos_frame, text="Modifier", command=lambda : edit_entry(idx))
-        button_edit.grid(row=x + 1, column=8)
+        destroy_button_name = f"destroy_button_{x}"
+        modify_button_name = f"modify_button_{x}"
+        exec(
+            "%s = DestroyButton(infos_frame, name[x][6], count_frame, %d, %d)"
+            % (destroy_button_name, x + 1, 7))
+        exec(
+            "%s = ModifyButton(infos_frame, window_results, name[x][6], count_frame, %d, %d)"
+            % (modify_button_name, x + 1, 8))
 
     show_count_infos(count_frame)
 
@@ -271,8 +386,9 @@ def insert_result_window():
     window_insert_results.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
 
     # Title for the adding results window
-    label_title_add_results = tk.Label(window_insert_results, text="Ajout d'un résultat", font=("Arial", 25), borderwidth=2,
-                                   relief="solid")
+    label_title_add_results = tk.Label(window_insert_results, text="Ajout d'un résultat", font=("Arial", 25),
+                                       borderwidth=2,
+                                       relief="solid")
     label_title_add_results.grid(row=0, column=1, ipady=5, padx=40, pady=40)
 
     # Frames for the window for the insertion
@@ -314,7 +430,6 @@ def insert_result_window():
     entry_add_number_tot = Entry(option_add_frame, bg="grey")
     entry_add_number_tot.grid(row=1, column=5)
 
-
     # Button to hide the insertion window
     button_return = Button(option_add_frame, text="Retour", font=("Arial,15"),
                            command=lambda: closing_insertion())
@@ -322,7 +437,8 @@ def insert_result_window():
 
     # Buttons
     confirmation_result = Button(option_add_frame, text="Confirmer", font=("Arial,15"),
-                         command=lambda: confirmation_result())
+                                 command=lambda: confirmation_result())
     confirmation_result.grid(row=1, column=7, pady=5)
+
 
 display_result()
