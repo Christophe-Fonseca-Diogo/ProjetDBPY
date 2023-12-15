@@ -41,7 +41,7 @@ def modify_button_infos(res_frame, main_window, student_id, count_frame, row, co
 
 # modify window
 def modify_window(parent_frame, main_data, id=None, table_type="modify"):
-    global new_modify_window
+    global new_modify_window, option_modify_frame
     new_modify_window = tk.Tk()
     new_modify_window.title("Modification")
     new_modify_window.geometry("1920x1080")
@@ -90,30 +90,34 @@ def modify_window(parent_frame, main_data, id=None, table_type="modify"):
     total_entry = Entry(option_modify_frame, bg="grey")
     total_entry.grid(row=1, column=5)
 
-    def validate_and_finish():
-        # Check if any of the entry fields is empty
-        if not all(
-                entry.get() for entry in [name_entry, date_entry, time_entry, exercise_entry, ok_entry, total_entry]):
-            tk.messagebox.showerror("Erreur", "Merci de rentrer toutes les informations.")
-            new_modify_window.lift()
-            return
-        # Continue with modification or creation
-        if table_type == "modify":
-            modify_or_delete(id, data=[name_entry.get(), date_entry.get(), time_entry.get(), exercise_entry.get(),
-                                        ok_entry.get(), total_entry.get()], main_data=main_data)
-        else:
-            create_result(
-                data=[name_entry.get(), date_entry.get(), time_entry.get(), exercise_entry.get(), ok_entry.get(),
-                      total_entry.get()], main_data=main_data)
-
-
     # Button to hide the insertion window
     button_return = Button(option_modify_frame, text="Retour", font=("Arial,15"),
                            command=lambda: closing_insertion())
     button_return.grid(row=1, column=0, pady=5)
 
-    finish_button = Button(option_modify_frame, text="Confirmer", width=10, height=2, command=validate_and_finish)
+    finish_button = Button(option_modify_frame, text="Confirmer", width=10, height=2,
+                           command=lambda: validate_and_finish(name_entry, date_entry, time_entry, exercise_entry,
+                                                               ok_entry, total_entry, id, table_type, main_data))
     finish_button.grid(row=1, column=8, pady=10)
+def validate_and_finish(name_entry, date_entry, time_entry, exercise_entry, ok_entry, total_entry, id, table_type,
+                        main_data):
+    # Check if any of the entry fields is empty
+    if not all(
+            entry.get() for entry in [name_entry, date_entry, time_entry, exercise_entry, ok_entry, total_entry]):
+        tk.messagebox.showerror("Erreur", "Merci de rentrer toutes les informations.")
+        new_modify_window.lift()
+        return
+    # Continue with modification or creation
+    if table_type == "modify":
+        modify_or_delete(id, data=[name_entry.get(), date_entry.get(), time_entry.get(), exercise_entry.get(),
+                                   ok_entry.get(), total_entry.get()], main_data=main_data)
+    else:
+        create_result(
+            data=[name_entry.get(), date_entry.get(), time_entry.get(), exercise_entry.get(), ok_entry.get(),
+                  total_entry.get()], main_data=main_data)
+
+
+
 
 
 # function for the modify or delete on the right of each rows
