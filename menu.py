@@ -43,7 +43,7 @@ def free_ressources():
     database.close_dbconnection()
     window.destroy()
 
-
+# open the window results
 def display_results(event):
     subprocess.Popen(["python","results.py"])
 

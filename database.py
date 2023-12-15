@@ -6,6 +6,7 @@ import time, datetime
 import mysql.connector
 
 
+# opening the connection with the db
 def open_dbconnection():
     global db_connection
     # Establish a connection to the MySQL database
@@ -15,6 +16,7 @@ def open_dbconnection():
     return db_connection
 
 
+# closing the connection with the db
 def close_dbconnection():
     # Close the existing database connection
     db_connection.close()
@@ -40,6 +42,7 @@ def get_playername(alias, exercise = None):
         add_games(exercise)
 
 
+# Add the games on the db
 def add_games(title):
     cursor = db_connection.cursor()
     # Check if the exercise title already exists in the "exercises" table
@@ -56,6 +59,7 @@ def add_games(title):
     cursor.close()
 
 
+# getting the id of the player with his name
 def get_player_id(player_name):
     cursor = db_connection.cursor()
     # Retrieve the player ID based on the alias from the "players" table
@@ -68,6 +72,7 @@ def get_player_id(player_name):
     return player_id[0] if player_id else None
 
 
+# getting the id of the exercise with his name
 def get_exercise_id(exercise_name):
     cursor = db_connection.cursor()
     # Retrieve the exercise ID based on the name from the "exercises" table
@@ -80,6 +85,7 @@ def get_exercise_id(exercise_name):
     return exercise_id[0] if exercise_id else None
 
 
+# adding the results when the player play the games
 def add_results(start_date, duration_s, nbtrials, nbsuccess, exercise_name, player_name):
     # Fetch exercise_id or insert the exercise if it doesn't exist
     exercise_result = get_exercise_id(exercise_name)
@@ -188,3 +194,10 @@ def modify_result(dataset, id):
     query = "UPDATE results SET player_id = %s, start_date = %s, time = %s, number_done = %s, max_number = %s, exercise_id = %s WHERE id=%s"
     cursor = db_connection.cursor()
     cursor.execute(query, (user_id, final_date, final_time, number_tries, number_total_tries, exercise_id, id))
+
+def create_results(start_date, duration_formatted, nbsuccess, nbtrials, exercise_id, player_id):
+    cursor = db_connection.cursor()
+    query = "INSERT INTO results (start_date, time, number_done, max_number, exercise_id, player_id) VALUES (%s, %s, %s, %s, %s, %s)"
+    cursor.execute(query, (start_date, duration_formatted, nbsuccess, nbtrials, exercise_id, player_id))
+    cursor.close()
+

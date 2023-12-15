@@ -198,9 +198,10 @@ def save_game(event):
         messagebox.showerror(parent=window_info05, title="Pseudo Invalide", message="Veuillez ajouter un pseudo")
     else:
         # Check if the player exists or add them
-        database.get_playername(pseudo, exercise)
-        # Only call add_results if pseudo is not empty
-        database.add_results(start_date, duration_s, nbtrials, nbsuccess, player_name=pseudo, exercise_name=exercise)
+        if pseudo:
+            database.add_results(start_date, duration_s, nbtrials, nbsuccess, player_name=pseudo, exercise_name=exercise)
+            messagebox.showinfo(title="Sauvegarde", message="Sauvegarde Validée")
+            window_info05.destroy()
 
 
 def display_timer():

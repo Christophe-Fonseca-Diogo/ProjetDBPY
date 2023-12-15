@@ -100,7 +100,8 @@ def save_game(event):
         # Check if player_name is provided before saving the game
         if pseudo:
             database.add_results(start_date, duration_s, nbtrials, nbsuccess, player_name=pseudo, exercise_name=exercise)
-
+            messagebox.showinfo(title="Sauvegarde", message="Sauvegarde Validée")
+            window_geo01.destroy()
 
 
 def display_timer():
