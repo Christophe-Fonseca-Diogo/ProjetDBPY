@@ -8,6 +8,7 @@ import traceback
 import datetime
 from datetime import datetime
 
+
 # opening the connection with the db
 def open_dbconnection():
     global db_connection
