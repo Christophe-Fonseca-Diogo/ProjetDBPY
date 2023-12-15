@@ -3,16 +3,14 @@
 # Version 1
 # Date 15.12.2023
 
-
+from math import pow
+from database import *
 import tkinter as tk
 import random
-from math import pow
 import time
 import database
 import datetime
 from tkinter import messagebox
-from database import *
-
 #important data (to save)
 pseudo='' #pseudo for the user
 exercise="INFO02"
@@ -83,7 +81,7 @@ def test(event):
 
 def display_timer():
     global duration_s
-    duration = datetime.now() - start_date  # elapsed time since beginning, in time with decimals
+    duration = datetime.datetime.now() - start_date  # elapsed time since beginning, in time with decimals
     duration_s = int(duration.total_seconds())  # idem but in seconds (integer)
     # display min:sec (00:13)
     lbl_duration.configure(text="{:02d}".format(int(duration_s / 60)) + ":" + "{:02d}".format(duration_s % 60))
@@ -131,7 +129,7 @@ def open_window_info_02(window):
     btn_finish = tk.Button(window_info02, text="Terminer", font=("Arial", 15))
     btn_finish.grid(row=6, column=0, columnspan=6)
 
-    start_date = datetime.now()
+    start_date = datetime.datetime.now()
     display_timer()
     # first call of next_point
     next(event=None)
