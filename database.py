@@ -3,7 +3,6 @@
 # Version 1
 # Date 23.11.2023
 import time, datetime
-
 import mysql.connector
 
 
@@ -174,8 +173,6 @@ def delete_result(id):
 
 
 def modify_result(dataset, id):
-    open_dbconnection()
-    print(get_player_id(dataset[0]))
     if get_player_id(dataset[0]) == None:
         get_playername(dataset[0])
     user_id = get_player_id(dataset[0])
@@ -186,8 +183,8 @@ def modify_result(dataset, id):
     final_date = datetime.datetime(int(date_date_data[0]), int(date_date_data[1]), int(date_date_data[2]),
                                    int(date_time_data[0]), int(date_time_data[1]), int(date_time_data[2]))
     final_time = dataset[2]
-    okay_tries = int(dataset[4])
-    total_tries = int(dataset[5])
-    query = "UPDATE results SET player_id = %s, start_date = %s, time = %s, max_number = %s, number_done = %s, exercise_id = %s WHERE id=%s"
+    number_tries = int(dataset[4])
+    number_total_tries = int(dataset[5])
+    query = "UPDATE results SET player_id = %s, start_date = %s, time = %s, number_done = %s, max_number = %s, exercise_id = %s WHERE id=%s"
     cursor = db_connection.cursor()
-    cursor.execute(query, (user_id, final_date, final_time, total_tries, okay_tries, exercise_id, id))
+    cursor.execute(query, (user_id, final_date, final_time, number_tries, number_total_tries, exercise_id, id))

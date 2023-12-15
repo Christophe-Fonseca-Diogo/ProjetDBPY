@@ -1,3 +1,4 @@
+import time
 import tkinter as tk
 import database, datetime
 from tkinter import *
@@ -8,87 +9,112 @@ rgb_color = (139, 201, 194)
 hex_color = '#%02x%02x%02x' % rgb_color  # translation in hexa
 
 
-class DestroyButton():
-    def __init__(self, res_frame, student_id, count_frame, rowD, columnD):
-        self.destroy_button = Button(res_frame, text="Destroy", command=lambda: modify_or_destroy(student_id,
-                                                                                                  main_data=[res_frame,
-                                                                                                             count_frame]))
-        self.destroy_button.grid(row=rowD, column=columnD)
-
-
-class ModifyButton():
-    def __init__(self, res_frame, main_window, student_id, count_frame, rowD, columnD):
-        self.modify_button = Button(res_frame, text="Modify", command=lambda: admin_window(main_window,
-                                                                                           id=student_id,
-                                                                                           main_data=[res_frame, count_frame]))
-        self.modify_button.grid(row=rowD, column=columnD)
-
-
-def admin_window(parent_frame, main_data, id=None, table_type="modify"):
-    new_result_window = tk.Toplevel(parent_frame)
-    new_result_window.title("New Result")
-    new_result_window.geometry("1000x150")
-
-    # Color definition
-    new_result_window.configure(bg="blue")
-    new_result_window.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
-
-    # Frames
-    main_frame = tk.Frame(new_result_window, bg="white", padx=10)
-    main_frame.pack()
-
-    # Widgets
-    items = ["Pseudo", "Date heure", "Temps", "Exercise", "nb OK", "nb Total"]
-    for item in range(len(items)):
-        info_item = tk.Label(main_frame, text=items[item])
-        info_item.grid(row=0, column=0 + item)
-
-    name_entry = Entry(main_frame)
-
-    date_entry = Entry(main_frame)
-
-    temps_entry = Entry(main_frame)
-
-    exercise_entry = Entry(main_frame)
-
-    ok_entry = Entry(main_frame)
-
-    total_entry = Entry(main_frame)
-
-    entries = [name_entry, date_entry, temps_entry, exercise_entry, ok_entry, total_entry]
-
-    for ins_entry in range(len(entries)):
-        entries[ins_entry].grid(row=1, column=ins_entry)
-
-    if table_type == "modify":
-        finish_button = Button(main_frame, text="Finish", command=lambda: modify_or_destroy(id, data=[name_entry.get(),
-                                                                                                      date_entry.get(),
-                                                                                                      temps_entry.get(),
-                                                                                                      exercise_entry.get(),
-                                                                                                      ok_entry.get(),
-                                                                                                      total_entry.get()],
-                                                                                            main_data=main_data))
+def closing_insertion():
+    result_message = messagebox.askokcancel(title="Information", message="Vous allez quitter la page.")
+    if result_message:
+        window_insert_results.destroy()
+        modify_window.destroy()
+        show_info_filtered(infos_frame, count_frame)
     else:
-        finish_button = Button(main_frame, text="Finish", command=lambda: create_result(data=[name_entry.get(),
-                                                                                              date_entry.get(),
-                                                                                              temps_entry.get(),
-                                                                                              exercise_entry.get(),
-                                                                                              ok_entry.get(),
-                                                                                              total_entry.get()],
-                                                                                        main_data=main_data))
-    finish_button.grid(row=2, column=4)
+        # If the user clicks "Cancel," bring the insertion window to the foreground
+        window_insert_results.lift()
+
+
+def delete_button_infos(res_frame, student_id, count_frame, row, column):
+    delete_button = Button(res_frame, text="Supprimer", command=lambda: modify_or_destroy(student_id, main_data=[res_frame, count_frame]))
+    delete_button.grid(row=row, column=column)
+
+
+def modify_button_infos(res_frame, main_window, student_id, count_frame, row, column):
+    modify_button = Button(res_frame, text="Modifier", command=lambda: modify_window(main_window, id=student_id, main_data=[res_frame, count_frame]))
+    modify_button.grid(row=row, column=column)
+
+
+def modify_window(parent_frame, main_data, id=None, table_type="modify"):
+    global new_modify_window
+    new_modify_window = tk.Tk()
+    new_modify_window.title("Modification")
+    new_modify_window.geometry("1920x1080")
+    new_modify_window.configure(bg=hex_color)
+    new_modify_window.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
+
+    # Title for the adding modify window
+    new_result_window_title = tk.Label(new_modify_window, text="Modification d'un résultat", font=("Arial", 25),borderwidth=2,relief="solid")
+    new_result_window_title.grid(row=0, column=1, ipady=5, padx=40, pady=40)
+                                       # Color definition
+    new_modify_window.configure(bg=hex_color)
+    new_modify_window.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
+
+    # Frames for the window for the modification
+    up_window_modify_results = Frame(new_modify_window, bg=hex_color, relief="solid")
+    up_window_modify_results.grid(row=1, columnspan=3)
+    option_modify_frame = Frame(up_window_modify_results, bg="white", padx=10, bd=2, relief="solid")
+    option_modify_frame.grid(row=1, columnspan=3)
+
+    # Options labels
+    label_modify_player = Label(option_modify_frame, text="Élève : ", bg="white", padx=40, font=("Arial,15"))
+    label_modify_player.grid(row=0, column=0)
+    label_modify_date = Label(option_modify_frame, text="Date et Heure : ", bg="white", padx=40, font=("Arial,15"))
+    label_modify_date.grid(row=0, column=2)
+    label_modify_time = Label(option_modify_frame, text="Temps : ", bg="white", padx=40, font=("Arial,15"))
+    label_modify_time.grid(row=0, column=4)
+    label_modify_exercice = Label(option_modify_frame, text="Exercice : ", bg="white", padx=40, font=("Arial,15"))
+    label_modify_exercice.grid(row=0, column=6)
+    label_modify_number_ok = Label(option_modify_frame, text="Nombre OK : ", bg="white", padx=40, font=("Arial,15"))
+    label_modify_number_ok.grid(row=1, column=2)
+    label_modify_number_tot = Label(option_modify_frame, text="Nombre Total : ", bg="white", padx=40, font=("Arial,15"))
+    label_modify_number_tot.grid(row=1, column=4)
+
+
+    # Options Entrys
+    name_entry = Entry(option_modify_frame, bg="grey")
+    name_entry.grid(row=0, column=1)
+    date_entry = Entry(option_modify_frame, bg="grey")
+    date_entry.grid(row=0, column=3)
+    time_entry = Entry(option_modify_frame, bg="grey")
+    time_entry.grid(row=0, column=5)
+    exercise_entry = Entry(option_modify_frame, bg="grey")
+    exercise_entry.grid(row=0, column=7)
+    ok_entry = Entry(option_modify_frame, bg="grey")
+    ok_entry.grid(row=1, column=3)
+    total_entry = Entry(option_modify_frame, bg="grey")
+    total_entry.grid(row=1, column=5)
+
+    def validate_and_finish():
+        # Check if any of the entry fields is empty
+        if not all(
+                entry.get() for entry in [name_entry, date_entry, time_entry, exercise_entry, ok_entry, total_entry]):
+            tk.messagebox.showerror("Erreur", "Merci de rentrer toutes les informations.")
+            new_modify_window.lift()
+            return
+        # Continue with modification or creation
+        if table_type == "modify":
+            modify_or_destroy(id, data=[name_entry.get(), date_entry.get(), time_entry.get(), exercise_entry.get(),
+                                        ok_entry.get(), total_entry.get()], main_data=main_data)
+        else:
+            create_result(
+                data=[name_entry.get(), date_entry.get(), time_entry.get(), exercise_entry.get(), ok_entry.get(),
+                      total_entry.get()], main_data=main_data)
+
+    # Button to hide the insertion window
+    button_return = Button(option_modify_frame, text="Retour", font=("Arial,15"),
+                           command=lambda: closing_insertion())
+    button_return.grid(row=1, column=0, pady=5)
+
+    finish_button = Button(option_modify_frame, text="Confirmer", width=10, height=2, command=validate_and_finish)
+    finish_button.grid(row=1, column=8, pady=10)
 
 
 def modify_or_destroy(id, main_data, data=None):
     if data != None:
         database.modify_result(data, id)
+        messagebox.showinfo(title="Modification réussie", message="Les modifications ont été mises à jours.")
     else:
         database.delete_result(id)
     show_info_filtered(main_data[0], main_data[1])
 
 
 def create_result(main_data, data=None):
-    print(data)
     # Get the pseudo from the entry widget
     pseudo = data[0]
 
@@ -100,7 +126,7 @@ def create_result(main_data, data=None):
 
     try:
         player_id = database.get_player_id(data[0])[0]
-        minigame_id = database.get_exercise_id(data[3])[0]
+        games = database.get_exercise_id(data[3])[0]
         date_data = data[1].split(" ")
         date_date_data = date_data[0].split("-")
         date_time_data = date_data[1].split(":")
@@ -112,10 +138,10 @@ def create_result(main_data, data=None):
         if okay_tries > total_tries:
             okay_tries = 0 / 0
     except:
-        tk.messagebox.showerror("Error", "Something is wrong with the data")
+        tk.messagebox.showerror("Erreur", "Problème avec les données")
         return
 
-    database.add_results(player_id, final_date, final_time, total_tries, okay_tries, minigame_id)
+    database.add_results(player_id, final_date, final_time, total_tries, okay_tries, )
     show_info_filtered(main_data[0], main_data[1])
 
 
@@ -128,16 +154,6 @@ def closing_results():
     else:
         # If the user clicks "Cancel," bring the result window to the foreground
         window_results.lift()
-
-
-def closing_insertion():
-    result_message = messagebox.askokcancel(title="Information", message="Vous allez quitter la page d'insertion.")
-    if result_message:
-        window_insert_results.destroy()
-        show_info_filtered(infos_frame, count_frame)
-    else:
-        # If the user clicks "Cancel," bring the insertion window to the foreground
-        window_insert_results.lift()
 
 
 def confirmation_insertion():
@@ -173,8 +189,6 @@ def display_result():
     option_frame.grid(row=1, columnspan=3)
     infos_frame = Frame(up_window_results, bg="white", padx=10, bd=2, relief="solid")
     infos_frame.grid(row=2, pady=10, columnspan=3)
-    pages_frame = Frame(down_window_results, bg=hex_color, padx=10, bd=2)
-    pages_frame.grid(row=41, pady=10, columnspan=4)
     title_count_frame = Frame(down_window_results, bg="white", padx=10, bd=2, relief="solid")
     title_count_frame.grid(row=3, pady=10, columnspan=3)
     count_frame = Frame(down_window_results, bg="white", padx=10, bd=2, relief="solid")
@@ -227,16 +241,6 @@ def display_result():
                         command=lambda: insert_result_window())
     button_add.grid(row=1, column=7, pady=5)
 
-    # Buttons
-    button_next_page = Button(pages_frame, text="Page anterieur", font=("Arial,15"),
-                              command=lambda: show_info_filtered(infos_frame), relief="ridge")
-    button_next_page.grid(row=1, column=0, pady=5)
-
-    # Buttons
-    button_previous = Button(pages_frame, text="Page suivante", font=("Arial,15"),
-                             command=lambda: show_info_filtered(infos_frame), relief="ridge")
-    button_previous.grid(row=1, column=2, pady=5)
-
     window_results.protocol("WM_DELETE_WINDOW", closing_results)
     # main loop
     window_results.mainloop()
@@ -249,6 +253,10 @@ def show_info_filtered(infos_frame, count_frame):
     for widget in infos_frame.winfo_children():
         if widget.grid_info()["row"] != 0:
             widget.destroy()
+    if not name:
+        # Display a message if there are no results
+        tk.messagebox.showinfo("Information", "Il n'y a aucun résultat inscrit dans la base de donnée.")
+        return
 
     # Results labels
     label_player = Label(infos_frame, text="Élève", bg="white", padx=40, font=("Arial,15"))
@@ -274,53 +282,60 @@ def show_info_filtered(infos_frame, count_frame):
             result = round(float(name[x][4]) * 100 / float(name[x][5]), 2)
         else:
             result = 0
-        row_id = name[x][0]
-
-        # Progress bar creation and setup
-
-        # Determine the color based on the result value
-        max_value = float(name[x][5])
-        ok_value = float(name[x][4])
-        average_value = max_value / 2
-
-        # Determine the color of the canvas background
-        if ok_value < average_value:
-            canvas_bg_color = "red"
-        elif ok_value == 0 or max_value == 0:
-            canvas_bg_color = "red"
-
-        elif ok_value == average_value:
-            canvas_bg_color = "orange"
-        else:
-            canvas_bg_color = "green"
-
-        # Create a canvas for the progress bar
-        canvas = tk.Canvas(infos_frame, width=100, height=20, bg="white")
-        canvas.grid(row=x + 1, column=6)
-
-        # Determine the color of the progress based on the background color
-        progress_color = canvas_bg_color
-
-        # Calculate the width of the filled portion based on the result
-        fill_width = max(5, int((result / 100) * 100))  # Ensure a minimum width
-
-        # Add a rectangle to represent the progress
-        canvas.create_rectangle(0, 0, fill_width, 20, fill=progress_color)
 
         # Add all the infos of result on the frame infos
         for data in range(len(name[x])):
             results = Label(infos_frame, width=15, text=name[x][data])
             results.grid(row=x + 1, column=data)
 
-        # Add buttons for actions
-        destroy_button_name = f"destroy_button_{x}"
-        modify_button_name = f"modify_button_{x}"
-        exec(
-            "%s = DestroyButton(infos_frame, name[x][6], count_frame, %d, %d)"
-            % (destroy_button_name, x + 1, 7))
-        exec(
-            "%s = ModifyButton(infos_frame, window_results, name[x][6], count_frame, %d, %d)"
-            % (modify_button_name, x + 1, 8))
+        for x in range(len(name)):
+            if float(name[x][5]) != 0:
+                result = round(float(name[x][4]) * 100 / float(name[x][5]), 2)
+            else:
+                result = 0
+
+            # Add all the infos of result on the frame infos
+            for data in range(len(name[x])):
+                results = Label(infos_frame, width=15, text=name[x][data])
+                results.grid(row=x + 1, column=data)
+
+            # Add buttons for actions using the functions
+            delete_button_infos(infos_frame, name[x][6], count_frame, x + 1, 7)
+            modify_button_infos(infos_frame, window_results, name[x][6], count_frame, x + 1, 8)
+
+            # Create a canvas for the progress bar after the result is calculated
+            canvas = tk.Canvas(infos_frame, width=100, height=20, bg="white")
+            canvas.grid(row=x + 1, column=6)
+
+            # Progress bar creation and setup
+
+            # Determine the color based on the result value
+            max_value = float(name[x][5])
+            ok_value = float(name[x][4])
+            average_value = max_value / 2
+
+            # Determine the color of the canvas background
+            if ok_value < average_value:
+                canvas_bg_color = "red"
+            elif ok_value == 0 or max_value == 0:
+                canvas_bg_color = "red"
+            elif ok_value == average_value:
+                canvas_bg_color = "orange"
+            else:
+                canvas_bg_color = "green"
+
+            # Determine the color of the progress based on the background color
+            progress_color = canvas_bg_color
+
+            # Calculate the width of the filled portion based on the result
+            fill_width = max(5, int((result / 100) * 100))  # Ensure a minimum width
+
+            # Add a rectangle to represent the progress
+            canvas.create_rectangle(0, 0, fill_width, 20, fill=progress_color)
+
+            # Add buttons for actions using the functions
+            delete_button_infos(infos_frame, name[x][6], count_frame, x + 1, 7)
+            modify_button_infos(infos_frame, window_results, name[x][6], count_frame, x + 1, 8)
 
     show_count_infos(count_frame)
 
