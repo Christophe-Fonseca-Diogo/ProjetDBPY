@@ -1,7 +1,7 @@
 # Geo01
 # Made by Christophe
 # Version 1
-# Date 23.11.2023
+# Date 15.12.2023
 
 
 import tkinter as tk
@@ -89,6 +89,7 @@ def next_point(event):
     lbl_target.configure(text=f"Cliquez sur le point ({round(target_x, 1)}, {round(target_y, 1)}). Echelle x -10 à +10, y-5 à +5")
 
 
+# save the game of the player
 def save_game(event):
     global pseudo
     pseudo = entry_pseudo.get()
@@ -147,7 +148,6 @@ def open_window_geo_01(window):
     canvas.grid(row=4, column=0, padx=5, pady=5, columnspan=6)
     btn_next = tk.Button(window_geo01, text="Suivant", font=("Arial", 15))
     btn_next.grid(row=5, column=0, padx=5, pady=5, columnspan=6)
-
 
     btn_finish = tk.Button(window_geo01, text="Terminer", font=("Arial", 15))
     btn_finish.grid(row=6, column=0, columnspan=6)

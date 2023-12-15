@@ -1,7 +1,7 @@
 # Info02
 # Made by Christophe
 # Version 1
-# Date 23.11.2023
+# Date 15.12.2023
 
 
 import tkinter as tk
@@ -18,6 +18,7 @@ pseudo='' #pseudo for the user
 exercise="INFO02"
 nbtrials=0 #number of total trials
 nbsuccess=0 #number of successfull trials
+
 
 # Liaison entre le canvas et le code
 unite = ["B", "kB", "MB", "GB", "TB"]
@@ -49,6 +50,7 @@ def next(event):
     entry_n2.delete(0, 'end')
 
 
+# save the game of the player
 def save_game(event):
     global pseudo
     pseudo = entry_pseudo.get()
@@ -60,7 +62,6 @@ def save_game(event):
             database.add_results(start_date, duration_s, nbtrials, nbsuccess, player_name=pseudo, exercise_name=exercise)
             messagebox.showinfo(title="Sauvegarde", message="Sauvegarde Validée")
             window_info02.destroy()
-
 
 
 def test(event):

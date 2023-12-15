@@ -1,7 +1,7 @@
 # Info05
 # Made by Christophe
 # Version 1
-# Date 23.11.2023
+# Date 15.12.2023
 
 
 import tkinter as tk
@@ -26,6 +26,7 @@ pseudo='' #p seudo for the user
 exercise="INFO05"
 nbtrials=0 # number of total trials
 nbsuccess=0 # number of successfull trials
+
 
 # exercise data
 rgb=[100,150,200]  # random color as list
@@ -191,6 +192,7 @@ def sl_v(event):
     display()
 
 
+# save the game of the player
 def save_game(event):
     global pseudo
     pseudo = entry_pseudo.get()
