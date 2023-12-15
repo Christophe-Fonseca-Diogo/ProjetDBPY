@@ -12,6 +12,7 @@ hex_color = '#%02x%02x%02x' % rgb_color  # translation in hexa
 
 
 def closing_insertion():
+    global modify_window
     result_message = messagebox.askokcancel(title="Information", message="Vous allez quitter la page.")
     if result_message:
         window_insert_results.destroy()
@@ -98,6 +99,7 @@ def modify_window(parent_frame, main_data, id=None, table_type="modify"):
                 data=[name_entry.get(), date_entry.get(), time_entry.get(), exercise_entry.get(), ok_entry.get(),
                       total_entry.get()], main_data=main_data)
 
+
     # Button to hide the insertion window
     button_return = Button(option_modify_frame, text="Retour", font=("Arial,15"),
                            command=lambda: closing_insertion())
@@ -114,6 +116,7 @@ def modify_or_destroy(id, main_data, data=None):
     else:
         database.delete_result(id)
     show_info_filtered(main_data[0], main_data[1])
+    show_count_infos(main_data[1])
 
 
 def create_result(main_data, data=None):
@@ -145,6 +148,8 @@ def create_result(main_data, data=None):
 
     database.create_results(entry_add_player, entry_add_exercise, entry_start_date, entry_add_time, entry_add_number_ok, entry_add_number_tot)
     show_info_filtered(main_data[0], main_data[1])
+    show_count_infos(main_data[1])
+
 
 
 # Process for closing the connection
@@ -462,12 +467,14 @@ def get_creation():
 
     # Check if any field is empty
     if player == "" or exercise == "" or start_date == "" or time == "" or nbok == "" or nbtot == "":
-        messagebox.showerror(parent=insert_result_window(), title="Erreur", message="Merci de bien remplir tous les champs pour pouvoir insérer un nouveau résultat")
+        messagebox.showerror(parent=insert_result_window(), title="Erreur", message="Merci de bien remplir toutes les informations")
     else:
         # Insert data into the database
         # Change the order of parameters when calling creation_result
         database.creation_result(player, exercise, start_date, time, nbok, nbtot)
-        messagebox.showinfo(title="Succès", message="Vos données ont bien été ajoutées à la base de données (la fenêtre s'est fermée)")
+        show_info_filtered(infos_frame, count_frame)
+        show_count_infos(count_frame)
+        messagebox.showinfo(title="Succès", message="Vos données ont bien été pris en compte")
 
 
 display_result()
