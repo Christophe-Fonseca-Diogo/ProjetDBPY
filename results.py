@@ -1,3 +1,7 @@
+# Results
+# Made by Christophe
+# Version 1
+# Date 15.12.2023
 import time
 import tkinter as tk
 import database, datetime
@@ -10,13 +14,14 @@ from datetime import datetime
 rgb_color = (139, 201, 194)
 hex_color = '#%02x%02x%02x' % rgb_color  # translation in hexa
 
-
+def in_creation():
+    message = messagebox.showwarning(title="Fonctionnalité", message="Cette fonctionnalitée n'est pas encore crée")
+    message
 def closing_insertion():
-    global modify_window
     result_message = messagebox.askokcancel(title="Information", message="Vous allez quitter la page.")
     if result_message:
         window_insert_results.destroy()
-        modify_window.destroy()
+        new_modify_window.destroy()
         show_info_filtered(infos_frame, count_frame)
     else:
         # If the user clicks "Cancel," bring the insertion window to the foreground
@@ -113,6 +118,7 @@ def modify_or_destroy(id, main_data, data=None):
     if data != None:
         database.modify_result(data, id)
         messagebox.showinfo(title="Modification réussie", message="Les modifications ont été mises à jours.")
+        new_modify_window.destroy()
     else:
         database.delete_result(id)
     show_info_filtered(main_data[0], main_data[1])
@@ -149,7 +155,6 @@ def create_result(main_data, data=None):
     database.create_results(entry_add_player, entry_add_exercise, entry_start_date, entry_add_time, entry_add_number_ok, entry_add_number_tot)
     show_info_filtered(main_data[0], main_data[1])
     show_count_infos(main_data[1])
-
 
 
 # Process for closing the connection
@@ -475,6 +480,7 @@ def get_creation():
         show_info_filtered(infos_frame, count_frame)
         show_count_infos(count_frame)
         messagebox.showinfo(title="Succès", message="Vos données ont bien été pris en compte")
+        window_insert_results.destroy()
 
 
 display_result()
