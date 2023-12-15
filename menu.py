@@ -1,7 +1,7 @@
 # Menu
 # Made by Christophe
 # Version 1
-# Date 23.11.2023
+# Date 15.12.2023
 import subprocess
 
 # Importing modules
@@ -28,7 +28,7 @@ def exercise(event, exer):
     dict_games[exer](window)
 
 
-# close menu connection with parameters
+# close menu connection with parameter
 def on_closing(event):
     free_ressources()
 
@@ -42,6 +42,7 @@ def delete_window():
 def free_ressources():
     database.close_dbconnection()
     window.destroy()
+
 
 # open the window results
 def display_results(event):
