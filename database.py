@@ -2,10 +2,11 @@
 # Made by Christophe
 # Version 1
 # Date 23.11.2023
-import time, datetime
+import time
 import mysql.connector
-
-
+import traceback
+import datetime
+from datetime import datetime
 # opening the connection with the db
 def open_dbconnection():
     global db_connection
@@ -195,9 +196,73 @@ def modify_result(dataset, id):
     cursor = db_connection.cursor()
     cursor.execute(query, (user_id, final_date, final_time, number_tries, number_total_tries, exercise_id, id))
 
-def create_results(start_date, duration_formatted, nbsuccess, nbtrials, exercise_id, player_id):
+def creation_result(player, exercise, start_date, time, nbok, nbtot):
+    open_dbconnection()
     cursor = db_connection.cursor()
-    query = "INSERT INTO results (start_date, time, number_done, max_number, exercise_id, player_id) VALUES (%s, %s, %s, %s, %s, %s)"
-    cursor.execute(query, (start_date, duration_formatted, nbsuccess, nbtrials, exercise_id, player_id))
-    cursor.close()
 
+    # Check if the game exists
+    query3 = "SELECT id FROM exercises WHERE name = %s"
+    cursor.execute(query3, (exercise,))
+    data1 = cursor.fetchone()
+
+    # Check if the player exists
+    query4 = "SELECT id FROM players WHERE alias = %s"
+    cursor.execute(query4, (player,))
+    data2 = cursor.fetchone()
+
+    # If the game doesn't exist, show an error message
+    if data1 is None:
+        print("problème1")
+        print(data1)
+    else:
+        # If the player doesn't exist, insert it
+        if data2 is None:
+            query2 = "INSERT INTO players (alias) values (%s)"
+            cursor.execute(query2, (player,))
+            query4 = "SELECT id FROM players WHERE alias = %s"
+            cursor.execute(query4, (player,))
+            data2 = cursor.fetchone()
+
+        format_date = "%Y-%m-%d %H:%M:%S"
+        format_time = "%H:%M:%S"
+        start_date_test = False
+        time_test = False
+        nbok_test = False
+        nbtot_test = False
+
+        try:
+            # Check if the date is in the correct format
+            date_checked = datetime.strptime(start_date, format_date)
+            start_date_test = True
+        except ValueError as e:
+            print(f"problème2: {e}")
+            traceback.print_exc()
+
+        try:
+            # Check if the time is in the correct format
+            time_checked = datetime.strptime(time, format_time)
+            time_test = True
+        except ValueError as e:
+            print(f"problème3: {e}")
+            traceback.print_exc()
+
+        try:
+            # Check if nbok is an integer
+            nbok_checked = int(nbok)
+            nbok_test = True
+        except ValueError as e:
+            print(f"problème14: {e}")
+            traceback.print_exc()
+
+        try:
+            # Check if nbtot is an integer
+            nbtot_checked = int(nbtot)
+            nbtot_test = True
+        except ValueError as e:
+            print(f"problème5: {e}")
+            traceback.print_exc()
+
+        # If all checks pass, insert the result
+        if start_date_test and time_test and nbok_test and nbtot_test:
+            query1 = "INSERT INTO results (start_date, time, number_done, max_number, exercise_id, player_id) values (%s, %s, %s, %s, %s, %s)"
+            cursor.execute(query1, (date_checked, time_checked, nbok_checked, nbtot_checked, data1[0], data2[0]))

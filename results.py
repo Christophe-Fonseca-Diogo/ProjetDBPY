@@ -143,7 +143,7 @@ def create_result(main_data, data=None):
         tk.messagebox.showerror("Erreur", "Problème avec les données")
         return
 
-    database.create_results(start_date_get, number_ok_get, number_tot_get, database.get_exercise_id(exercise_get), database.get_player_id(player_get), number_ok_get)
+    database.create_results(entry_add_player, entry_add_exercise, entry_start_date, entry_add_time, entry_add_number_ok, entry_add_number_tot)
     show_info_filtered(main_data[0], main_data[1])
 
 
@@ -157,23 +157,6 @@ def closing_results():
         # If the user clicks "Cancel," bring the result window to the foreground
         window_results.lift()
 
-
-def confirmation_insertion():
-    result_message = messagebox.askokcancel(title="Information", message="Vous allez ajouter le résultat.")
-    if result_message:
-        # Validate the number_done value
-        if not number_ok_get.isdigit():
-            messagebox.showerror(title="Erreur", message="Valeur invalide pour le nombre OK. Merci de rentrer une vauleur enitère.")
-            return
-
-        # Add an argument for number_done
-        database.create_results(start_date_get, duration, number_tot_get, database.get_exercise_id(exercise_get),
-                                database.get_player_id(player_get), number_ok_get)
-
-        window_insert_results.destroy()
-    else:
-        # If the user clicks "Cancel," bring the insertion window to the foreground
-        window_insert_results.lift()
 
 def display_result():
     database.open_dbconnection()
@@ -403,7 +386,7 @@ def show_count_infos(count_frame):
 
 
 def insert_result_window():
-    global window_insert_results, player_get, exercise_get, time_get, number_ok_get, number_tot_get, start_date_get, end_date_get,duration
+    global window_insert_results,entry_add_player, entry_add_exercise, entry_start_date, entry_add_time, entry_add_number_ok, entry_add_number_tot
     window_insert_results = tk.Tk()
     window_insert_results.title("Insertion")
     window_insert_results.geometry("1920x1080")
@@ -430,8 +413,8 @@ def insert_result_window():
     label_add_exercises.grid(row=0, column=2)
     label_add_start_date = Label(option_add_frame, text="Date de début : ", bg="white", padx=40, font=("Arial,15"))
     label_add_start_date.grid(row=0, column=4)
-    label_add_end_date = Label(option_add_frame, text="Date de fin : ", bg="white", padx=40, font=("Arial,15"))
-    label_add_end_date.grid(row=0, column=6)
+    label_add_time = Label(option_add_frame, text="Temps : ", bg="white", padx=40, font=("Arial,15"))
+    label_add_time.grid(row=0, column=6)
     label_add_start_date = Label(option_add_frame, text="Nombre OK : ", bg="white", padx=40, font=("Arial,15"))
     label_add_start_date.grid(row=1, column=2)
     label_add_end_date = Label(option_add_frame, text="Nombre Total : ", bg="white", padx=40, font=("Arial,15"))
@@ -440,45 +423,51 @@ def insert_result_window():
     # Options Entrys
     entry_add_player = Entry(option_add_frame, bg="grey")
     entry_add_player.grid(row=0, column=1)
-    player_get = entry_add_player.get()
 
     entry_add_exercise = Entry(option_add_frame, bg="grey")
     entry_add_exercise.grid(row=0, column=3)
-    exercise_get = entry_add_exercise.get()
 
-    entry_add_start_date = Entry(option_add_frame, bg="grey")
-    entry_add_start_date.grid(row=0, column=5)
-    start_date_get = entry_add_start_date.get()
+    entry_start_date = Entry(option_add_frame, bg="grey")
+    entry_start_date.grid(row=0, column=5)
 
-    entry_add_end_date = Entry(option_add_frame, bg="grey")
-    entry_add_end_date.grid(row=0, column=7)
-    end_date_get = entry_add_end_date.get()
-
-
-    # convert timestamps to datetime object
-    dt1 = datetime.fromtimestamp(start_date_get)
-
-    dt2 = datetime.fromtimestamp(end_date_get)
-
-    # Difference between two timestamps
-    # in hours:minutes:seconds format
-    duration = dt2 - dt1
+    entry_add_time = Entry(option_add_frame, bg="grey")
+    entry_add_time.grid(row=0, column=7)
 
     entry_add_number_ok = Entry(option_add_frame, bg="grey")
     entry_add_number_ok.grid(row=1, column=3)
-    number_ok_get = entry_add_number_ok.get()
 
     entry_add_number_tot = Entry(option_add_frame, bg="grey")
     entry_add_number_tot.grid(row=1, column=5)
-    number_tot_get = entry_add_number_tot.get()
+
     # Button to hide the insertion window
     button_return = Button(option_add_frame, text="Retour", font=("Arial,15"),
                            command=lambda: closing_insertion())
     button_return.grid(row=1, column=0, pady=5)
 
     # Buttons
-    confirmation_result = Button(option_add_frame, text="Confirmer", font=("Arial,15"), command=confirmation_insertion)
+    confirmation_result = Button(option_add_frame, text="Confirmer", font=("Arial,15"), command=get_creation)
     confirmation_result.grid(row=1, column=9, pady=5)
+
+# Function to take the data for create row
+def get_creation():
+    global entry_add_player, entry_add_exercise, entry_start_date, entry_add_time, entry_add_number_ok, entry_add_number_tot
+
+    # Retrieve user input from entry widgets
+    player = entry_add_player.get()
+    exercise = entry_add_exercise.get()
+    start_date = entry_start_date.get()
+    time = entry_add_time.get()
+    nbok = entry_add_number_ok.get()
+    nbtot = entry_add_number_tot.get()
+
+    # Check if any field is empty
+    if player == "" or exercise == "" or start_date == "" or time == "" or nbok == "" or nbtot == "":
+        messagebox.showerror(parent=insert_result_window(), title="Erreur", message="Merci de bien remplir tous les champs pour pouvoir insérer un nouveau résultat")
+    else:
+        # Insert data into the database
+        # Change the order of parameters when calling creation_result
+        database.creation_result(player, exercise, start_date, time, nbok, nbtot)
+        messagebox.showinfo(title="Succès", message="Vos données ont bien été ajoutées à la base de données (la fenêtre s'est fermée)")
 
 
 display_result()
