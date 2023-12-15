@@ -99,6 +99,9 @@ def modify_window(parent_frame, main_data, id=None, table_type="modify"):
                            command=lambda: validate_and_finish(name_entry, date_entry, time_entry, exercise_entry,
                                                                ok_entry, total_entry, id, table_type, main_data))
     finish_button.grid(row=1, column=8, pady=10)
+
+
+# Check if the infos are valid
 def validate_and_finish(name_entry, date_entry, time_entry, exercise_entry, ok_entry, total_entry, id, table_type,
                         main_data):
     # Check if any of the entry fields is empty
@@ -115,9 +118,6 @@ def validate_and_finish(name_entry, date_entry, time_entry, exercise_entry, ok_e
         create_result(
             data=[name_entry.get(), date_entry.get(), time_entry.get(), exercise_entry.get(), ok_entry.get(),
                   total_entry.get()], main_data=main_data)
-
-
-
 
 
 # function for the modify or delete on the right of each rows
