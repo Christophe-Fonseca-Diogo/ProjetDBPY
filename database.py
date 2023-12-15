@@ -275,3 +275,5 @@ def creation_result(player, exercise, start_date, time, nbok, nbtot):
         if start_date_boolean and time_boolean and nbok_boolean and nbtot_boolean:
             query_insertion_database = "INSERT INTO results (start_date, time, number_done, max_number, exercise_id, player_id) values (%s, %s, %s, %s, %s, %s)"
             cursor.execute(query_insertion_database, (date_tested, time_tested, nbok_tested, nbtot_tested, selected_exercise_id[0], selected_player_id[0]))
+        else:
+            print("Error")

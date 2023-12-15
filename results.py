@@ -10,13 +10,12 @@ from tkinter import messagebox
 from datetime import datetime
 
 
-# Function to create the windows results
+# variables
 rgb_color = (139, 201, 194)
 hex_color = '#%02x%02x%02x' % rgb_color  # translation in hexa
 
-def in_creation():
-    message = messagebox.showwarning(title="Fonctionnalité", message="Cette fonctionnalitée n'est pas encore crée")
-    message
+
+# function for when the player quit windows
 def closing_insertion():
     result_message = messagebox.askokcancel(title="Information", message="Vous allez quitter la page.")
     if result_message:
@@ -28,16 +27,19 @@ def closing_insertion():
         window_insert_results.lift()
 
 
+# function for the button deleting
 def delete_button_infos(res_frame, student_id, count_frame, row, column):
-    delete_button = Button(res_frame, text="Supprimer", command=lambda: modify_or_destroy(student_id, main_data=[res_frame, count_frame]))
+    delete_button = Button(res_frame, text="Supprimer", command=lambda: modify_or_delete(student_id, main_data=[res_frame, count_frame]))
     delete_button.grid(row=row, column=column)
 
 
+# function for the button modify
 def modify_button_infos(res_frame, main_window, student_id, count_frame, row, column):
     modify_button = Button(res_frame, text="Modifier", command=lambda: modify_window(main_window, id=student_id, main_data=[res_frame, count_frame]))
     modify_button.grid(row=row, column=column)
 
 
+# modify window
 def modify_window(parent_frame, main_data, id=None, table_type="modify"):
     global new_modify_window
     new_modify_window = tk.Tk()
@@ -97,7 +99,7 @@ def modify_window(parent_frame, main_data, id=None, table_type="modify"):
             return
         # Continue with modification or creation
         if table_type == "modify":
-            modify_or_destroy(id, data=[name_entry.get(), date_entry.get(), time_entry.get(), exercise_entry.get(),
+            modify_or_delete(id, data=[name_entry.get(), date_entry.get(), time_entry.get(), exercise_entry.get(),
                                         ok_entry.get(), total_entry.get()], main_data=main_data)
         else:
             create_result(
@@ -113,8 +115,8 @@ def modify_window(parent_frame, main_data, id=None, table_type="modify"):
     finish_button = Button(option_modify_frame, text="Confirmer", width=10, height=2, command=validate_and_finish)
     finish_button.grid(row=1, column=8, pady=10)
 
-
-def modify_or_destroy(id, main_data, data=None):
+# function for the modify or delete
+def modify_or_delete(id, main_data, data=None):
     if data != None:
         database.modify_result(data, id)
         messagebox.showinfo(title="Modification réussie", message="Les modifications ont été mises à jours.")
