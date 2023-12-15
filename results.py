@@ -115,7 +115,8 @@ def modify_window(parent_frame, main_data, id=None, table_type="modify"):
     finish_button = Button(option_modify_frame, text="Confirmer", width=10, height=2, command=validate_and_finish)
     finish_button.grid(row=1, column=8, pady=10)
 
-# function for the modify or delete
+
+# function for the modify or delete on the right of each rows
 def modify_or_delete(id, main_data, data=None):
     if data != None:
         database.modify_result(data, id)
@@ -127,6 +128,7 @@ def modify_or_delete(id, main_data, data=None):
     show_count_infos(main_data[1])
 
 
+# create the result
 def create_result(main_data, data=None):
     # Get the pseudo from the entry widget
     pseudo = data[0]
@@ -159,7 +161,7 @@ def create_result(main_data, data=None):
     show_count_infos(main_data[1])
 
 
-# Process for closing the connection
+# Process for closing the connection and the result page
 def closing_results():
     result_message = messagebox.askokcancel(title="Information", message="Vous allez quitter la page des résultats.")
     if result_message:
@@ -170,6 +172,7 @@ def closing_results():
         window_results.lift()
 
 
+# function for display the result
 def display_result():
     database.open_dbconnection()
     global up_window_results, entry_player, entry_exercise, window_results, infos_frame, count_frame
@@ -345,6 +348,7 @@ def show_info_filtered(infos_frame, count_frame):
     show_count_infos(count_frame)
 
 
+# function for the total (count)
 def show_count_infos(count_frame):
     # Clear existing labels and widgets
     for widget in count_frame.winfo_children():
@@ -397,6 +401,7 @@ def show_count_infos(count_frame):
     canvas.create_rectangle(0, 0, fill_width, 20, fill=progress_color)
 
 
+#function for adding a result manually
 def insert_result_window():
     global window_insert_results,entry_add_player, entry_add_exercise, entry_start_date, entry_add_time, entry_add_number_ok, entry_add_number_tot
     window_insert_results = tk.Tk()
@@ -459,6 +464,7 @@ def insert_result_window():
     # Buttons
     confirmation_result = Button(option_add_frame, text="Confirmer", font=("Arial,15"), command=get_creation)
     confirmation_result.grid(row=1, column=9, pady=5)
+
 
 # Function to take the data for create row
 def get_creation():
