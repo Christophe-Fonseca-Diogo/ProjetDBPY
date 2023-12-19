@@ -15,6 +15,7 @@ rgb_color = (139, 201, 194)
 hex_color = '#%02x%02x%02x' % rgb_color  # translation in hexa
 
 
+
 # function for when the player quit windows
 def closing_insertion():
     result_message = messagebox.askokcancel(title="Information", message="Vous allez quitter la page.")
