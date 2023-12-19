@@ -11,7 +11,7 @@ import geo01
 import database
 import tkinter as tk
 import subprocess
-
+import connection
 # Definition of exercises
 a_exercise = ["geo01", "info02", "info05"]
 albl_image = [None, None, None]  # array of labels (with images)

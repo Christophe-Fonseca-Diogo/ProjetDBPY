@@ -22,7 +22,7 @@ hex_color = '#%02x%02x%02x' % rgb_color # translation in hexa
 def closing_insertion():
     result_message = messagebox.askyesno(title="Information", message="Vous allez quitter la page.")
     if result_message:
-        pass
+        window_register.destroy()
     else:
         # If the user clicks "Cancel," bring the insertion window to the foreground
         window_register.lift()
@@ -112,7 +112,7 @@ def login_window():
 
 
     # Buttons
-    button_show = Button(frame_login, text="S'inscrire", font=("Arial,15"), command=closing_insertion)
+    button_show = Button(frame_login, text="S'inscrire", font=("Arial,15"), command=register_window)
     button_show.grid(row=1, column=0,pady=30)
 
     # Buttons
@@ -128,7 +128,7 @@ def before():
     global window_before
     # Window parameters
     window_before = tk.Tk()
-    window_before.title("Enregistrement")
+    window_before.title("Bienvenue")
     window_before.geometry("600x400")
     window_before.configure(bg=hex_color)
     window_before.grid_columnconfigure((0, 1, 2), minsize=100, weight=1)
