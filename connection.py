@@ -35,7 +35,7 @@ def register_window():
     # Window parameters
     window_register = tk.Tk()
     window_register.title("Enregistrement")
-    window_register.geometry("1000x400")
+    window_register.geometry("1000x300")
     window_register.configure(bg=hex_color)
     window_register.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
 
@@ -83,7 +83,7 @@ def login_window():
     # Window parameters
     window_login = tk.Tk()
     window_login.title("Connection")
-    window_login.geometry("1000x400")
+    window_login.geometry("1000x300")
     window_login.configure(bg=hex_color)
     window_login.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
 
@@ -129,7 +129,7 @@ def before():
     # Window parameters
     window_before = tk.Tk()
     window_before.title("Bienvenue")
-    window_before.geometry("600x400")
+    window_before.geometry("600x300")
     window_before.configure(bg=hex_color)
     window_before.grid_columnconfigure((0, 1, 2), minsize=100, weight=1)
 
