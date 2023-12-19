@@ -485,6 +485,7 @@ def get_creation():
     # Check if any field is empty
     if player == "" or exercise == "" or start_date == "" or time == "" or nbok == "" or nbtot == "":
         messagebox.showerror(parent=insert_result_window(), title="Erreur", message="Merci de bien remplir toutes les informations")
+        window_insert_results.destroy()
     else:
         # Insert data into the database
         # Change the order of parameters when calling creation_result
