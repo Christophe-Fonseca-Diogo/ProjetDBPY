@@ -27,11 +27,19 @@ def closing_insertion():
         # If the user clicks "Cancel," bring the insertion window to the foreground
         window_register.lift()
 
-
+def checkpw():
+    # Gets
+    player_get = entry_player_register.get()
+    password_get = entry_password_register.get()
+    password_check_get = entry_password_check_register.get()
+    if password_get != password_check_get:
+        print("mot de passe pas le même")
+    if player_get == '' or password_get == "" or password_check_get == "":
+        print("Rien")
 
 # function for display the result
 def register_window():
-    global window_register
+    global window_register,entry_password_register,entry_password_check_register,entry_player_register
     # Window parameters
     window_register = tk.Tk()
     window_register.title("Enregistrement")
@@ -57,20 +65,21 @@ def register_window():
     label_password_check_register = Label(frame_register, text="Confirmation mot de passe : ", bg="white", padx=40, font=("Arial,15"))
     label_password_check_register.grid(row=2, column=1, padx=(0, 10))
 
-    # Options Entrys
+    # Entrys
     entry_player_register = Entry(frame_register, bg="grey")
     entry_player_register.grid(row=0, column=2)
-    label_password_register = Entry(frame_register, bg="grey")
-    label_password_register.grid(row=1, column=2)
-    label_password_check_register = Entry(frame_register, bg="grey")
-    label_password_check_register.grid(row=2, column=2)
+    entry_password_register = Entry(frame_register, bg="grey")
+    entry_password_register.grid(row=1, column=2)
+    entry_password_check_register = Entry(frame_register, bg="grey")
+    entry_password_check_register.grid(row=2, column=2)
+
 
     # Buttons
     button_show = Button(frame_register, text="Annuler", font=("Arial,15"), command=closing_insertion)
     button_show.grid(row=1, column=0, pady=5)
 
     # Buttons
-    button_add = Button(frame_register, text="Enregistrer", font=("Arial,15"))
+    button_add = Button(frame_register, text="Enregistrer", font=("Arial,15"), command=checkpw)
     button_add.grid(row=1, column=10, pady=5,padx=20)
 
     # main loop
@@ -82,13 +91,13 @@ def login_window():
     global window_login
     # Window parameters
     window_login = tk.Tk()
-    window_login.title("Connection")
+    window_login.title("Connexion")
     window_login.geometry("1000x300")
     window_login.configure(bg=hex_color)
     window_login.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
 
     # Title for the results window
-    label_title_login = tk.Label(window_login, text="Connection", font=("Arial", 25), borderwidth=2,
+    label_title_login = tk.Label(window_login, text="Connexion", font=("Arial", 25), borderwidth=2,
                                    relief="solid")
     label_title_login.grid(row=0, column=1, ipady=5, padx=40, pady=40)
 
@@ -105,19 +114,19 @@ def login_window():
 
 
     # Options Entrys
-    entry_player_register = Entry(frame_login, bg="grey")
-    entry_player_register.grid(row=0, column=2)
-    label_password_register = Entry(frame_login, bg="grey")
-    label_password_register.grid(row=1, column=2)
+    entry_player_login = Entry(frame_login, bg="grey")
+    entry_player_login.grid(row=0, column=2)
+    entry_password_login = Entry(frame_login, bg="grey")
+    entry_password_login.grid(row=1, column=2)
 
 
     # Buttons
     button_show = Button(frame_login, text="S'inscrire", font=("Arial,15"), command=register_window)
-    button_show.grid(row=1, column=0,pady=30)
+    button_show.grid(row=1, column=0,padx=10,pady=5)
 
     # Buttons
     button_add = Button(frame_login, text="Se connecter", font=("Arial,15"))
-    button_add.grid(row=1, column=10,pady=30)
+    button_add.grid(row=1, column=10,padx=25)
 
     # main loop
     window_login.mainloop()
