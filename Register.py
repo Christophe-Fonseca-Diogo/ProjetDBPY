@@ -1,20 +1,13 @@
 from Utilities import *
 
-def show():
-    entry_password_register.configure(show='')
-    check.configure(command=hide, text='hide password')
 
-
-def hide():
-    entry_password_register.configure(show='*')
-    check.configure(command=show, text='show password')
 def register_window():
     global window_register,entry_password_register,entry_password_check_register,entry_player_register,check
     # Window parameters
     window_register = tk.Tk()
     window_register.title("Enregistrement")
     window_register.geometry("1000x300")
-    window_register.configure(bg=hex_color)
+    window_register.configure(bg=local_theme.hex_color)
     window_register.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
 
     # Title for the results window
@@ -45,15 +38,16 @@ def register_window():
 
 
     # Buttons
-    button_show = Button(frame_register, text="Annuler", font=("Arial,15"), command=closing_insertion)
+    button_show = Button(frame_register, text="Annuler", font=("Arial,15"), command=lambda: closing_insertion(window_register))
     button_show.grid(row=1, column=0, pady=5)
-    check = Checkbutton(window_register, text='show password', command=show)
+    check = Checkbutton(window_register, text='show password', command=lambda: show(entry_password_register,check))
     # Buttons
-    button_add = Button(frame_register, text="Enregistrer", font=("Arial,15"), command=checkpw)
+    button_add = Button(frame_register, text="Enregistrer", font=("Arial,15"), command=lambda: checkpw(entry_player_register,entry_password_register,entry_password_check_register))
     button_add.grid(row=1, column=10, pady=5,padx=20)
 
     check.grid(row=1, column=2)
     # main loop
     window_register.mainloop()
 
-register_window()
+if __name__ == "__main__":
+    register_window()

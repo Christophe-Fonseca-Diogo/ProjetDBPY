@@ -1,11 +1,13 @@
+
 from Utilities import *
 def login_window():
     global window_login,check
+    from Register import register_window
     # Window parameters
     window_login = tk.Tk()
     window_login.title("Connexion")
     window_login.geometry("1000x300")
-    window_login.configure(bg=hex_color)
+    window_login.configure(bg=local_theme.hex_color)
     window_login.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
 
     # Title for the results window
@@ -35,10 +37,13 @@ def login_window():
     # Buttons
     button_show = Button(frame_login, text="S'inscrire", font=("Arial,15"), command=register_window)
     button_show.grid(row=1, column=0,padx=10,pady=5)
-    check = Checkbutton(window_login, text='show password', command=show)
+    check = Checkbutton(window_login, text='show password', command=lambda: show(entry_password_login, check))
     # Buttons
     button_add = Button(frame_login, text="Se connecter", font=("Arial,15"))
     button_add.grid(row=1, column=10,padx=25)
     check.grid(row=1, column=2)
     # main loop
     window_login.mainloop()
+
+if __name__ == "__main__":
+    login_window()

@@ -1,13 +1,14 @@
 
 from Utilities import *
-
-def before():
+from Login import *
+from Register import register_window
+def start_script():
     global window_before
     # Window parameters
     window_before = tk.Tk()
     window_before.title("Bienvenue")
     window_before.geometry("600x300")
-    window_before.configure(bg=hex_color)
+    window_before.configure(bg=local_theme.hex_color)
     window_before.grid_columnconfigure((0, 1, 2), minsize=100, weight=1)
 
     # Title for the results window
@@ -30,4 +31,5 @@ def before():
     # main loop
     window_before.mainloop()
 
-before()
+if __name__ == "__main__":
+    start_script()
