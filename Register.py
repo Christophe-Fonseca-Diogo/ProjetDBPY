@@ -70,8 +70,11 @@ def register_window(original_window):
 
 def register(original_window):
     from Login import login_window
-    if checkpw(entry_player_register, entry_password_register, entry_password_check_register):
-        database.createuser(entry_player_register.get(), hash_password(entry_password_register.get()))
+    if database.player_exists(entry_player_register.get()):
+        messagebox.showerror(title="Erreur", message="Ce nom d'utilisateur existe déjà. Veuillez en choisir un autre.")
+    else:
+        checkpw(entry_player_register, entry_password_register, entry_password_check_register)
+        database.create_user(entry_player_register.get(), hash_password(entry_password_register.get()))
         messagebox.showinfo(parent=window_register, message="Vous avez bien ajouté le joueur", title="Ajout réussi")
         window_register.destroy()
         login_window(original_window)

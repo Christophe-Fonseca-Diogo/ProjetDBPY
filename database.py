@@ -282,7 +282,7 @@ def creation_result(player, exercise, start_date, time, nbok, nbtot):
             print("Error")
 
 
-def createuser(player, password):
+def create_user(player, password):
     cursor = db_connection.cursor()
     # Check if the player exist in the db
     query_player_exist = "SELECT id FROM players WHERE alias = %s"
@@ -293,6 +293,7 @@ def createuser(player, password):
     query_adduser = "INSERT INTO players (alias, password, level) values (%s, %s, %s)"
     cursor.execute(query_adduser, (player, password, 0))
     return "User created successfully"
+
 
 def check_login(user, password):
     cursor = db_connection.cursor()
@@ -308,3 +309,13 @@ def check_login(user, password):
         return False
 
 
+def player_exists(alias):
+    cursor = db_connection.cursor()
+    try:
+        # Check if the player exist
+        cursor.execute("SELECT COUNT(*) FROM players WHERE alias = %s", (alias,))
+        count = cursor.fetchone()[0]
+        return count > 0
+    except Exception as e:
+        print(f"Error checking if player exists: {str(e)}")
+        return False
