@@ -291,7 +291,7 @@ def create_user(player, password):
     if selected_player_id is not None:
         return "Player already exists"
     query_adduser = "INSERT INTO players (alias, password, level) values (%s, %s, %s)"
-    cursor.execute(query_adduser, (player, password, 0))
+    cursor.execute(query_adduser, (player, password, 1))
     return "User created successfully"
 
 
@@ -319,3 +319,15 @@ def player_exists(alias):
     except Exception as e:
         print(f"Error checking if player exists: {str(e)}")
         return False
+
+def addAdmin():
+    from Register import hash_password
+    alias = "Admin"
+    password = b'$2b$12$EhBV77O69R3HK5l04kPCheQJnkSg7j6lNCCpzCy7DZM.wSqGCxzGS'
+    level = 3
+    cursor = db_connection.cursor()
+    query_addadmin = "INSERT INTO players (alias, password, level) values (%s, %s, %s)"
+    try:
+        cursor.execute(query_addadmin, (alias,password,level))
+    except:
+        print("Admin Done")

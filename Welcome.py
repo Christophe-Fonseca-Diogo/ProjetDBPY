@@ -7,6 +7,7 @@ from Utilities import *
 from Login import *
 from Register import register_window
 from database import open_dbconnection
+from database import  addAdmin
 def start_script():
     global window_before
     # Window parameters
@@ -38,4 +39,6 @@ def start_script():
 
 if __name__ == "__main__":
     open_dbconnection()
+    addAdmin()
     start_script()
+
