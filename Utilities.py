@@ -9,7 +9,7 @@ import tkinter as tk
 
 
 # color definition
-
+# Brad Helped me for that
 class Theme:
     def __init__(self):
         self.rgb_color = (139, 201, 194)
