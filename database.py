@@ -1,7 +1,8 @@
 # Database
 # Made by Christophe
 # Version 1
-# Date 15.12.2023
+# Date 15.01.2024
+
 import time
 import mysql.connector
 import traceback

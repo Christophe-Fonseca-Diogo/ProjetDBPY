@@ -1,3 +1,8 @@
+# Register
+# Made by Christophe
+# Version 1
+# Date 15.01.2024
+
 from Utilities import *
 import bcrypt
 import database
