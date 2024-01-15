@@ -37,11 +37,12 @@ def login_window():
     # Buttons
     button_show = Button(frame_login, text="S'inscrire", font=("Arial,15"), command=register_window)
     button_show.grid(row=1, column=0,padx=10,pady=5)
-    check = Checkbutton(window_login, text='show password', command=lambda: show(entry_password_login, check))
+    check = Checkbutton(frame_login, text='show password',relief="solid",bd=1, command=lambda: show(entry_password_login, check))
+    check.grid(row=1, column=3)
     # Buttons
     button_add = Button(frame_login, text="Se connecter", font=("Arial,15"))
     button_add.grid(row=1, column=10,padx=25)
-    check.grid(row=1, column=2)
+
     # main loop
     window_login.mainloop()
 

@@ -32,10 +32,13 @@ def checkpw(username, password, paswwordcheck):
     player_get = username.get()
     password_get = password.get()
     password_check_get = paswwordcheck.get()
-    if password_get != password_check_get:
-        print("mot de passe pas le même")
     if player_get == '' or password_get == "" or password_check_get == "":
-        print("Rien")
+        messagebox.showinfo(title="Erreur", message="Utilisateur Manquant")
+        return False
+    if password_get != password_check_get:
+        messagebox.showinfo(title="Erreur", message="Mot de passe pas identique")
+        return False
+    return True
 
 def show(password_entry, check):
     password_entry.configure(show='')
@@ -44,3 +47,4 @@ def show(password_entry, check):
 def hide(password_entry, check):
     password_entry.configure(show='*')
     check.configure(command=lambda: show(password_entry, check), text='show password')
+

@@ -1,6 +1,7 @@
 from Utilities import *
 from Login import *
 from Register import register_window
+from database import open_dbconnection
 def start_script():
     global window_before
     # Window parameters
@@ -31,4 +32,5 @@ def start_script():
     window_before.mainloop()
 
 if __name__ == "__main__":
+    open_dbconnection()
     start_script()

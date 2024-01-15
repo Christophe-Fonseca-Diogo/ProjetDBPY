@@ -277,3 +277,16 @@ def creation_result(player, exercise, start_date, time, nbok, nbtot):
             cursor.execute(query_insertion_database, (date_tested, time_tested, nbok_tested, nbtot_tested, selected_exercise_id[0], selected_player_id[0]))
         else:
             print("Error")
+
+
+def createuser(player, password):
+    cursor = db_connection.cursor()
+    # Check if the player exist in the db
+    query_player_exist = "SELECT id FROM players WHERE alias = %s"
+    cursor.execute(query_player_exist, (player,))
+    selected_player_id = cursor.fetchone()
+    if selected_player_id is not None:
+        return "Player already exists"
+    query_adduser = "INSERT INTO players (alias, password, student) values (%s, %s, %s)"
+    cursor.execute(query_adduser, (player, password, 0))
+    return "User created successfully"
