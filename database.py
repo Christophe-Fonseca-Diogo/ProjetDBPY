@@ -331,3 +331,36 @@ def addAdmin():
         cursor.execute(query_addadmin, (alias,password,level))
     except:
         print("Admin Done")
+
+
+def check_account_level(username):
+    cursor = db_connection.cursor()
+    query_check_level = "SELECT level FROM players WHERE alias = %s"
+    try:
+        cursor.execute(query_check_level, (username,))
+        result = cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            print("User not found")
+            return None
+    except Exception as e:
+        print(f"Error checking account level: {str(e)}")
+        return None
+
+
+def fetch_all_players():
+    cursor = db_connection.cursor()
+    # Fetch all players
+    cursor.execute("SELECT * FROM players")
+    players = cursor.fetchall()
+    return players
+
+def fetch_columns_from_players():
+    cursor = db_connection.cursor()
+    # Fetch column names from players table
+    cursor.execute("SHOW COLUMNS FROM players")
+    columns = cursor.fetchall()
+    return columns
+
+

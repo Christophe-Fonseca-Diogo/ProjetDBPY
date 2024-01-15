@@ -12,6 +12,7 @@ import database
 import tkinter as tk
 import subprocess
 from Welcome import start_script
+from admin_panel import admin_window
 
 # Definition of exercises
 a_exercise = ["geo01", "info02", "info05"]
@@ -49,9 +50,24 @@ def free_ressources(window):
 def display_results(event):
     subprocess.Popen(["python","results.py"])
 
+
 def logout():
     window.destroy()
     start_script()
+
+
+def admin_button(username):
+    from database import check_account_level
+
+    level = check_account_level(username)
+    if int(level) == 3:
+        # Button admin panel
+        btn_admin = tk.Button(window, text="Admin Panel", font=("Arial", 15))
+        btn_admin.grid(row=1 + 2 * len(a_exercise) // 3, column=1)
+        btn_admin.bind("<Button-1>", lambda e: admin_window())
+    else:
+        print("Unable to retrieve the level for the logged-in user.")
+
 
 def open_window(username):
     global window
@@ -84,20 +100,22 @@ def open_window(username):
                                                                 window=window, username=username)) #link to others .py
         print(a_exercise[ex])
 
+
     # Buttons, display results & quit
     btn_display = tk.Button(window, text="Display results", font=("Arial", 15))
-    btn_display.grid(row=1+ 2*len(a_exercise)//3 , column=1)
-    btn_display.bind("<Button-1>",lambda e: display_results(e))
+    btn_display.grid(row=2 + 2 * len(a_exercise) // 3, column=1)
+    btn_display.bind("<Button-1>", lambda e: display_results(e))
 
     btn_logout = tk.Button(window, text="Logout", font=("Arial", 15))
-    btn_logout.grid(row=2+ 2*len(a_exercise)//3 , column=1)
+    btn_logout.grid(row=3+ 2*len(a_exercise)//3 , column=1)
     btn_logout.bind("<Button-1>", lambda event: logout())
 
     btn_finish = tk.Button(window, text="Quitter", font=("Arial", 15))
-    btn_finish.grid(row=3+ 2*len(a_exercise)//3 , column=1)
+    btn_finish.grid(row=4+ 2*len(a_exercise)//3 , column=1)
     btn_finish.bind("<Button-1>", lambda event: on_closing(event, window))
 
     window.protocol("WM_DELETE_WINDOW", lambda: delete_window(window))
 
     # Main loop
+    admin_button(username)
     window.mainloop()

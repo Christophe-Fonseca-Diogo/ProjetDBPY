@@ -7,8 +7,11 @@ from Utilities import *
 from Login import *
 from Register import register_window
 from database import open_dbconnection
-from database import  addAdmin
+from database import addAdmin
+
+
 def start_script():
+
     global window_before
     # Window parameters
     window_before = tk.Tk()
