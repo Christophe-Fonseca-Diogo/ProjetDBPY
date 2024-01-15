@@ -14,7 +14,7 @@ def hash_password(password):
 
 
 
-def register_window():
+def register_window(original_window):
     global window_register,entry_password_register,entry_password_check_register,entry_player_register,check,value_player,value_password,value_checkpassword,passwordhashed
     # Window parameters
     window_register = tk.Tk()
@@ -58,19 +58,23 @@ def register_window():
     button_show.grid(row=1, column=0, pady=5)
     check = Checkbutton(frame_register, text='show password',relief="solid",bd=1, command=lambda: show(entry_password_register,check))
     check.grid(row=1, column=3)
-    check = Checkbutton(frame_register, text='show password',relief="solid",bd=1, command=lambda: show(entry_password_register,check))
-    check.grid(row=2, column=3)
+    check2 = Checkbutton(frame_register, text='show password',relief="solid",bd=1, command=lambda: show(entry_password_check_register,check2))
+    check2.grid(row=2, column=3)
     # Buttons
-    button_add = Button(frame_register, text="Enregistrer", font=("Arial,15"), command=register)
+    button_add = Button(frame_register, text="Enregistrer", font=("Arial,15"), command=lambda: register(original_window))
     button_add.grid(row=1, column=10, pady=5,padx=20)
     value_password = hash_password(value_password)
 
     # main loop
     window_register.mainloop()
 
-def register():
+def register(original_window):
+    from Login import login_window
     if checkpw(entry_player_register, entry_password_register, entry_password_check_register):
         database.createuser(entry_player_register.get(), hash_password(entry_password_register.get()))
+        messagebox.showinfo(parent=window_register, message="Damn bro you're cool", title="uwu")
+        window_register.destroy()
+        login_window(original_window)
 
 
 if __name__ == "__main__":

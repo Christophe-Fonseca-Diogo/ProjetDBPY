@@ -15,14 +15,10 @@ class Theme:
         self.rgb_color = (139, 201, 194)
         self.hex_color = '#%02x%02x%02x' % self.rgb_color  # translation in hexa
 
+
 local_theme = Theme()
 
-# def hex_colors():
-#    rgb_color = (139, 201, 194)
-#    hex_color = '#%02x%02x%02x' % rgb_color # translation in hexa
-#    return rgb_color, hex_color
 
-# function for when the player quit the windows for going to login
 def closing_insertion(window):
     result_message = messagebox.askyesno(title="Information", message="Vous allez quitter la page.")
     if result_message:
@@ -45,11 +41,12 @@ def checkpw(username, password, paswwordcheck):
         return False
     return True
 
+
 def show(password_entry, check):
     password_entry.configure(show='')
     check.configure(command=lambda: hide(password_entry, check), text='hide password')
 
+
 def hide(password_entry, check):
     password_entry.configure(show='*')
     check.configure(command=lambda: show(password_entry, check), text='show password')
-

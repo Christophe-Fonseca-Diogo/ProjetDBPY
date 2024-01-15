@@ -4,6 +4,8 @@
 # Date 15.01.2024
 
 import time
+
+import bcrypt
 import mysql.connector
 import traceback
 import datetime
@@ -291,3 +293,18 @@ def createuser(player, password):
     query_adduser = "INSERT INTO players (alias, password, student) values (%s, %s, %s)"
     cursor.execute(query_adduser, (player, password, 0))
     return "User created successfully"
+
+def check_login(user, password):
+    cursor = db_connection.cursor()
+    # Get the password from database.
+    query = "SELECT password from players WHERE alias = %s"
+    cursor.execute(query, (user, ))
+    result = cursor.fetchone()
+    if result == None:
+        return False, "Bro doesn't exist."
+    if bcrypt.checkpw(password.encode('utf-8'), result[0].encode('utf-8')):
+        print("uwu")
+        return True, "Bro exists & is correct"
+    else:
+        print("uwun't")
+        return False, "Bro exists but not correct"

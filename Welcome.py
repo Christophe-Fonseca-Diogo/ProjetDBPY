@@ -26,11 +26,11 @@ def start_script():
     frame_before.grid(row=1, columnspan=3)
 
     # Buttons
-    button_show = Button(frame_before, text="S'inscrire", font=("Arial,15"), command=register_window)
+    button_show = Button(frame_before, text="S'inscrire", font=("Arial,15"), command=lambda: register_window(window_before))
     button_show.grid(row=1, column=0, pady=5,padx=5)
 
     # Buttons
-    button_add = Button(frame_before, text="Se connecter", font=("Arial,15"), command= login_window)
+    button_add = Button(frame_before, text="Se connecter", font=("Arial,15"), command=lambda: login_window(window_before))
     button_add.grid(row=1, column=10, pady=5,padx=5)
 
     # main loop

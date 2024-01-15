@@ -49,9 +49,9 @@ def next(event):
 
 
 # save the game of the player
-def save_game(event):
+def save_game(event,username):
     global pseudo
-    pseudo = entry_pseudo.get()
+    pseudo = username
     if pseudo == "":
         messagebox.showerror(parent=window_info02, title="Pseudo Invalide", message="Veuillez ajouter un pseudo")
     else:
@@ -89,7 +89,7 @@ def display_timer():
     window_info02.after(1000, display_timer)  # recommencer après 15 ms
 
 
-def open_window_info_02(window):
+def open_window_info_02(window,username):
     global window_info02, lbl_duration, lbl_result, entry_n2, label_u2, label_n1, hex_color, start_date, entry_pseudo
     window_info02 = tk.Toplevel(window)
 
@@ -109,8 +109,7 @@ def open_window_info_02(window):
     lbl_duration.grid(row=0,column=2, ipady=5, padx=10,pady=10)
 
     tk.Label(window_info02, text='Pseudo:', font=("Arial", 15)).grid(row=1, column=0, padx=5, pady=5)
-    entry_pseudo = tk.Entry(window_info02, font=("Arial", 15))
-    entry_pseudo.grid(row=1, column=1)
+    tk.Label = tk.Label(window_info02,text=username, font=("Arial", 15)).grid(row=1, column=1)
 
     lbl_result = tk.Label(window_info02, text=f"{pseudo}  Essais réussis : 0/0", font=("Arial", 15))
     lbl_result.grid( row=1, column=2,columnspan=3, ipady=5, padx=20,pady=20)
@@ -138,7 +137,7 @@ def open_window_info_02(window):
     # binding actions (entry & buttons)
     entry_n2.bind("<Return>", test)
     btn_next.bind("<Button-1>", next)
-    btn_finish.bind("<Button-1>", save_game)
+    btn_finish.bind("<Button-1>", lambda event: save_game(event=event, username=username))
 
     # Main loop
     window_info02.mainloop()

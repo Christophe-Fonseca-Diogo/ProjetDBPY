@@ -90,9 +90,9 @@ def next_point(event):
 
 
 # save the game of the player
-def save_game(event):
+def save_game(event, username):
     global pseudo
-    pseudo = entry_pseudo.get()
+    pseudo = username
     if pseudo == "":
         messagebox.showerror(parent=window_geo01, title="Pseudo Invalide", message="Veuillez ajouter un pseudo")
     else:
@@ -114,7 +114,7 @@ def display_timer():
     window_geo01.after(1000, display_timer) #recommencer après 15 ms
 
 
-def open_window_geo_01(window):
+def open_window_geo_01(window, username):
     # window = tk.Tk()
     global window_geo01, hex_color, lbl_title, lbl_duration, lbl_result, lbl_target, canvas, start_date, pseudo_get, entry_pseudo
     window_geo01 = tk.Toplevel(window)
@@ -135,8 +135,7 @@ def open_window_geo_01(window):
     lbl_duration.grid(row=0,column=2, ipady=5, padx=10,pady=10)
 
     tk.Label(window_geo01, text='Pseudo:', font=("Arial", 15)).grid(row=1, column=0, padx=5, pady=5)
-    entry_pseudo = tk.Entry(window_geo01, font=("Arial", 15))
-    entry_pseudo.grid(row=1, column=1)
+    tk.Label(window_geo01, text=username, font=("Arial", 15)).grid(row=1, column=1)
 
     lbl_result = tk.Label(window_geo01, text=f"Essais réussis : 0/0", font=("Arial", 15))
     lbl_result.grid(row=1, column=3, padx=5, pady=5, columnspan=4)
@@ -161,7 +160,7 @@ def open_window_geo_01(window):
     # binding actions (canvas & buttons)
     canvas.bind("<Button-1>", canvas_click)
     btn_next.bind("<Button-1>", next_point)
-    btn_finish.bind("<Button-1>", save_game)
+    btn_finish.bind("<Button-1>", lambda event: save_game(event=event, username=username))
 
     # main loop
     window_geo01.mainloop()

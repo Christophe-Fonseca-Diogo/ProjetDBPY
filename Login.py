@@ -4,7 +4,9 @@
 # Date 15.01.2024
 
 from Utilities import *
-def login_window():
+import database
+
+def login_window(original_window):
     global window_login,check
     from Register import register_window
     # Window parameters
@@ -44,11 +46,24 @@ def login_window():
     check = Checkbutton(frame_login, text='show password',relief="solid",bd=1, command=lambda: show(entry_password_login, check))
     check.grid(row=1, column=3)
     # Buttons
-    button_add = Button(frame_login, text="Se connecter", font=("Arial,15"))
+    button_add = Button(frame_login, text="Se connecter", font=("Arial,15"), command=lambda:
+                                            login(entry_player_login.get(), entry_password_login.get(), original_window,
+                                                  window_login))
     button_add.grid(row=1, column=10,padx=25)
 
     # main loop
     window_login.mainloop()
+
+
+def login(username, password, original_window, window_login):
+    from menu import open_window
+    result = database.check_login(username, password)
+    if result[0]:
+        original_window.destroy()
+        window_login.destroy()
+        open_window(username)
+
+
 
 if __name__ == "__main__":
     login_window()
