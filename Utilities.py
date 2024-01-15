@@ -34,10 +34,10 @@ def checkpw(username, password, paswwordcheck):
     password_get = password.get()
     password_check_get = paswwordcheck.get()
     if player_get == '' or password_get == "" or password_check_get == "":
-        messagebox.showinfo(title="Erreur", message="Utilisateur Manquant")
+        messagebox.showerror(title="Erreur", message="Il manque des informations")
         return False
     if password_get != password_check_get:
-        messagebox.showinfo(title="Erreur", message="Mot de passe pas identique")
+        messagebox.showerror(title="Erreur", message="Mot de passe pas identique")
         return False
     return True
 

@@ -11,6 +11,7 @@ import geo01
 import database
 import tkinter as tk
 import subprocess
+from Welcome import start_script
 
 # Definition of exercises
 a_exercise = ["geo01", "info02", "info05"]
@@ -48,7 +49,12 @@ def free_ressources(window):
 def display_results(event):
     subprocess.Popen(["python","results.py"])
 
+def logout():
+    window.destroy()
+    start_script()
+
 def open_window(username):
+    global window
     # Main window
     window = tk.Tk()
     window.title("Training, entrainement cérébral")
@@ -83,8 +89,12 @@ def open_window(username):
     btn_display.grid(row=1+ 2*len(a_exercise)//3 , column=1)
     btn_display.bind("<Button-1>",lambda e: display_results(e))
 
+    btn_logout = tk.Button(window, text="Logout", font=("Arial", 15))
+    btn_logout.grid(row=2+ 2*len(a_exercise)//3 , column=1)
+    btn_logout.bind("<Button-1>", lambda event: logout())
+
     btn_finish = tk.Button(window, text="Quitter", font=("Arial", 15))
-    btn_finish.grid(row=2+ 2*len(a_exercise)//3 , column=1)
+    btn_finish.grid(row=3+ 2*len(a_exercise)//3 , column=1)
     btn_finish.bind("<Button-1>", lambda event: on_closing(event, window))
 
     window.protocol("WM_DELETE_WINDOW", lambda: delete_window(window))

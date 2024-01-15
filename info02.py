@@ -90,7 +90,7 @@ def display_timer():
 
 
 def open_window_info_02(window,username):
-    global window_info02, lbl_duration, lbl_result, entry_n2, label_u2, label_n1, hex_color, start_date, entry_pseudo
+    global window_info02, lbl_duration, lbl_result, entry_n2, label_u2, label_n1, hex_color, start_date, lbl_player
     window_info02 = tk.Toplevel(window)
 
     # window_info02 = tk.Tk()
@@ -108,8 +108,8 @@ def open_window_info_02(window,username):
     lbl_duration = tk.Label(window_info02, text="0:00", font=("Arial", 15))
     lbl_duration.grid(row=0,column=2, ipady=5, padx=10,pady=10)
 
-    tk.Label(window_info02, text='Pseudo:', font=("Arial", 15)).grid(row=1, column=0, padx=5, pady=5)
-    tk.Label = tk.Label(window_info02,text=username, font=("Arial", 15)).grid(row=1, column=1)
+    lbl_player = tk.Label(window_info02, text='Pseudo:', font=("Arial", 15)).grid(row=1, column=0, padx=5, pady=5, sticky='E')
+    lbl_player = tk.Label(window_info02,text=username, font=("Arial", 15)).grid(row=1, column=1, sticky='W')
 
     lbl_result = tk.Label(window_info02, text=f"{pseudo}  Essais réussis : 0/0", font=("Arial", 15))
     lbl_result.grid( row=1, column=2,columnspan=3, ipady=5, padx=20,pady=20)

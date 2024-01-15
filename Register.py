@@ -72,7 +72,7 @@ def register(original_window):
     from Login import login_window
     if checkpw(entry_player_register, entry_password_register, entry_password_check_register):
         database.createuser(entry_player_register.get(), hash_password(entry_password_register.get()))
-        messagebox.showinfo(parent=window_register, message="Damn bro you're cool", title="uwu")
+        messagebox.showinfo(parent=window_register, message="Vous avez bien ajouté le joueur", title="Ajout réussi")
         window_register.destroy()
         login_window(original_window)
 

@@ -2,6 +2,7 @@
 # Made by Christophe
 # Version 1
 # Date 15.01.2024
+import bcrypt
 
 from Utilities import *
 import database
@@ -58,12 +59,16 @@ def login_window(original_window):
 def login(username, password, original_window, window_login):
     from menu import open_window
     result = database.check_login(username, password)
-    if result[0]:
+    if username =="" or password =="":
+        messagebox.showerror(parent=window_login, title="Manque une Information", message="Désolé, mais il semble que vous ayez oublié une information")
+    if username == "":
+        messagebox.showerror(parent=window_login, title="Utilisateur", message="L'utilisateur n'existe pas")
+    if password =="":
+        messagebox.showerror(parent=window_login, title="Mot de passe", message="Veuillez mettre le bon mot de passe")
+    if result:
         original_window.destroy()
         window_login.destroy()
         open_window(username)
-
-
 
 if __name__ == "__main__":
     login_window()

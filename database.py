@@ -290,7 +290,7 @@ def createuser(player, password):
     selected_player_id = cursor.fetchone()
     if selected_player_id is not None:
         return "Player already exists"
-    query_adduser = "INSERT INTO players (alias, password, student) values (%s, %s, %s)"
+    query_adduser = "INSERT INTO players (alias, password, level) values (%s, %s, %s)"
     cursor.execute(query_adduser, (player, password, 0))
     return "User created successfully"
 
@@ -301,10 +301,10 @@ def check_login(user, password):
     cursor.execute(query, (user, ))
     result = cursor.fetchone()
     if result == None:
-        return False, "Bro doesn't exist."
+        return False
     if bcrypt.checkpw(password.encode('utf-8'), result[0].encode('utf-8')):
-        print("uwu")
-        return True, "Bro exists & is correct"
+        return True
     else:
-        print("uwun't")
-        return False, "Bro exists but not correct"
+        return False
+
+
