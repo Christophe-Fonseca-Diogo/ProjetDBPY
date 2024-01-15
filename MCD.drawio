@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2023-11-21T13:15:02.349Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.0.3 Chrome/114.0.5735.289 Electron/25.8.4 Safari/537.36" etag="tb93gxwN7WL17kYih4VK" version="22.0.3" type="device">
+<mxfile host="Electron" modified="2023-12-19T15:54:09.884Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.11 Chrome/114.0.5735.289 Electron/25.9.8 Safari/537.36" etag="W8Y9TpJA2cBy6onVZjc8" version="22.1.11" type="device">
   <diagram name="Page-1" id="Qm49Ly96IAzFYvibLxt6">
-    <mxGraphModel dx="2495" dy="974" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="1">
+    <mxGraphModel dx="1279" dy="835" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="1">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -11,15 +11,15 @@
           <mxGeometry x="559" y="53.75" width="200" height="20" as="geometry" />
         </mxCell>
         <mxCell id="2QvSDlSOdOQkuunxi8Gd-24" value="&lt;div style=&quot;box-sizing: border-box ; width: 100% ; padding: 2px&quot;&gt;&lt;br&gt;&lt;/div&gt;" style="verticalAlign=top;align=center;overflow=fill;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeColor=#000000;strokeWidth=1;fillColor=#ffffff;fontFamily=Verdana;fontSize=12;fontColor=#000000;" parent="1" vertex="1">
-          <mxGeometry x="-808" y="46.25" width="200" height="57.5" as="geometry" />
+          <mxGeometry x="-808" y="46.25" width="200" height="83.75" as="geometry" />
         </mxCell>
         <mxCell id="2QvSDlSOdOQkuunxi8Gd-25" value="Utilisateurs" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="-808" y="46.25" width="200" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="2QvSDlSOdOQkuunxi8Gd-26" value="&lt;u&gt;Pseudo&lt;/u&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="2QvSDlSOdOQkuunxi8Gd-26" value="&lt;u&gt;Pseudo&lt;/u&gt;&lt;br&gt;Mot de passe&lt;br&gt;Eleve" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="-797" y="66.25" width="99" height="23.75" as="geometry" />
         </mxCell>
-        <mxCell id="2QvSDlSOdOQkuunxi8Gd-27" value="texte&lt;br&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="2QvSDlSOdOQkuunxi8Gd-27" value="texte&lt;br&gt;texte&lt;br&gt;Vrai ou faux" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="-708" y="66.25" width="100" height="23.75" as="geometry" />
         </mxCell>
         <mxCell id="2QvSDlSOdOQkuunxi8Gd-39" value="" style="shape=table;html=1;whiteSpace=wrap;startSize=0;container=1;collapsible=0;childLayout=tableLayout;" parent="1" vertex="1">
@@ -72,7 +72,7 @@
             <mxRectangle width="100" height="27" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="2QvSDlSOdOQkuunxi8Gd-51" value="1" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;" parent="2QvSDlSOdOQkuunxi8Gd-49" vertex="1">
+        <mxCell id="2QvSDlSOdOQkuunxi8Gd-51" value="2" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;" parent="2QvSDlSOdOQkuunxi8Gd-49" vertex="1">
           <mxGeometry x="100" width="220" height="27" as="geometry">
             <mxRectangle width="220" height="27" as="alternateBounds" />
           </mxGeometry>

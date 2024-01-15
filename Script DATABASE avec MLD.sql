@@ -7,11 +7,11 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema ProjetDBPY
 -- -----------------------------------------------------
-
+DROP DATABASE projetdbpy;
 -- -----------------------------------------------------
 -- Schema ProjetDBPY
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `ProjetDBPY` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `ProjetDBPY` DEFAULT CHARACTER SET UTF8 ;
 USE `ProjetDBPY` ;
 
 -- -----------------------------------------------------
@@ -20,6 +20,8 @@ USE `ProjetDBPY` ;
 CREATE TABLE IF NOT EXISTS `ProjetDBPY`.`Players` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `alias` VARCHAR(30) NOT NULL,
+  `password` VARCHAR(20) NOT NULL,
+  `student` BINARY(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `alias_UNIQUE` (`alias` ASC) VISIBLE)
 ENGINE = InnoDB;
