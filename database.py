@@ -340,7 +340,9 @@ def check_account_level(username):
         cursor.execute(query_check_level, (username,))
         result = cursor.fetchone()
         if result:
-            return result[0]
+            # Store user role in a global variable or session variable
+            user_role = result[0]
+            return user_role
         else:
             print("User not found")
             return None

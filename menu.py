@@ -12,7 +12,6 @@ import database
 import tkinter as tk
 import subprocess
 from Welcome import start_script
-from admin_panel import admin_window
 
 # Definition of exercises
 a_exercise = ["geo01", "info02", "info05"]
@@ -58,7 +57,7 @@ def logout():
 
 def admin_button(username):
     from database import check_account_level
-
+    from admin_panel import admin_window
     level = check_account_level(username)
     if int(level) == 3:
         # Button admin panel
