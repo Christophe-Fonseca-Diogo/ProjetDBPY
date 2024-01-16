@@ -32,12 +32,12 @@ def admin_window():
 
     # Window parameters
     window_admin = tk.Tk()
-    window_admin.title("Admin Panel")
+    window_admin.title("Administration")
     window_admin.geometry("600x400")
     window_admin.configure(bg="cyan")
 
     # Title for the admin window
-    label_title_Admin = ttk.Label(window_admin, text="Admin Panel", font=("Arial", 20))
+    label_title_Admin = ttk.Label(window_admin, text="Administration", font=("Arial", 20))
     label_title_Admin.pack(pady=10)
 
     # Entry for player name

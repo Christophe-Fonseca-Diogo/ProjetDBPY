@@ -61,7 +61,7 @@ def admin_button(username):
     level = check_account_level(username)
     if int(level) == 3:
         # Button admin panel
-        btn_admin = tk.Button(window, text="Admin Panel", font=("Arial", 15))
+        btn_admin = tk.Button(window, text="Administration", font=("Arial", 15))
         btn_admin.grid(row=1 + 2 * len(a_exercise) // 3, column=1)
         btn_admin.bind("<Button-1>", lambda e: admin_window())
     else:
@@ -112,7 +112,7 @@ def open_window(username):
 
 
 
-    btn_logout = tk.Button(window, text="Logout", font=("Arial", 15))
+    btn_logout = tk.Button(window, text="Déconnexion", font=("Arial", 15))
     btn_logout.grid(row=3+ 2*len(a_exercise)//3 , column=1)
     btn_logout.bind("<Button-1>", lambda event: logout())
 
