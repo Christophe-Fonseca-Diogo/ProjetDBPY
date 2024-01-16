@@ -329,11 +329,24 @@ def addadmin():
     password = b'$2b$12$EhBV77O69R3HK5l04kPCheQJnkSg7j6lNCCpzCy7DZM.wSqGCxzGS'
     level = 3
     cursor = db_connection.cursor()
-    query_addadmin = "INSERT INTO players (alias, password, level) values (%s, %s, %s)"
-    try:
-        cursor.execute(query_addadmin, (alias,password,level))
-    except:
-        print("Admin Done")
+
+    # Check if admin with the same alias already exists
+    query_check_admin = "SELECT * FROM players WHERE alias = %s"
+    cursor.execute(query_check_admin, (alias,))
+    existing_admin = cursor.fetchone()
+
+    if existing_admin:
+        print("Admin already exists")
+    else:
+        # If admin does not exist, add to the database
+        query_addadmin = "INSERT INTO players (alias, password, level) VALUES (%s, %s, %s)"
+        try:
+            cursor.execute(query_addadmin, (alias, password, level))
+            print("Admin added successfully")
+        except Exception as e:
+            print(f"Error adding admin: {e}")
+
+    cursor.close()
 
 
 # Function for checkin the level of an account for the rights

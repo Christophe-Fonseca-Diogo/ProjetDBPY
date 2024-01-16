@@ -15,6 +15,22 @@ def hash_password(password):
    return hashed_bytes
 
 
+# Function for the register
+def register(original_window):
+    from Login import login_window
+    if entry_player_register.get() =="":
+        messagebox.showerror(title="Erreur", message="le joueur ne doit pas être vide")
+        if database.player_exists(entry_player_register.get()):
+            messagebox.showerror(title="Erreur", message="Ce nom d'utilisateur existe déjà. Veuillez en choisir un autre.")
+    else:
+
+        if checkpw(entry_player_register, entry_password_register, entry_password_check_register):
+            database.create_user(entry_player_register.get(), hash_password(entry_password_register.get()))
+            messagebox.showinfo(parent=window_register, message="Vous avez bien ajouté le joueur", title="Ajout réussi")
+            window_register.destroy()
+            login_window(original_window)
+
+
 # Function for the window of register
 def register_window(original_window):
     global window_register,entry_password_register,entry_password_check_register,entry_player_register,check,value_player,value_password,value_checkpassword,passwordhashed
@@ -30,10 +46,8 @@ def register_window(original_window):
                                    relief="solid")
     label_title_register.grid(row=0, column=1, ipady=5, padx=40, pady=40)
 
-
     frame_register = Frame(window_register, bg="white", padx=10, bd=2, relief="solid")
     frame_register.grid(row=1, columnspan=3)
-
 
     # labels register
     label_player_register = Label(frame_register, text="Nom d'utilisateur : ", bg="white", padx=40, font=("Arial,15"))
@@ -54,7 +68,6 @@ def register_window(original_window):
     entry_password_check_register.grid(row=2, column=2)
     value_checkpassword = entry_password_check_register.get()
 
-
     # Buttons
     button_back = Button(frame_register, text="Annuler", font=("Arial,15"), command=lambda: closing_insertion(window_register))
     button_back.grid(row=1, column=0, pady=5)
@@ -68,22 +81,6 @@ def register_window(original_window):
 
     # main loop
     window_register.mainloop()
-
-
-# Function for the register
-def register(original_window):
-    from Login import login_window
-    if entry_player_register.get() =="":
-        messagebox.showerror(title="Erreur", message="le joueur ne doit pas être vide")
-        if database.player_exists(entry_player_register.get()):
-            messagebox.showerror(title="Erreur", message="Ce nom d'utilisateur existe déjà. Veuillez en choisir un autre.")
-    else:
-
-        if checkpw(entry_player_register, entry_password_register, entry_password_check_register):
-            database.create_user(entry_player_register.get(), hash_password(entry_password_register.get()))
-            messagebox.showinfo(parent=window_register, message="Vous avez bien ajouté le joueur", title="Ajout réussi")
-            window_register.destroy()
-            login_window(original_window)
 
 
 if __name__ == "__main__":
