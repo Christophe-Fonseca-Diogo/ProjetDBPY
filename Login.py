@@ -44,7 +44,7 @@ def login_window(original_window):
 
 
     # Buttons
-    button_register = Button(frame_login, text="S'inscrire", font=("Arial,15"), command=register_window)
+    button_register = Button(frame_login, text="Annuler", font=("Arial,15"), command=lambda: closing_insertion(window_login))
     button_register.grid(row=1, column=0,padx=10,pady=5)
     check_password = Checkbutton(frame_login, text='show password',relief="solid",bd=1, command=lambda: show(entry_password_login, check_password))
     check_password.grid(row=1, column=3)
