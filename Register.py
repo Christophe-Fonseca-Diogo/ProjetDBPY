@@ -58,9 +58,9 @@ def register_window(original_window):
     # Buttons
     button_back = Button(frame_register, text="Annuler", font=("Arial,15"), command=lambda: closing_insertion(window_register))
     button_back.grid(row=1, column=0, pady=5)
-    check_password = Checkbutton(frame_register, text='show password',relief="solid",bd=1, command=lambda: show(entry_password_register,check_password))
+    check_password = Checkbutton(frame_register, text='Montrer',relief="solid",bd=1, command=lambda: show(entry_password_register,check_password))
     check_password.grid(row=1, column=3)
-    second_password_check = Checkbutton(frame_register, text='show password',relief="solid",bd=1, command=lambda: show(entry_password_check_register,second_password_check))
+    second_password_check = Checkbutton(frame_register, text='Montrer',relief="solid",bd=1, command=lambda: show(entry_password_check_register,second_password_check))
     second_password_check.grid(row=2, column=3)
     # Buttons
     button_add = Button(frame_register, text="Enregistrer", font=("Arial,15"), command=lambda: register(original_window))
