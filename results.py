@@ -76,7 +76,6 @@ def modify_window(parent_frame, main_data, id=None, table_type="modify"):
     label_modify_number_tot = Label(option_modify_frame, text="Nombre Total : ", bg="white", padx=40, font=("Arial,15"))
     label_modify_number_tot.grid(row=1, column=4)
 
-
     # Options Entrys
     name_entry = Entry(option_modify_frame, bg="grey")
     name_entry.grid(row=0, column=1)
@@ -426,7 +425,6 @@ def insert_result_window():
     up_window_add_results.grid(row=1, columnspan=3)
     option_add_frame = Frame(up_window_add_results, bg="white", padx=10, bd=2, relief="solid")
     option_add_frame.grid(row=1, columnspan=3)
-
 
     # Options labels
     label_add_player = Label(option_add_frame, text="Pseudo : ", bg="white", padx=40, font=("Arial,15"))

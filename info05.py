@@ -23,7 +23,7 @@ xmed=250 # middle of 2 color rectangles
 
 
 # important data (to save)
-pseudo='' #p seudo for the user
+pseudo='' # pseudo for the user
 exercise="INFO05"
 nbtrials=0 # number of total trials
 nbsuccess=0 # number of successfull trials
@@ -84,20 +84,20 @@ def display_wheel_color():
     rect_rgb = canvas.create_rectangle(xmed-200,height/2-100,xmed,height/2+100, fill="#888888",width=0)
     rect_response = canvas.create_rectangle(xmed,height/2-100,xmed+200,height/2+100, fill="#888888",width=0)
 
-    #display the color wheel
-    for s in range(0, 100, 2): #50 steps in s (radius)
-        for h1 in range(0,200,1+int((100-s)/40)):#200 steps in h, optimization 6500 rectangles vs 10000
+    # display the color wheel
+    for s in range(0, 100, 2): # 50 steps in s (radius)
+        for h1 in range(0,200,1+int((100-s)/40)):# 200 steps in h, optimization 6500 rectangles vs 10000
             h=h1/2
-            rgbW=hsv_to_rgb(h/ 100, s/ 100, 1) #hsw avec v=100
+            rgbW=hsv_to_rgb(h/ 100, s/ 100, 1) # hsw avec v=100
             x=3 * l/ 4+ s/ 100 * 150 * cos(h/ 100 * pi * 2)
             y=height / 2 + s / 100 * 150 * sin(h / 100 * pi * 2)
             canvas.create_rectangle(x-3,y-3 , x+3, y+3, fill=h_color_float(rgbW),width=0)
-    #display 3 lines (120° = 2*pi/3)
+    # display 3 lines (120° = 2*pi/3)
     for angle in range(3):
         anglerad = angle * pi * 2 / 3
         canvas.create_line(3 * l/ 4, height/ 2 , 3 * l/ 4+ 160 * cos(anglerad),height/ 2 +160 * sin(anglerad) )
 
-    #display a black rectangle at the middle (will be repositionned by display())
+    # display a black rectangle at the middle (will be repositionned by display())
     rect_mini_rgb=canvas.create_rectangle(0, 0, 0, 0, fill="#000000", width=0)
     line_hor_response = canvas.create_line(0, 0, 0, 0)  # little horizontal line for response cross on colorwheel
     line_vert_response = canvas.create_line(0, 0, 0, 0)  # little vertical line for response cross on colorwheel
@@ -123,7 +123,7 @@ def hex_to_rgb(value):
     if lv==6 :
         return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
     else :
-        return (-1,-1,-1) #if not 3 colors
+        return (-1,-1,-1) # if not 3 colors
 
 
 # distance between 2 colors (Pythagore on 3 dimensions)
