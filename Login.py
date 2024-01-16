@@ -24,10 +24,8 @@ def login_window(original_window):
                                    relief="solid")
     label_title_login.grid(row=0, column=1, ipady=5, padx=40, pady=40)
 
-
     frame_login = Frame(window_login, bg="white", padx=10, bd=2, relief="solid")
     frame_login.grid(row=1, columnspan=3)
-
 
     # login labels
     label_player_login = Label(frame_login, text="Nom d'utilisateur : ", bg="white", padx=40, font=("Arial,15"))
@@ -35,13 +33,11 @@ def login_window(original_window):
     label_password_login = Label(frame_login, text="Mot de passe : ", bg="white", padx=40, font=("Arial,15"))
     label_password_login.grid(row=1, column=1, padx=(0, 10))
 
-
     # login Entrys
     entry_player_login = Entry(frame_login, bg="grey")
     entry_player_login.grid(row=0, column=2)
     entry_password_login = Entry(frame_login, bg="grey",show="*")
     entry_password_login.grid(row=1, column=2)
-
 
     # Buttons
     button_register = Button(frame_login, text="Annuler", font=("Arial,15"), command=lambda: closing_insertion(window_login))

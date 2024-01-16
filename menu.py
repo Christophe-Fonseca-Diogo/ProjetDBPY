@@ -51,6 +51,7 @@ def display_results(event):
     subprocess.Popen(["python","results.py"])
 
 
+# function for the logout
 def logout():
     window.destroy()
     start_script()

@@ -19,6 +19,7 @@ class Theme:
 local_theme = Theme()
 
 
+# closing the window messagebox
 def closing_insertion(window):
     result_message = messagebox.askyesno(title="Information", message="Vous allez quitter la page.")
     if result_message:
@@ -28,6 +29,7 @@ def closing_insertion(window):
         window.lift()
 
 
+# check the passwords
 def checkpw(username, password, paswwordcheck):
     # Gets
     player_get = username.get()
