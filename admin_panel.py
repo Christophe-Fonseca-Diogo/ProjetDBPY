@@ -18,7 +18,7 @@ def save_player_info():
                 messagebox.showerror(title="Erreur", message="Le niveau du joueur doit être strictement supérieur à 0.")
             else:
                 if database.update_player_level(level_player, player):
-                    messagebox.showinfo(title="Changement effectué", message=f"Vous avez bien modifié le niveau de {player}.")
+                    messagebox.showinfo(title="Changement effectué", message=f"Vous avez bien modifié le niveau du joueur.")
                 else:
                     messagebox.showwarning(title="Échec de modification", message=f"Le joueur avec le pseudo {player} n'existe pas.")
         except ValueError:
