@@ -350,10 +350,19 @@ def check_account_level(username):
         print(f"Error checking account level: {str(e)}")
         return None
 
-def update_player_level(level_player,player):
+
+def update_player_level(level_player, player):
     cursor = db_connection.cursor()
-    update_query = "UPDATE players SET level = %s WHERE alias = %s"
-    cursor.execute(update_query, (level_player,player ))
+    select_query = "SELECT COUNT(*) FROM players WHERE alias = %s"
+    cursor.execute(select_query, (player,))
+    player_count = cursor.fetchone()[0]
+
+    if player_count > 0:
+        update_query = "UPDATE players SET level = %s WHERE alias = %s"
+        cursor.execute(update_query, (level_player, player))
+        return True
+    else:
+        return False
     cursor.close()
 
 

@@ -1,18 +1,33 @@
 import tkinter as tk
-from tkinter import ttk
-
+from tkinter import ttk, messagebox
 import database
-from Utilities import *
 
 
 def save_player_info():
     level_player = entry_player_level.get()
     player = entry_player_name.get()
-    database.update_player_level(level_player, player)
-    messagebox.showinfo(title="Changement effectué",message=f"Vous avez bien modifier le niveau de {player}")
+
+    if level_player == "" or player == "":
+        messagebox.showerror(title="Erreur", message="Merci de rentrer des informations.")
+    else:
+        try:
+            level_player = int(level_player)
+            if level_player > 2:
+                messagebox.showerror(title="Erreur", message="Le niveau de joueur ne doit pas être plus grand que 2.")
+            elif level_player <= 0:
+                messagebox.showerror(title="Erreur", message="Le niveau du joueur doit être strictement supérieur à 0.")
+            else:
+                if database.update_player_level(level_player, player):
+                    messagebox.showinfo(title="Changement effectué", message=f"Vous avez bien modifié le niveau de {player}.")
+                else:
+                    messagebox.showwarning(title="Échec de modification", message=f"Le joueur avec le pseudo {player} n'existe pas.")
+        except ValueError:
+            messagebox.showerror(title="Erreur", message="Le niveau du joueur doit être un nombre entier.")
+
+
 
 def admin_window():
-    global entry_player_level,entry_player_name
+    global entry_player_level, entry_player_name
 
     # Window parameters
     window_admin = tk.Tk()
