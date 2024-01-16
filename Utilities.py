@@ -45,10 +45,10 @@ def checkpw(username, password, paswwordcheck):
 # Function to show the password
 def show(password_entry, check):
     password_entry.configure(show='')
-    check.configure(command=lambda: hide(password_entry, check), text='hide password')
+    check.configure(command=lambda: hide(password_entry, check), text='Cacher')
 
 
 # Function to hide the password
 def hide(password_entry, check):
     password_entry.configure(show='*')
-    check.configure(command=lambda: show(password_entry, check), text='show password')
+    check.configure(command=lambda: show(password_entry, check), text='Montrer')
