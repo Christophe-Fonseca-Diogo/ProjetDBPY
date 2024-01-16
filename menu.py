@@ -75,7 +75,7 @@ def results(username):
     from database import check_account_level
     level = check_account_level(username)
     if int(level) >= 2:
-        # Buttons, display results & quit
+        # Buttons, display results
         btn_display = tk.Button(window, text="Afficher les Resultats", font=("Arial", 15))
         btn_display.grid(row=2 + 2 * len(a_exercise) // 3, column=1)
         btn_display.bind("<Button-1>", lambda e: display_results(e))
@@ -115,8 +115,7 @@ def open_window(username):
                                                                 window=window, username=username)) #link to others .py
         print(a_exercise[ex])
 
-
-
+    # Button Logout & quit
     btn_logout = tk.Button(window, text="Déconnexion", font=("Arial", 15))
     btn_logout.grid(row=3+ 2*len(a_exercise)//3 , column=1)
     btn_logout.bind("<Button-1>", lambda event: logout())
