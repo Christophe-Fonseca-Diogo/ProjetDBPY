@@ -46,4 +46,3 @@ if __name__ == "__main__":
     open_dbconnection()
     addadmin()
     start_script()
-

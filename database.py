@@ -369,5 +369,3 @@ def update_player_level(level_player, player):
     else:
         return False
     cursor.close()
-
-
