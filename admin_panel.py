@@ -4,11 +4,15 @@ from tkinter import ttk
 import database
 from Utilities import *
 
+
+def save_player_info():
+    level_player = entry_player_level.get()
+    player = entry_player_name.get()
+    database.update_player_level(level_player, player)
+    messagebox.showinfo(title="Changement effectué",message=f"Vous avez bien modifier le niveau de {player}")
+
 def admin_window():
-    def save_player_info():
-        level_player = entry_player_level.get()
-        player = entry_player_name.get()
-        database.update_player_level(level_player, player)
+    global entry_player_level,entry_player_name
 
     # Window parameters
     window_admin = tk.Tk()
