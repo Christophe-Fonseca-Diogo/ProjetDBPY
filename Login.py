@@ -29,14 +29,14 @@ def login_window(original_window):
     frame_login.grid(row=1, columnspan=3)
 
 
-    # Options labels
+    # login labels
     label_player_login = Label(frame_login, text="Nom d'utilisateur : ", bg="white", padx=40, font=("Arial,15"))
     label_player_login.grid(row=0, column=1, padx=(0, 10))
     label_password_login = Label(frame_login, text="Mot de passe : ", bg="white", padx=40, font=("Arial,15"))
     label_password_login.grid(row=1, column=1, padx=(0, 10))
 
 
-    # Options Entrys
+    # login Entrys
     entry_player_login = Entry(frame_login, bg="grey")
     entry_player_login.grid(row=0, column=2)
     entry_password_login = Entry(frame_login, bg="grey",show="*")
