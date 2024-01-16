@@ -19,6 +19,7 @@ def save_player_info():
             else:
                 if database.update_player_level(level_player, player):
                     messagebox.showinfo(title="Changement effectué", message=f"Vous avez bien modifié le niveau du joueur.")
+                    window_admin.destroy()
                 else:
                     messagebox.showwarning(title="Échec de modification", message=f"Le joueur avec le pseudo {player} n'existe pas.")
         except ValueError:
@@ -27,7 +28,7 @@ def save_player_info():
 
 
 def admin_window():
-    global entry_player_level, entry_player_name
+    global entry_player_level, entry_player_name,window_admin
 
     # Window parameters
     window_admin = tk.Tk()
