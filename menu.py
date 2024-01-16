@@ -67,7 +67,7 @@ def admin_button(username):
         btn_admin.grid(row=1 + 2 * len(a_exercise) // 3, column=1)
         btn_admin.bind("<Button-1>", lambda e: admin_window())
     else:
-        print("test")
+        print("Admin Panel Ready")
 
 
 # Show Result Button
@@ -80,7 +80,7 @@ def results(username):
         btn_display.grid(row=2 + 2 * len(a_exercise) // 3, column=1)
         btn_display.bind("<Button-1>", lambda e: display_results(e))
     else:
-        print("test2")
+        print("Results Ready")
 
 
 # Menu Window
