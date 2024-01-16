@@ -93,16 +93,11 @@ def next_point(event):
 def save_game(event, username):
     global pseudo
     pseudo = username
-    if pseudo == "":
-        messagebox.showerror(parent=window_geo01, title="Pseudo Invalide", message="Veuillez ajouter un pseudo")
-    else:
-        # Check if the player exists or add them
-        database.get_playername(pseudo, exercise)
-        # Check if player_name is provided before saving the game
-        if pseudo:
-            database.add_results(start_date, duration_s, nbtrials, nbsuccess, player_name=pseudo, exercise_name=exercise)
-            messagebox.showinfo(title="Sauvegarde", message="Sauvegarde Validée")
-            window_geo01.destroy()
+
+    if pseudo:
+        database.add_results(start_date, duration_s, nbtrials, nbsuccess, player_name=pseudo, exercise_name=exercise)
+        messagebox.showinfo(title="Sauvegarde", message="Sauvegarde Validée")
+        window_geo01.destroy()
 
 
 def display_timer():

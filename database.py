@@ -27,7 +27,7 @@ def close_dbconnection():
     db_connection.close()
 
 
-# Function for adding player names to the "players" table
+# Function for searching the playername
 def get_playername(alias, exercise = None):
     cursor = db_connection.cursor()
     # Check if the player alias already exists in the "players" table
@@ -37,10 +37,6 @@ def get_playername(alias, exercise = None):
     for name in rows:
         if name[0] == alias:
             return
-    # Insert the player alias into the "players" table
-    query_insert = "INSERT INTO players (alias) values (%s)"
-    cursor.execute(query_insert, (alias, ))
-    cursor.close()
 
     if exercise != None:
         # Call a function to add the exercise title to the "exercises" table
