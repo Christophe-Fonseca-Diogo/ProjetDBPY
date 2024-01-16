@@ -324,8 +324,7 @@ def player_exists(alias):
 
 
 # Add an Admin for the administration
-def addAdmin():
-    from Register import hash_password
+def addadmin():
     alias = "Admin"
     password = b'$2b$12$EhBV77O69R3HK5l04kPCheQJnkSg7j6lNCCpzCy7DZM.wSqGCxzGS'
     level = 3

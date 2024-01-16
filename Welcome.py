@@ -7,7 +7,7 @@ from Utilities import *
 from Login import *
 from Register import register_window
 from database import open_dbconnection
-from database import addAdmin
+from database import addadmin
 
 
 # function for the welcome window
@@ -44,6 +44,6 @@ def start_script():
 
 if __name__ == "__main__":
     open_dbconnection()
-    addAdmin()
+    addadmin()
     start_script()
 
