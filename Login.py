@@ -61,17 +61,20 @@ def login_window(original_window):
 # Function for the login
 def login(username, password, original_window, window_login):
     from menu import open_window
-    result = database.check_login(username, password)
+
     if username == "":
         messagebox.showerror(parent=window_login, title="Utilisateur", message="L'utilisateur n'existe pas")
-    if password =="":
+    elif password == "":
         messagebox.showerror(parent=window_login, title="Mot de passe", message="Veuillez mettre le mot de passe")
-    if not result:
-        messagebox.showerror(parent=window_login, title="Échec de connexion", message="Le nom d'utilisateur ou le mot de passe est incorrect.")
-    if result:
-        original_window.destroy()
-        window_login.destroy()
-        open_window(username)
+    else:
+        result = database.check_login(username, password)
+        if not result:
+            messagebox.showerror(parent=window_login, title="Échec de connexion",
+                                 message="Le nom d'utilisateur ou le mot de passe est incorrect.")
+        else:
+            original_window.destroy()
+            window_login.destroy()
+            open_window(username)
 
 
 if __name__ == "__main__":
