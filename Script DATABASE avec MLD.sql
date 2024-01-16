@@ -20,7 +20,7 @@ USE `ProjetDBPY` ;
 CREATE TABLE IF NOT EXISTS `ProjetDBPY`.`Players` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `alias` VARCHAR(30) NOT NULL,
-  `password` VARCHAR(100) NOT NULL,
+  `password` VARCHAR(75) NOT NULL,
   `level` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `alias_UNIQUE` (`alias` ASC) VISIBLE)
