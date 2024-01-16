@@ -2,8 +2,8 @@
 # Made by Christophe
 # Version 1
 # Date 15.12.2023
-import time
 
+import time
 import tkinter as tk
 import database, datetime
 from tkinter import *
@@ -14,7 +14,6 @@ from datetime import datetime
 # variables
 rgb_color = (139, 201, 194)
 hex_color = '#%02x%02x%02x' % rgb_color  # translation in hexa
-
 
 
 # function for when the player quit windows
@@ -407,7 +406,7 @@ def show_count_infos(count_frame):
     canvas.create_rectangle(0, 0, fill_width, 20, fill=progress_color)
 
 
-#function for adding a result manually
+# function for adding a result manually
 def insert_result_window():
     global window_insert_results,entry_add_player, entry_add_exercise, entry_start_date, entry_add_time, entry_add_number_ok, entry_add_number_tot
     window_insert_results = tk.Tk()
@@ -496,5 +495,6 @@ def get_creation():
         show_count_infos(count_frame)
         messagebox.showinfo(title="Succès", message="Vos données ont bien été pris en compte")
         window_insert_results.destroy()
+
 
 display_result()

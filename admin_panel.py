@@ -1,8 +1,14 @@
+# Admin Panel
+# Made by Christophe
+# Version 1
+# Date 16.01.2024
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 import database
 
 
+# Function for saving the level of the player in the administration
 def save_player_info():
     level_player = entry_player_level.get()
     player = entry_player_name.get()
@@ -26,7 +32,7 @@ def save_player_info():
             messagebox.showerror(title="Erreur", message="Le niveau du joueur doit être un nombre entier.")
 
 
-
+# Admin window for the pannel
 def admin_window():
     global entry_player_level, entry_player_name,window_admin
 

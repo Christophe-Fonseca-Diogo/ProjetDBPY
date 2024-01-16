@@ -1,19 +1,21 @@
 # Register
 # Made by Christophe
 # Version 1
-# Date 15.01.2024
+# Date 16.01.2024
 
 from Utilities import *
 import bcrypt
 import database
 
+
+# Function for the Hash of passwords
 def hash_password(password):
    password_bytes = password.encode('utf-8')
    hashed_bytes = bcrypt.hashpw(password_bytes, bcrypt.gensalt())
    return hashed_bytes
 
 
-
+# Function for the window of register
 def register_window(original_window):
     global window_register,entry_password_register,entry_password_check_register,entry_player_register,check,value_player,value_password,value_checkpassword,passwordhashed
     # Window parameters
@@ -23,7 +25,7 @@ def register_window(original_window):
     window_register.configure(bg=local_theme.hex_color)
     window_register.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
 
-    # Title for the results window
+    # Title for the register window
     label_title_register = tk.Label(window_register, text="Enregistrement", font=("Arial", 25), borderwidth=2,
                                    relief="solid")
     label_title_register.grid(row=0, column=1, ipady=5, padx=40, pady=40)
@@ -54,20 +56,21 @@ def register_window(original_window):
 
 
     # Buttons
-    button_show = Button(frame_register, text="Annuler", font=("Arial,15"), command=lambda: closing_insertion(window_register))
-    button_show.grid(row=1, column=0, pady=5)
-    check = Checkbutton(frame_register, text='show password',relief="solid",bd=1, command=lambda: show(entry_password_register,check))
-    check.grid(row=1, column=3)
-    check2 = Checkbutton(frame_register, text='show password',relief="solid",bd=1, command=lambda: show(entry_password_check_register,check2))
-    check2.grid(row=2, column=3)
+    button_back = Button(frame_register, text="Annuler", font=("Arial,15"), command=lambda: closing_insertion(window_register))
+    button_back.grid(row=1, column=0, pady=5)
+    check_password = Checkbutton(frame_register, text='show password',relief="solid",bd=1, command=lambda: show(entry_password_register,check_password))
+    check_password.grid(row=1, column=3)
+    second_password_check = Checkbutton(frame_register, text='show password',relief="solid",bd=1, command=lambda: show(entry_password_check_register,second_password_check))
+    second_password_check.grid(row=2, column=3)
     # Buttons
     button_add = Button(frame_register, text="Enregistrer", font=("Arial,15"), command=lambda: register(original_window))
     button_add.grid(row=1, column=10, pady=5,padx=20)
-    value_password = hash_password(value_password)
 
     # main loop
     window_register.mainloop()
 
+
+# Function for the register
 def register(original_window):
     from Login import login_window
     if entry_player_register.get() =="":

@@ -1,7 +1,7 @@
 # Utilities
 # Made by Christophe
 # Version 1
-# Date 15.01.2024
+# Date 16.01.2024
 
 from tkinter import *
 from tkinter import messagebox
@@ -42,11 +42,13 @@ def checkpw(username, password, paswwordcheck):
     return True
 
 
+# Function to show the password
 def show(password_entry, check):
     password_entry.configure(show='')
     check.configure(command=lambda: hide(password_entry, check), text='hide password')
 
 
+# Function to hide the password
 def hide(password_entry, check):
     password_entry.configure(show='*')
     check.configure(command=lambda: show(password_entry, check), text='show password')

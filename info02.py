@@ -1,7 +1,7 @@
 # Info02
 # Made by Christophe
 # Version 1
-# Date 15.12.2023
+# Date 16.01.2024
 
 from math import pow
 from database import *
@@ -11,11 +11,13 @@ import time
 import database
 import datetime
 from tkinter import messagebox
-#important data (to save)
-pseudo='' #pseudo for the user
+
+
+# important data (to save)
+pseudo='' # pseudo for the user
 exercise="INFO02"
-nbtrials=0 #number of total trials
-nbsuccess=0 #number of successfull trials
+nbtrials=0 # number of total trials
+nbsuccess=0 # number of successfull trials
 
 
 # Liaison entre le canvas et le code

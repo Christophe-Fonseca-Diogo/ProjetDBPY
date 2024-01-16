@@ -1,7 +1,7 @@
 # Info05
 # Made by Christophe
 # Version 1
-# Date 15.12.2023
+# Date 16.01.2024
 
 
 import tkinter as tk
@@ -13,6 +13,7 @@ import time
 import database
 import datetime
 from tkinter import messagebox
+
 
 # Main window
 # graphical variables
@@ -278,7 +279,7 @@ def open_window_info_05(window, username):
     start_date = datetime.datetime.now()
     display_timer()
 
-    # Association de la fonction au clic sur le canvas
+    # Association of the clic with the canvas
     btn_next.bind("<Button-1>", next_color)
     entry_response.bind("<Return>", test)
     slider_v.bind("<ButtonRelease-1>", sl_v)

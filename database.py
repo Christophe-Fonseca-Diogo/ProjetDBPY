@@ -1,10 +1,9 @@
 # Database
 # Made by Christophe
 # Version 1
-# Date 15.01.2024
+# Date 16.01.2024
 
 import time
-
 import bcrypt
 import mysql.connector
 import traceback
@@ -282,6 +281,7 @@ def creation_result(player, exercise, start_date, time, nbok, nbtot):
             print("Error")
 
 
+# Function for the creation of the player in the db for the register
 def create_user(player, password):
     cursor = db_connection.cursor()
     # Check if the player exist in the db
@@ -295,6 +295,7 @@ def create_user(player, password):
     return "User created successfully"
 
 
+# Check if the password when the player try to log is correct
 def check_login(user, password):
     cursor = db_connection.cursor()
     # Get the password from database.
@@ -309,6 +310,7 @@ def check_login(user, password):
         return False
 
 
+# Check if the player is in the database
 def player_exists(alias):
     cursor = db_connection.cursor()
     try:
@@ -320,6 +322,8 @@ def player_exists(alias):
         print(f"Error checking if player exists: {str(e)}")
         return False
 
+
+# Add an Admin for the administration
 def addAdmin():
     from Register import hash_password
     alias = "Admin"
@@ -333,6 +337,7 @@ def addAdmin():
         print("Admin Done")
 
 
+# Function for checkin the level of an account for the rights
 def check_account_level(username):
     cursor = db_connection.cursor()
     query_check_level = "SELECT level FROM players WHERE alias = %s"
@@ -351,6 +356,7 @@ def check_account_level(username):
         return None
 
 
+# Function for updating the level in the administration
 def update_player_level(level_player, player):
     cursor = db_connection.cursor()
     select_query = "SELECT COUNT(*) FROM players WHERE alias = %s"

@@ -1,7 +1,7 @@
 # Welcome
 # Made by Christophe
 # Version 1
-# Date 15.01.2024
+# Date 16.01.2024
 
 from Utilities import *
 from Login import *
@@ -10,6 +10,7 @@ from database import open_dbconnection
 from database import addAdmin
 
 
+# function for the welcome window
 def start_script():
 
     global window_before
@@ -39,6 +40,7 @@ def start_script():
 
     # main loop
     window_before.mainloop()
+
 
 if __name__ == "__main__":
     open_dbconnection()

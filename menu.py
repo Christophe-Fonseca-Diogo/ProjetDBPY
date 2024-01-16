@@ -1,10 +1,11 @@
 # Menu
 # Made by Christophe
 # Version 1
-# Date 15.12.2023
-import subprocess
+# Date 16.01.2024
+
 
 # Importing modules
+import subprocess
 import info02
 import info05
 import geo01
@@ -55,6 +56,7 @@ def logout():
     start_script()
 
 
+# Admin button
 def admin_button(username):
     from database import check_account_level
     from admin_panel import admin_window
@@ -67,6 +69,8 @@ def admin_button(username):
     else:
         print("test")
 
+
+# Show Result Button
 def results(username):
     from database import check_account_level
     level = check_account_level(username)
@@ -79,6 +83,7 @@ def results(username):
         print("test2")
 
 
+# Menu Window
 def open_window(username):
     global window
     # Main window

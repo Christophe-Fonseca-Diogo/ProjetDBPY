@@ -1,12 +1,14 @@
 # Login
 # Made by Christophe
 # Version 1
-# Date 15.01.2024
-import bcrypt
+# Date 16.01.2024
 
+import bcrypt
 from Utilities import *
 import database
 
+
+# Function for the login window
 def login_window(original_window):
     global window_login,check
     from Register import register_window
@@ -42,20 +44,21 @@ def login_window(original_window):
 
 
     # Buttons
-    button_show = Button(frame_login, text="S'inscrire", font=("Arial,15"), command=register_window)
-    button_show.grid(row=1, column=0,padx=10,pady=5)
-    check = Checkbutton(frame_login, text='show password',relief="solid",bd=1, command=lambda: show(entry_password_login, check))
-    check.grid(row=1, column=3)
+    button_register = Button(frame_login, text="S'inscrire", font=("Arial,15"), command=register_window)
+    button_register.grid(row=1, column=0,padx=10,pady=5)
+    check_password = Checkbutton(frame_login, text='show password',relief="solid",bd=1, command=lambda: show(entry_password_login, check_password))
+    check_password.grid(row=1, column=3)
     # Buttons
-    button_add = Button(frame_login, text="Se connecter", font=("Arial,15"), command=lambda:
+    button_login = Button(frame_login, text="Se connecter", font=("Arial,15"), command=lambda:
                                             login(entry_player_login.get(), entry_password_login.get(), original_window,
                                                   window_login))
-    button_add.grid(row=1, column=10,padx=25)
+    button_login.grid(row=1, column=10,padx=25)
 
     # main loop
     window_login.mainloop()
 
 
+# Function for the login
 def login(username, password, original_window, window_login):
     from menu import open_window
     result = database.check_login(username, password)
@@ -69,6 +72,7 @@ def login(username, password, original_window, window_login):
         original_window.destroy()
         window_login.destroy()
         open_window(username)
+
 
 if __name__ == "__main__":
     login_window()
