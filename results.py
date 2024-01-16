@@ -497,5 +497,4 @@ def get_creation():
         messagebox.showinfo(title="Succès", message="Vos données ont bien été pris en compte")
         window_insert_results.destroy()
 
-
 display_result()

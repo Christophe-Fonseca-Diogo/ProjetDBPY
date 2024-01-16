@@ -65,7 +65,18 @@ def admin_button(username):
         btn_admin.grid(row=1 + 2 * len(a_exercise) // 3, column=1)
         btn_admin.bind("<Button-1>", lambda e: admin_window())
     else:
-        print("Unable to retrieve the level for the logged-in user.")
+        print("test")
+
+def results(username):
+    from database import check_account_level
+    level = check_account_level(username)
+    if int(level) >= 2:
+        # Buttons, display results & quit
+        btn_display = tk.Button(window, text="Afficher les Resultats", font=("Arial", 15))
+        btn_display.grid(row=2 + 2 * len(a_exercise) // 3, column=1)
+        btn_display.bind("<Button-1>", lambda e: display_results(e))
+    else:
+        print("test2")
 
 
 def open_window(username):
@@ -100,10 +111,6 @@ def open_window(username):
         print(a_exercise[ex])
 
 
-    # Buttons, display results & quit
-    btn_display = tk.Button(window, text="Display results", font=("Arial", 15))
-    btn_display.grid(row=2 + 2 * len(a_exercise) // 3, column=1)
-    btn_display.bind("<Button-1>", lambda e: display_results(e))
 
     btn_logout = tk.Button(window, text="Logout", font=("Arial", 15))
     btn_logout.grid(row=3+ 2*len(a_exercise)//3 , column=1)
@@ -116,5 +123,6 @@ def open_window(username):
     window.protocol("WM_DELETE_WINDOW", lambda: delete_window(window))
 
     # Main loop
+    results(username)
     admin_button(username)
     window.mainloop()

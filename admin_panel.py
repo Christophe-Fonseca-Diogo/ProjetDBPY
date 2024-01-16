@@ -33,6 +33,7 @@ def admin_window():
     window_admin = tk.Tk()
     window_admin.title("Admin Panel")
     window_admin.geometry("600x400")
+    window_admin.configure(bg="cyan")
 
     # Title for the admin window
     label_title_Admin = ttk.Label(window_admin, text="Admin Panel", font=("Arial", 20))
@@ -49,6 +50,10 @@ def admin_window():
     label_player_level.pack(pady=5)
     entry_player_level = ttk.Entry(window_admin)
     entry_player_level.pack(pady=10)
+
+    # Entry for help
+    label_player_level = ttk.Label(window_admin, text="Niveaux :1 = Eleve | 2 = Prof ")
+    label_player_level.pack(pady=5)
 
     # Button to save player info
     save_button = ttk.Button(window_admin, text="Sauvegarder", command=save_player_info)
