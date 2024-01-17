@@ -17,3 +17,13 @@ Il conviendra cependant d'installer le package mysql-connector-python pour l'int
 
 Propriétaire du dépôt : frederique.andolfatto@eudvaud.ch\
 Enseignant ayant créé le projet de base : jeanphilippe.chavey@eduvaud.ch
+
+
+### Aide pour le lancement ###
+
+
+1. Il vous faut executer le script de la Database.
+2. Ensuite vous devez lancer le script Welcome.py.
+3. Un utilisateur Admin va se créer automatiquement : Username = Admin Password = Pa$$w0rd
+
+
